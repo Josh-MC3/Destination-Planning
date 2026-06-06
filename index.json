@@ -1,0 +1,326 @@
+{
+  "name": "Bachelor Party Planner — Activity Data Index",
+  "version": "1.0.0",
+  "description": "Master index for all country activity data files. Each file contains structured activity cards with pricing, duration, category, and operational notes.",
+  "schema_version": "1.0",
+  "total_activities": 590,
+  "total_countries": 11,
+  "continents": [
+    "Asia",
+    "Americas"
+  ],
+  "last_updated": "2026-06-06",
+  "fields": {
+    "id": "Unique activity identifier (country_region_###)",
+    "country": "Country name",
+    "region": "Sub-region within country (where applicable)",
+    "destination": "Specific city or area",
+    "name": "Activity name",
+    "category": "One of: Adventure, Cultural, Food & Dining, Nature, Nightlife, Sightseeing, Shopping, Water Sports, Wellness",
+    "description": "Full activity description",
+    "duration": "Estimated duration in hours",
+    "price_usd": "Midpoint price in USD",
+    "price_usd_min": "Minimum price in USD",
+    "price_usd_max": "Maximum price in USD",
+    "price_local": "Midpoint price in local currency",
+    "local_currency": "ISO currency code",
+    "location": "Specific location label",
+    "multi_day": "Boolean — true if activity spans multiple days",
+    "duration_note": "Operational notes — seasonal flags, booking requirements, safety warnings"
+  },
+  "categories": [
+    "Adventure",
+    "Cultural",
+    "Food & Dining",
+    "Nature",
+    "Nightlife",
+    "Sightseeing",
+    "Shopping",
+    "Water Sports",
+    "Wellness"
+  ],
+  "countries": [
+    {
+      "name": "Argentina",
+      "country_code": "AR",
+      "continent": "Americas",
+      "currency": "ARS",
+      "file": "data/countries/argentina.json",
+      "activity_count": 30,
+      "regions": [
+        "Argentine Patagonia & Tierra del Fuego",
+        "Buenos Aires & Pampas",
+        "Cuyo & Wine Regions",
+        "Northwest & Iguazu / Litoral"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 5,
+        "Nightlife": 5,
+        "Wellness": 1
+      },
+      "multi_day_activities": 0,
+      "free_activities": 2,
+      "avg_price_usd": 34.14
+    },
+    {
+      "name": "Brazil",
+      "country_code": "BR",
+      "continent": "Americas",
+      "currency": "BRL",
+      "file": "data/countries/brazil.json",
+      "activity_count": 34,
+      "regions": [
+        "Amazon Rainforest Basin",
+        "Bahia & Northeast",
+        "Iguacu & Southern Highlands",
+        "Pantanal & Cerrado",
+        "Rio de Janeiro & Southeast Coast"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 3,
+        "Food & Dining": 7,
+        "Nature": 5,
+        "Nightlife": 7,
+        "Sightseeing": 1,
+        "Water Sports": 3
+      },
+      "multi_day_activities": 1,
+      "free_activities": 1,
+      "avg_price_usd": 53.71
+    },
+    {
+      "name": "Colombia",
+      "country_code": "CO",
+      "continent": "Americas",
+      "currency": "COP",
+      "file": "data/countries/colombia.json",
+      "activity_count": 32,
+      "regions": [
+        "Bogota & Andean Highlands",
+        "Cali & Pacific / Amazon Frontier",
+        "Caribbean Coast & Tayrona",
+        "Medellin & Coffee Axis"
+      ],
+      "category_breakdown": {
+        "Adventure": 3,
+        "Cultural": 9,
+        "Food & Dining": 6,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 1,
+        "Water Sports": 1
+      },
+      "multi_day_activities": 3,
+      "free_activities": 4,
+      "avg_price_usd": 36.93
+    },
+    {
+      "name": "Dominican Republic",
+      "country_code": "DO",
+      "continent": "Americas",
+      "currency": "DOP",
+      "file": "data/countries/dominican_republic.json",
+      "activity_count": 37,
+      "regions": [
+        "Northern Surf Coast & Puerto Plata",
+        "Punta Cana & Bavaro",
+        "Samana Peninsula",
+        "Santo Domingo & Southern Coast",
+        "Wild Southwest & Barahona"
+      ],
+      "category_breakdown": {
+        "Adventure": 5,
+        "Cultural": 4,
+        "Food & Dining": 6,
+        "Nature": 11,
+        "Nightlife": 6,
+        "Sightseeing": 1,
+        "Water Sports": 4
+      },
+      "multi_day_activities": 0,
+      "free_activities": 7,
+      "avg_price_usd": 30.41
+    },
+    {
+      "name": "Guatemala",
+      "country_code": "GT",
+      "continent": "Americas",
+      "currency": "GTQ",
+      "file": "data/countries/guatemala.json",
+      "activity_count": 29,
+      "regions": [
+        "Antigua & Central Highlands",
+        "El Peten & Maya Lowlands",
+        "Lake Atitlan & Western Highlands",
+        "Verapaces, Pacific & Caribbean Coasts"
+      ],
+      "category_breakdown": {
+        "Adventure": 4,
+        "Cultural": 9,
+        "Food & Dining": 4,
+        "Nature": 4,
+        "Nightlife": 5,
+        "Water Sports": 2,
+        "Wellness": 1
+      },
+      "multi_day_activities": 2,
+      "free_activities": 2,
+      "avg_price_usd": 34.59
+    },
+    {
+      "name": "Mexico",
+      "country_code": "MX",
+      "continent": "Americas",
+      "currency": "MXN",
+      "file": "data/countries/mexico.json",
+      "activity_count": 40,
+      "regions": [
+        "Baja California",
+        "Central Mexico & CDMX",
+        "Oaxaca & Chiapas",
+        "Pacific Coast",
+        "Yucatan Peninsula"
+      ],
+      "category_breakdown": {
+        "Adventure": 4,
+        "Cultural": 10,
+        "Food & Dining": 7,
+        "Nature": 5,
+        "Nightlife": 9,
+        "Water Sports": 5
+      },
+      "multi_day_activities": 0,
+      "free_activities": 5,
+      "avg_price_usd": 39.23
+    },
+    {
+      "name": "Indonesia",
+      "country_code": "ID",
+      "continent": "Asia",
+      "currency": "IDR",
+      "file": "data/countries/indonesia.json",
+      "activity_count": 34,
+      "regions": [
+        "Bali & Lombok",
+        "East Nusa Tenggara",
+        "Java",
+        "Sumatra"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 4,
+        "Food & Dining": 8,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Water Sports": 3
+      },
+      "multi_day_activities": 6,
+      "free_activities": 0,
+      "avg_price_usd": 104.62
+    },
+    {
+      "name": "Japan",
+      "country_code": "JP",
+      "continent": "Asia",
+      "currency": "JPY",
+      "file": "data/countries/japan.json",
+      "activity_count": 118,
+      "regions": [
+        "Kansai",
+        "Kanto & North",
+        "Kyushu"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 40,
+        "Food & Dining": 25,
+        "Nature": 14,
+        "Nightlife": 11,
+        "Shopping": 6,
+        "Sightseeing": 10,
+        "Water Sports": 1,
+        "Wellness": 5
+      },
+      "multi_day_activities": 0,
+      "free_activities": 27,
+      "avg_price_usd": 13.63
+    },
+    {
+      "name": "Philippines",
+      "country_code": "PH",
+      "continent": "Asia",
+      "currency": "PHP",
+      "file": "data/countries/philippines.json",
+      "activity_count": 115,
+      "regions": [
+        "Luzon",
+        "Mindanao",
+        "Visayas"
+      ],
+      "category_breakdown": {
+        "Adventure": 23,
+        "Cultural": 10,
+        "Food & Dining": 17,
+        "Nature": 37,
+        "Nightlife": 10,
+        "Sightseeing": 1,
+        "Water Sports": 17
+      },
+      "multi_day_activities": 5,
+      "free_activities": 0,
+      "avg_price_usd": 31.65
+    },
+    {
+      "name": "Thailand",
+      "country_code": "TH",
+      "continent": "Asia",
+      "currency": "THB",
+      "file": "data/countries/thailand.json",
+      "activity_count": 80,
+      "regions": [],
+      "category_breakdown": {
+        "Adventure": 10,
+        "Cultural": 21,
+        "Food & Dining": 10,
+        "Nature": 13,
+        "Nightlife": 16,
+        "Shopping": 3,
+        "Sightseeing": 1,
+        "Water Sports": 5,
+        "Wellness": 1
+      },
+      "multi_day_activities": 0,
+      "free_activities": 7,
+      "avg_price_usd": 22.05
+    },
+    {
+      "name": "Vietnam",
+      "country_code": "VN",
+      "continent": "Asia",
+      "currency": "VND",
+      "file": "data/countries/vietnam.json",
+      "activity_count": 41,
+      "regions": [
+        "North Vietnam",
+        "South Vietnam"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 10,
+        "Food & Dining": 6,
+        "Nature": 7,
+        "Nightlife": 5,
+        "Shopping": 2,
+        "Sightseeing": 2,
+        "Water Sports": 1
+      },
+      "multi_day_activities": 4,
+      "free_activities": 3,
+      "avg_price_usd": 27.88
+    }
+  ]
+}
