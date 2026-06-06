@@ -47,7 +47,7 @@
       "country_code": "AR",
       "continent": "Americas",
       "currency": "ARS",
-      "file": "data/countries/argentina.json",
+      "file": "argentina.json",
       "activity_count": 30,
       "regions": [
         "Argentine Patagonia & Tierra del Fuego",
@@ -74,7 +74,7 @@
       "country_code": "BR",
       "continent": "Americas",
       "currency": "BRL",
-      "file": "data/countries/brazil.json",
+      "file": "brazil.json",
       "activity_count": 34,
       "regions": [
         "Amazon Rainforest Basin",
@@ -103,7 +103,7 @@
       "country_code": "CO",
       "continent": "Americas",
       "currency": "COP",
-      "file": "data/countries/colombia.json",
+      "file": "colombia.json",
       "activity_count": 32,
       "regions": [
         "Bogota & Andean Highlands",
@@ -131,7 +131,7 @@
       "country_code": "DO",
       "continent": "Americas",
       "currency": "DOP",
-      "file": "data/countries/dominican_republic.json",
+      "file": "dominican_republic.json",
       "activity_count": 37,
       "regions": [
         "Northern Surf Coast & Puerto Plata",
@@ -160,7 +160,7 @@
       "country_code": "GT",
       "continent": "Americas",
       "currency": "GTQ",
-      "file": "data/countries/guatemala.json",
+      "file": "guatemala.json",
       "activity_count": 29,
       "regions": [
         "Antigua & Central Highlands",
@@ -188,7 +188,7 @@
       "country_code": "MX",
       "continent": "Americas",
       "currency": "MXN",
-      "file": "data/countries/mexico.json",
+      "file": "mexico.json",
       "activity_count": 40,
       "regions": [
         "Baja California",
@@ -216,7 +216,7 @@
       "country_code": "ID",
       "continent": "Asia",
       "currency": "IDR",
-      "file": "data/countries/indonesia.json",
+      "file": "indonesia.json",
       "activity_count": 34,
       "regions": [
         "Bali & Lombok",
@@ -243,7 +243,7 @@
       "country_code": "JP",
       "continent": "Asia",
       "currency": "JPY",
-      "file": "data/countries/japan.json",
+      "file": "japan.json",
       "activity_count": 118,
       "regions": [
         "Kansai",
@@ -272,7 +272,7 @@
       "country_code": "PH",
       "continent": "Asia",
       "currency": "PHP",
-      "file": "data/countries/philippines.json",
+      "file": "philippines.json",
       "activity_count": 115,
       "regions": [
         "Luzon",
@@ -299,7 +299,7 @@
       "country_code": "TH",
       "continent": "Asia",
       "currency": "THB",
-      "file": "data/countries/thailand.json",
+      "file": "thailand.json",
       "activity_count": 80,
       "regions": [],
       "category_breakdown": {
@@ -324,7 +324,7 @@
       "country_code": "VN",
       "continent": "Asia",
       "currency": "VND",
-      "file": "data/countries/vietnam.json",
+      "file": "vietnam.json",
       "activity_count": 41,
       "regions": [
         "North Vietnam",

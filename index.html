@@ -64,10 +64,8 @@ select option{background:var(--surface2)}
 /* ── NAV TABS ── */
 #nav-bar{
   background:var(--surface);border-bottom:1px solid var(--border);
-  padding:0 24px;display:flex;align-items:center;gap:0;overflow-x:auto;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:0 24px;display:flex;align-items:center;gap:0;flex-wrap:wrap;
 }
-#nav-bar::-webkit-scrollbar{display:none}
 .nav-tab{
   padding:14px 20px;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
   color:var(--text-muted);border:none;background:none;white-space:nowrap;
@@ -83,9 +81,24 @@ select option{background:var(--surface2)}
 .nav-tab.active .tab-count{background:var(--gold-dim);color:var(--gold-light)}
 
 /* ── MAIN LAYOUT ── */
-#main-layout{display:flex;height:calc(100vh - 112px);overflow:hidden}
+#main-layout{display:flex;height:calc(100vh - 60px - var(--nav-height, 44px));overflow:hidden;position:relative}
 
-/* ── SIDEBAR TRIP POOL ── */
+/* ── POOL REOPEN TAB ── */
+#pool-reopen-tab{
+  display:none;
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  z-index:10;
+  width:20px;height:64px;
+  background:var(--surface2);border:1px solid var(--border-light);
+  border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  align-items:center;justify-content:center;
+  color:var(--gold);font-size:.7rem;cursor:pointer;
+  transition:all var(--transition);writing-mode:vertical-lr;
+  letter-spacing:.06em;font-family:var(--font-body);font-size:.6rem;
+  text-transform:uppercase;padding:8px 3px;
+}
+#pool-reopen-tab:hover{background:var(--surface3);border-color:var(--gold);width:24px}
+#pool-reopen-tab.visible{display:flex}
 #trip-pool{
   width:280px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;transition:width .3s ease;
@@ -339,7 +352,8 @@ select option{background:var(--surface2)}
   #main-layout{flex-direction:column;height:auto;overflow:auto}
   #trip-pool{width:100%;min-width:0;max-height:280px;border-right:none;border-bottom:1px solid var(--border)}
   #trip-pool.collapsed{max-height:0;overflow:hidden}
-  #center-panel{min-height:calc(100vh - 280px)}
+  #pool-reopen-tab{display:none!important}
+  #center-panel{min-height:60vh}
   .activity-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
   #pool-toggle-mobile{display:flex}
   .itinerary-canvas{overflow-x:auto}
@@ -411,6 +425,9 @@ select option{background:var(--surface2)}
 
 <!-- MAIN -->
 <div id="main-layout">
+
+  <!-- TRIP POOL REOPEN TAB -->
+  <button id="pool-reopen-tab" title="Open Trip Pool">Pool</button>
 
   <!-- TRIP POOL -->
   <aside id="trip-pool">
@@ -1294,6 +1311,15 @@ function bindEvents() {
     STATE.poolCollapsed = !STATE.poolCollapsed;
     document.getElementById('trip-pool').classList.toggle('collapsed', STATE.poolCollapsed);
     document.getElementById('pool-collapse-btn').textContent = STATE.poolCollapsed ? '›' : '‹';
+    document.getElementById('pool-reopen-tab').classList.toggle('visible', STATE.poolCollapsed);
+  });
+
+  // Pool reopen tab
+  document.getElementById('pool-reopen-tab').addEventListener('click', () => {
+    STATE.poolCollapsed = false;
+    document.getElementById('trip-pool').classList.remove('collapsed');
+    document.getElementById('pool-collapse-btn').textContent = '‹';
+    document.getElementById('pool-reopen-tab').classList.remove('visible');
   });
 
   // Headcount
@@ -1408,7 +1434,20 @@ function bindEvents() {
 // ═══════════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════════
+function updateLayoutHeight() {
+  const header = document.getElementById('app-header');
+  const nav = document.getElementById('nav-bar');
+  const layout = document.getElementById('main-layout');
+  const used = header.offsetHeight + nav.offsetHeight;
+  layout.style.height = `calc(100vh - ${used}px)`;
+}
+
+window.addEventListener('resize', updateLayoutHeight);
+
 loadCountries();
+// Also recalc after nav tabs are built
+const _origInitApp = initApp;
+initApp = function() { _origInitApp(); updateLayoutHeight(); };
 </script>
 </body>
 </html>
