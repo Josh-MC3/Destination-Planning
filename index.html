@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bachelor Party Planner</title>
+<title>Trip Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -22,6 +22,35 @@
   --shadow-gold:0 0 20px rgba(201,168,76,.15);
   --transition:.2s ease;
 }
+/* ── LIGHT MODE OVERRIDES ── */
+html[data-theme="light"]{
+  --black:#F5F3EF;--surface:#FFFFFF;--surface2:#F0EDE8;--surface3:#E8E4DD;
+  --border:#D8D3CC;--border-light:#C8C2B8;
+  --text:#1A1714;--text-dim:#5A5450;--text-muted:#9A948E;
+  --shadow:0 4px 24px rgba(0,0,0,.12);
+  --shadow-gold:0 0 20px rgba(201,168,76,.2);
+}
+html[data-theme="light"] body{background:var(--black)}
+html[data-theme="light"] #app-header{background:rgba(245,243,239,.96)}
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea{background:var(--surface);color:var(--text);border-color:var(--border-light)}
+html[data-theme="light"] select option{background:var(--surface)}
+html[data-theme="light"] #loading{background:var(--black)}
+html[data-theme="light"] .modal{background:var(--surface)}
+html[data-theme="light"] #toast{background:var(--surface2);color:var(--text)}
+html[data-theme="light"] ::-webkit-scrollbar-track{background:var(--surface2)}
+html[data-theme="light"] ::-webkit-scrollbar-thumb{background:var(--border-light)}
+
+/* ── THEME TOGGLE BUTTON ── */
+#btn-theme{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--border-light);
+  background:var(--surface3);color:var(--text-dim);font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);flex-shrink:0;
+}
+#btn-theme:hover{border-color:var(--gold);color:var(--gold);background:var(--surface2)}
+
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--black);color:var(--text);min-height:100vh;overflow-x:hidden}
 a{color:var(--gold);text-decoration:none}
@@ -401,7 +430,7 @@ select option{background:var(--surface2)}
 
 <!-- LOADING -->
 <div id="loading">
-  <div class="loading-logo">BACHELOR PLANNER</div>
+  <div class="loading-logo">TRIP BUILDER</div>
   <div class="loading-bar"><div class="loading-fill" id="loading-fill"></div></div>
   <div class="loading-text" id="loading-text">Loading destinations…</div>
 </div>
@@ -409,10 +438,10 @@ select option{background:var(--surface2)}
 <!-- HEADER -->
 <header id="app-header">
   <div class="header-logo">
-    Bachelor Planner
-    <span>/ Trip Builder</span>
+    Trip Builder
   </div>
   <div class="header-actions">
+    <button id="btn-theme" title="Toggle light/dark mode">🌙</button>
     <button class="btn btn-outline btn-sm" id="btn-save">💾 Save</button>
     <button class="btn btn-outline btn-sm" id="btn-load">📂 Load</button>
     <button class="btn btn-outline btn-sm" id="btn-export">📋 Export</button>
@@ -1032,7 +1061,7 @@ function renderDayItems(body, day) {
 function renderHourSlots(body, day) {
   const slotDiv = document.createElement('div');
   slotDiv.className = 'hour-slots';
-  const hours = Array.from({length:24},(_,i)=>i);
+  const hours = Array.from({length:24},(_,i)=>(i+6)%24);
   for (const h of hours) {
     const slot = document.createElement('div');
     slot.className = 'hour-slot';
@@ -1307,6 +1336,27 @@ function toast(msg, type='') {
 // EVENTS
 // ═══════════════════════════════════════════════════════
 function bindEvents() {
+  // Theme toggle
+  (function initTheme() {
+    const saved = localStorage.getItem('bp_theme') || 'dark';
+    if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme','light');
+      document.getElementById('btn-theme').textContent = '☀️';
+    }
+  })();
+  document.getElementById('btn-theme').addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      document.getElementById('btn-theme').textContent = '🌙';
+      localStorage.setItem('bp_theme','dark');
+    } else {
+      document.documentElement.setAttribute('data-theme','light');
+      document.getElementById('btn-theme').textContent = '☀️';
+      localStorage.setItem('bp_theme','light');
+    }
+  });
+
   // View buttons
   document.querySelectorAll('.view-btn').forEach(btn => {
     btn.addEventListener('click', () => switchView(btn.dataset.view));
