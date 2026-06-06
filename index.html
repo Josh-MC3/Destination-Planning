@@ -226,7 +226,7 @@ select option{background:var(--surface2)}
 
 .card-name{font-size:1rem;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:6px}
 .card-location{font-size:.8rem;color:var(--text-dim);margin-bottom:10px;display:flex;align-items:center;gap:4px}
-.card-desc{padding:0 16px;font-size:.8rem;color:var(--text-dim);line-height:1.6;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-desc{padding:0 16px;font-size:.8rem;color:var(--text-dim);line-height:1.6}
 .card-footer{
   padding:12px 16px;margin-top:10px;border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;gap:8px;
@@ -526,6 +526,7 @@ select option{background:var(--surface2)}
         <span class="filter-count" id="filter-count"></span>
       </div>
       <div class="region-filter-bar" id="region-pills"></div>
+      <div class="region-filter-bar" id="subregion-pills" style="display:none;background:var(--surface3);border-bottom:1px solid var(--border)"></div>
       <div class="activity-grid" id="activity-grid"></div>
     </div>
 
@@ -634,6 +635,7 @@ const STATE = {
   filterCategory: '',
   filterPrice: '',
   filterRegion: '',
+  filterSubRegion: '',
   searchQuery: '',
   currentView: 'activities',
   poolCollapsed: false,
@@ -767,6 +769,7 @@ function switchTab(key) {
   STATE.filterCategory = '';
   STATE.filterPrice = '';
   STATE.filterRegion = '';
+  STATE.filterSubRegion = '';
   STATE.searchQuery = '';
   document.getElementById('search-input').value = '';
   document.getElementById('filter-category').value = '';
@@ -816,23 +819,80 @@ function renderActivityView() {
 
 function buildRegionPills(data) {
   const bar = document.getElementById('region-pills');
-  const regions = [...new Set(data.activities.map(a => a.region).filter(Boolean))];
+  const subBar = document.getElementById('subregion-pills');
+
+  // If no activity has a `region` value, fall back to grouping by `destination`.
+  // This handles countries like Thailand that omit the region field.
+  const hasRegions = data.activities.some(a => a.region);
+  const regionKey = hasRegions ? 'region' : 'destination';
+
+  const regions = [...new Set(data.activities.map(a => a[regionKey]).filter(Boolean))].sort();
   bar.innerHTML = '';
-  if (!regions.length) { bar.style.display = 'none'; return; }
+
+  if (!regions.length) {
+    bar.style.display = 'none';
+    subBar.style.display = 'none';
+    return;
+  }
   bar.style.display = 'flex';
 
-  const all = document.createElement('button');
-  all.className = 'region-pill' + (!STATE.filterRegion ? ' active' : '');
-  all.textContent = 'All Regions';
-  all.addEventListener('click', () => { STATE.filterRegion = ''; buildRegionPills(data); renderCards(data); });
-  bar.appendChild(all);
+  const allBtn = document.createElement('button');
+  allBtn.className = 'region-pill' + (!STATE.filterRegion ? ' active' : '');
+  allBtn.textContent = 'All ' + (regionKey === 'destination' ? 'Cities' : 'Regions');
+  allBtn.addEventListener('click', () => {
+    STATE.filterRegion = '';
+    STATE.filterSubRegion = '';
+    buildRegionPills(data);
+    renderCards(data);
+  });
+  bar.appendChild(allBtn);
 
   for (const r of regions) {
     const btn = document.createElement('button');
     btn.className = 'region-pill' + (STATE.filterRegion === r ? ' active' : '');
     btn.textContent = r;
-    btn.addEventListener('click', () => { STATE.filterRegion = r; buildRegionPills(data); renderCards(data); });
+    btn.addEventListener('click', () => {
+      STATE.filterRegion = r;
+      STATE.filterSubRegion = '';
+      buildRegionPills(data);
+      renderCards(data);
+    });
     bar.appendChild(btn);
+  }
+
+  // Sub-region pills: show city breakdown when a region is selected
+  // and that region contains activities from more than one destination.
+  subBar.innerHTML = '';
+  if (STATE.filterRegion && regionKey === 'region') {
+    const inRegion = data.activities.filter(a => a.region === STATE.filterRegion);
+    const cities = [...new Set(inRegion.map(a => a.destination).filter(Boolean))].sort();
+    if (cities.length > 1) {
+      subBar.style.display = 'flex';
+      const allCities = document.createElement('button');
+      allCities.className = 'region-pill' + (!STATE.filterSubRegion ? ' active' : '');
+      allCities.textContent = 'All ' + STATE.filterRegion + ' Cities';
+      allCities.addEventListener('click', () => {
+        STATE.filterSubRegion = '';
+        buildRegionPills(data);
+        renderCards(data);
+      });
+      subBar.appendChild(allCities);
+      for (const city of cities) {
+        const cityBtn = document.createElement('button');
+        cityBtn.className = 'region-pill' + (STATE.filterSubRegion === city ? ' active' : '');
+        cityBtn.textContent = STATE.filterRegion + ' \u2014 ' + city;
+        cityBtn.addEventListener('click', () => {
+          STATE.filterSubRegion = city;
+          buildRegionPills(data);
+          renderCards(data);
+        });
+        subBar.appendChild(cityBtn);
+      }
+    } else {
+      subBar.style.display = 'none';
+    }
+  } else {
+    subBar.style.display = 'none';
   }
 }
 
@@ -841,7 +901,10 @@ function renderCards(data) {
   let acts = data.activities;
 
   // Filters
-  if (STATE.filterRegion) acts = acts.filter(a => a.region === STATE.filterRegion);
+  const hasRegions = acts.some(a => a.region);
+  const regionKey = hasRegions ? 'region' : 'destination';
+  if (STATE.filterRegion) acts = acts.filter(a => a[regionKey] === STATE.filterRegion);
+  if (STATE.filterSubRegion) acts = acts.filter(a => a.destination === STATE.filterSubRegion);
   if (STATE.filterCategory) acts = acts.filter(a => a.category === STATE.filterCategory || (STATE.filterCategory === 'Food & Dining' && a.category === 'Food & Dining'));
   if (STATE.searchQuery) {
     const q = STATE.searchQuery.toLowerCase();
