@@ -639,11 +639,18 @@ async function loadCountries() {
   // ── Phase 2: fetch all country files in parallel ───────
   txt.textContent = 'Loading destinations…';
 
+  // Strip JS-style comments and parse JSON — country files contain // comment lines
+  async function fetchJSON(url) {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`${url} returned ${r.status}`);
+    const text = await r.text();
+    // Remove single-line comments (// ...) that make the files invalid JSON
+    const clean = text.replace(/\/\/[^\n]*/g, '');
+    return JSON.parse(clean);
+  }
+
   const results = await Promise.allSettled(
-    STATE.countryIndex.map(entry => fetch(entry.file).then(r => {
-      if (!r.ok) throw new Error(`${entry.file} returned ${r.status}`);
-      return r.json();
-    }))
+    STATE.countryIndex.map(entry => fetchJSON(entry.file))
   );
 
   // Store results — fulfilled entries get real data, rejected entries get a stub
