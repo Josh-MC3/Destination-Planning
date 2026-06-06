@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Destinations Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --sidebar-width: 260px;
+            --accent-color: #2563eb;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .nav-header {
+            padding: 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            color: #111827;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 16px 0;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .menu-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #4b5563;
+        }
+
+        .menu-item:hover {
+            background-color: #f3f4f6;
+            color: var(--accent-color);
+        }
+
+        .menu-item.active {
+            background-color: #eff6ff;
+            color: var(--accent-color);
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 40px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 32px;
+        }
+
+        .country-title {
+            font-size: 2.2rem;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .meta-badges {
+            display: flex;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background-color: #e5e7eb;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Error/Loading Messages */
+        .status-message {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-top: 20px;
+        }
+
+        /* Grid Layout for Activities */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* Activity Cards */
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-dest {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #4b5563;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .card-duration {
+            color: #4b5563;
+        }
+
+        .card-price {
+            color: #059669;
+            background-color: #ecfdf5;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-header">🌍 Travel Guides</div>
+        <ul class="menu-list" id="menuList">
+            <li class="menu-item" onclick="loadCountryData('Brazil')">Brazil</li>
+            <li class="menu-item" onclick="loadCountryData('Colombia')">Colombia</li>
+            <li class="menu-item" onclick="loadCountryData('Dominican Republic')">Dominican Republic</li>
+            <li class="menu-item" onclick="loadCountryData('Guatemala')">Guatemala</li>
+            <li class="menu-item" onclick="loadCountryData('Indonesia')">Indonesia</li>
+            <li class="menu-item" onclick="loadCountryData('Japan')">Japan</li>
+            <li class="menu-item" onclick="loadCountryData('Mexico')">Mexico</li>
+            <li class="menu-item" onclick="loadCountryData('Philippines')">Philippines</li>
+            <li class="menu-item" onclick="loadCountryData('Thailand')">Thailand</li>
+            <li class="menu-item" onclick="loadCountryData('Vietnam')">Vietnam</li>
+        </ul>
+    </nav>
+
+    <main>
+        <div id="dashboardHeader" class="dashboard-header" style="display: none;">
+            <h1 class="country-title" id="countryTitle">Country Name</h1>
+            <div class="meta-badges">
+                <span class="badge" id="countryCodeBadge">Code</span>
+                <span class="badge" id="currencyBadge">Currency</span>
+            </div>
+        </div>
+
+        <div id="statusView" class="status-message">Select a country from the sidebar to view activities.</div>
+        <div id="activitiesGrid" class="activities-grid"></div>
+    </main>
+
+    <script>
+        async function loadCountryData(countryName) {
+            const grid = document.getElementById('activitiesGrid');
+            const statusView = document.getElementById('statusView');
+            const header = document.getElementById('dashboardHeader');
+            
+            // Clean up visual state and highlight active menu element
+            grid.innerHTML = '';
+            header.style.display = 'none';
+            statusView.style.display = 'block';
+            statusView.textContent = `Loading ${countryName} data...`;
+            
+            updateActiveMenu(countryName);
+
+            try {
+                // Fetch the file locally (relative paths map seamlessly when hosted together in a GitHub repo)
+                const filename = `${countryName}.json`;
+                const response = await fetch(filename);
+                
+                if (!response.ok) {
+                    throw new Error(`Could not locate or load ${filename}`);
+                }
+
+                const data = await response.json();
+                
+                // Set main view metadata header parameters
+                document.getElementById('countryTitle').textContent = data.country;
+                document.getElementById('countryCodeBadge').textContent = `Code: ${data.countryCode || 'N/A'}`;
+                document.getElementById('currencyBadge').textContent = `Currency: ${data.currency || 'N/A'}`;
+                
+                statusView.style.display = 'none';
+                header.style.display = 'block';
+
+                // Map and inject dataset elements into HTML cards
+                if (data.activities && data.activities.length > 0) {
+                    data.activities.forEach(activity => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        
+                        // Parse duration clean output string
+                        const durationText = activity.duration 
+                            ? `${activity.duration} ${activity.duration > 1 ? 'hours' : 'hour'}` 
+                            : 'Flexible';
+
+                        // Parse price formatting cleanly
+                        let priceText = 'Free';
+                        if (activity.price_usd && activity.price_usd > 0) {
+                            priceText = `$${activity.price_usd} USD`;
+                        } else if (activity.price_local && activity.price_local > 0) {
+                            priceText = `${activity.price_local} ${activity.local_currency || ''}`;
+                        }
+
+                        card.innerHTML = `
+                            <div>
+                                <div class="card-category">${activity.category || 'Activity'}</div>
+                                <div class="card-name">${activity.name}</div>
+                                <div class="card-dest">📍 ${activity.destination || activity.location || data.country}</div>
+                                <p class="card-desc">${activity.description || 'No description available.'}</p>
+                            </div>
+                            <div class="card-footer">
+                                <span class="card-duration">⏱️ ${durationText}</span>
+                                <span class="card-price">${priceText}</span>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    statusView.style.display = 'block';
+                    statusView.textContent = 'No activities found for this destination.';
+                }
+
+            } catch (error) {
+                console.error(error);
+                statusView.style.display = 'block';
+                statusView.textContent = `Error: Failed to display data for ${countryName}. Make sure the file "${countryName}.json" is uploaded in the same directory.`;
+            }
+        }
+
+        function updateActiveMenu(selectedCountry) {
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (item.textContent === selectedCountry) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
