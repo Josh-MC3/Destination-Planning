@@ -42,6 +42,8 @@
   "countries": [
     {
       "name": "Argentina",
+      "slug": "argentina",
+      "flag": "🇦🇷",
       "country_code": "AR",
       "continent": "Americas",
       "currency": "ARS",
@@ -67,6 +69,8 @@
     },
     {
       "name": "Brazil",
+      "slug": "brazil",
+      "flag": "🇧🇷",
       "country_code": "BR",
       "continent": "Americas",
       "currency": "BRL",
@@ -94,6 +98,8 @@
     },
     {
       "name": "Colombia",
+      "slug": "colombia",
+      "flag": "🇨🇴",
       "country_code": "CO",
       "continent": "Americas",
       "currency": "COP",
@@ -120,6 +126,8 @@
     },
     {
       "name": "Dominican Republic",
+      "slug": "dominican_republic",
+      "flag": "🇩🇴",
       "country_code": "DO",
       "continent": "Americas",
       "currency": "DOP",
@@ -147,6 +155,8 @@
     },
     {
       "name": "Guatemala",
+      "slug": "guatemala",
+      "flag": "🇬🇹",
       "country_code": "GT",
       "continent": "Americas",
       "currency": "GTQ",
@@ -173,6 +183,8 @@
     },
     {
       "name": "Mexico",
+      "slug": "mexico",
+      "flag": "🇲🇽",
       "country_code": "MX",
       "continent": "Americas",
       "currency": "MXN",
@@ -199,6 +211,8 @@
     },
     {
       "name": "Indonesia",
+      "slug": "indonesia",
+      "flag": "🇮🇩",
       "country_code": "ID",
       "continent": "Asia",
       "currency": "IDR",
@@ -224,6 +238,8 @@
     },
     {
       "name": "Japan",
+      "slug": "japan",
+      "flag": "🇯🇵",
       "country_code": "JP",
       "continent": "Asia",
       "currency": "JPY",
@@ -251,6 +267,8 @@
     },
     {
       "name": "Philippines",
+      "slug": "philippines",
+      "flag": "🇵🇭",
       "country_code": "PH",
       "continent": "Asia",
       "currency": "PHP",
@@ -276,6 +294,8 @@
     },
     {
       "name": "Thailand",
+      "slug": "thailand",
+      "flag": "🇹🇭",
       "country_code": "TH",
       "continent": "Asia",
       "currency": "THB",
@@ -299,6 +319,8 @@
     },
     {
       "name": "Vietnam",
+      "slug": "vietnam",
+      "flag": "🇻🇳",
       "country_code": "VN",
       "continent": "Asia",
       "currency": "VND",

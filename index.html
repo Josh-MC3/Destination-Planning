@@ -576,7 +576,8 @@ select option{background:var(--surface2)}
 // STATE
 // ═══════════════════════════════════════════════════════
 const STATE = {
-  countries: {},         // loaded country data
+  countries: {},         // loaded country data keyed by slug
+  countryIndex: [],      // parsed index.json countries array — single source of truth
   currentCountry: null,
   pool: [],              // {id, name, location, price_usd, duration, category, multi_day, custom}
   itinerary: {},         // {day: [{...item, hour?}]}
@@ -591,32 +592,55 @@ const STATE = {
   poolCollapsed: false,
 };
 
-const DEMO_COUNTRIES = ['thailand','japan','philippines','mexico'];
-
 // ═══════════════════════════════════════════════════════
 // LOAD DATA
 // ═══════════════════════════════════════════════════════
 async function loadCountries() {
   const fill = document.getElementById('loading-fill');
   const txt  = document.getElementById('loading-text');
-  let loaded = 0;
 
-  for (const name of DEMO_COUNTRIES) {
-    txt.textContent = `Loading ${name}…`;
-    try {
-      const r = await fetch(`data/countries/${name}.json`);
-      if (!r.ok) throw new Error('not found');
-      const d = await r.json();
-      STATE.countries[name] = d;
-    } catch(e) {
-      // fallback: stub so nav still renders
-      STATE.countries[name] = { country: name.charAt(0).toUpperCase()+name.slice(1), activities: [] };
-    }
-    loaded++;
-    fill.style.width = (loaded / DEMO_COUNTRIES.length * 100) + '%';
+  // ── Phase 1: fetch index.json ──────────────────────────
+  txt.textContent = 'Loading index…';
+  let indexData;
+  try {
+    const r = await fetch('index.json');
+    if (!r.ok) throw new Error(`index.json returned ${r.status}`);
+    indexData = await r.json();
+  } catch(e) {
+    txt.textContent = 'Error: could not load index.json';
+    fill.style.width = '100%';
+    fill.style.background = '#E57373';
+    console.error('loadCountries: failed to fetch index.json', e);
+    return; // abort — nothing else can proceed without the index
   }
 
-  STATE.currentCountry = DEMO_COUNTRIES[0];
+  // Store the index array in STATE so buildNav() and others can use it
+  STATE.countryIndex = indexData.countries;
+  fill.style.width = '10%';
+
+  // ── Phase 2: fetch all country files in parallel ───────
+  txt.textContent = 'Loading destinations…';
+
+  const results = await Promise.allSettled(
+    STATE.countryIndex.map(entry => fetch(entry.file).then(r => {
+      if (!r.ok) throw new Error(`${entry.file} returned ${r.status}`);
+      return r.json();
+    }))
+  );
+
+  // Store results — fulfilled entries get real data, rejected entries get a stub
+  results.forEach((result, i) => {
+    const entry = STATE.countryIndex[i];
+    if (result.status === 'fulfilled') {
+      STATE.countries[entry.slug] = result.value;
+    } else {
+      console.warn(`loadCountries: failed to load ${entry.file}`, result.reason);
+      STATE.countries[entry.slug] = { country: entry.name, activities: [] };
+    }
+  });
+
+  fill.style.width = '100%';
+  STATE.currentCountry = STATE.countryIndex[0].slug;
   txt.textContent = 'Ready';
 
   setTimeout(() => {
@@ -647,6 +671,8 @@ function buildNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = '';
 
+  if (!STATE.countryIndex || !STATE.countryIndex.length) return;
+
   // Planner tab
   const plannerBtn = document.createElement('button');
   plannerBtn.className = 'nav-tab' + (STATE.currentCountry === '__planner' ? ' active' : '');
@@ -655,18 +681,17 @@ function buildNav() {
   plannerBtn.addEventListener('click', () => switchTab('__planner'));
   nav.appendChild(plannerBtn);
 
-  for (const key of DEMO_COUNTRIES) {
-    const d = STATE.countries[key];
+  for (const entry of STATE.countryIndex) {
+    const d = STATE.countries[entry.slug];
     const btn = document.createElement('button');
-    btn.className = 'nav-tab' + (STATE.currentCountry === key ? ' active' : '');
-    const flag = {thailand:'🇹🇭',japan:'🇯🇵',philippines:'🇵🇭',mexico:'🇲🇽'}[key] || '🌍';
+    btn.className = 'nav-tab' + (STATE.currentCountry === entry.slug ? ' active' : '');
     const count = document.createElement('span');
     count.className = 'tab-count';
-    count.textContent = d.activities.length;
-    btn.innerHTML = `${flag} ${d.country || key} `;
+    count.textContent = d ? d.activities.length : 0;
+    btn.innerHTML = `${entry.flag} ${entry.name} `;
     btn.appendChild(count);
-    btn.dataset.country = key;
-    btn.addEventListener('click', () => switchTab(key));
+    btn.dataset.country = entry.slug;
+    btn.addEventListener('click', () => switchTab(entry.slug));
     nav.appendChild(btn);
   }
 }
