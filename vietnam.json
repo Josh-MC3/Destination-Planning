@@ -2,12 +2,11 @@
   "country": "Vietnam",
   "countryCode": "VN",
   "currency": "VND",
-  "regions": ["North Vietnam", "South Vietnam"],
+  "regions": [
+    "North Vietnam",
+    "South Vietnam"
+  ],
   "activities": [
-
-    // ============================================================
-    // NORTH VIETNAM
-    // ============================================================
     {
       "id": "vn_nor_001",
       "country": "Vietnam",
@@ -278,8 +277,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // NORTH VIETNAM — FOOD & DINING
     {
       "id": "vn_nor_f01",
       "country": "Vietnam",
@@ -334,8 +331,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // NORTH VIETNAM — NIGHTLIFE
     {
       "id": "vn_nor_n01",
       "country": "Vietnam",
@@ -372,10 +367,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // SOUTH VIETNAM
-    // ============================================================
     {
       "id": "vn_sou_001",
       "country": "Vietnam",
@@ -646,8 +637,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SOUTH VIETNAM — FOOD & DINING
     {
       "id": "vn_sou_f01",
       "country": "Vietnam",
@@ -702,8 +691,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SOUTH VIETNAM — NIGHTLIFE
     {
       "id": "vn_sou_n01",
       "country": "Vietnam",

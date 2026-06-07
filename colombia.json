@@ -9,10 +9,6 @@
     "Cali & Pacific / Amazon Frontier"
   ],
   "activities": [
-
-    // ============================================================
-    // BOGOTA & ANDEAN HIGHLANDS
-    // ============================================================
     {
       "id": "co_bog_001",
       "country": "Colombia",
@@ -103,8 +99,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BOGOTA — FOOD & DINING
     {
       "id": "co_bog_f01",
       "country": "Colombia",
@@ -141,8 +135,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BOGOTA — NIGHTLIFE
     {
       "id": "co_bog_n01",
       "country": "Colombia",
@@ -179,10 +171,6 @@
       "multi_day": false,
       "duration_note": "No cover — pay for beer buckets (~COP 70,000 per group). One of Colombia's most unique social experiences"
     },
-
-    // ============================================================
-    // MEDELLIN & COFFEE AXIS
-    // ============================================================
     {
       "id": "co_med_001",
       "country": "Colombia",
@@ -273,8 +261,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // MEDELLIN — FOOD & DINING
     {
       "id": "co_med_f01",
       "country": "Colombia",
@@ -311,8 +297,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // MEDELLIN — NIGHTLIFE
     {
       "id": "co_med_n01",
       "country": "Colombia",
@@ -331,10 +315,6 @@
       "multi_day": false,
       "duration_note": "Salsa venue cover COP 15,000–25,000. Never leave drinks unattended in Medellín nightlife settings"
     },
-
-    // ============================================================
-    // CARIBBEAN COAST & TAYRONA
-    // ============================================================
     {
       "id": "co_car_001",
       "country": "Colombia",
@@ -425,8 +405,6 @@
       "multi_day": true,
       "duration_note": "4 days / 3 nights. All-inclusive fixed government-regulated price — no independent access. Must book through licensed operators only (Wiwa Tours, Expotur, Magic Tour). Carry cash for entire trip"
     },
-
-    // CARIBBEAN — FOOD & DINING
     {
       "id": "co_car_f01",
       "country": "Colombia",
@@ -445,8 +423,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CARIBBEAN — NIGHTLIFE
     {
       "id": "co_car_n01",
       "country": "Colombia",
@@ -483,10 +459,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // CALI & PACIFIC / AMAZON FRONTIER
-    // ============================================================
     {
       "id": "co_cal_001",
       "country": "Colombia",
@@ -577,8 +549,6 @@
       "multi_day": true,
       "duration_note": "Daily rate includes lodge and guide. 3-day minimum recommended. Heavy DEET essential — pack dry bags for all electronics and documents"
     },
-
-    // CALI — FOOD & DINING
     {
       "id": "co_cal_f01",
       "country": "Colombia",
@@ -597,8 +567,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CALI — NIGHTLIFE
     {
       "id": "co_cal_n01",
       "country": "Colombia",

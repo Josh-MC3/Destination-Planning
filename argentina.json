@@ -9,10 +9,6 @@
     "Northwest & Iguazu / Litoral"
   ],
   "activities": [
-
-    // ============================================================
-    // BUENOS AIRES & PAMPAS
-    // ============================================================
     {
       "id": "ar_bue_001",
       "country": "Argentina",
@@ -103,8 +99,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BUENOS AIRES — FOOD & DINING
     {
       "id": "ar_bue_f01",
       "country": "Argentina",
@@ -141,8 +135,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BUENOS AIRES — NIGHTLIFE
     {
       "id": "ar_bue_n01",
       "country": "Argentina",
@@ -179,10 +171,6 @@
       "multi_day": false,
       "duration_note": "Entry ~COP 5,800 ARS. Classes start at 9 PM, social dancing from midnight"
     },
-
-    // ============================================================
-    // ARGENTINE PATAGONIA & TIERRA DEL FUEGO
-    // ============================================================
     {
       "id": "ar_pat_001",
       "country": "Argentina",
@@ -273,8 +261,6 @@
       "multi_day": false,
       "duration_note": "Price covers bike rental for the day"
     },
-
-    // PATAGONIA — FOOD & DINING
     {
       "id": "ar_pat_f01",
       "country": "Argentina",
@@ -293,8 +279,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PATAGONIA — NIGHTLIFE
     {
       "id": "ar_pat_n01",
       "country": "Argentina",
@@ -313,10 +297,6 @@
       "multi_day": false,
       "duration_note": "No cover charge at either venue — casual hiker-friendly atmosphere"
     },
-
-    // ============================================================
-    // CUYO & WINE REGIONS
-    // ============================================================
     {
       "id": "ar_cuy_001",
       "country": "Argentina",
@@ -407,8 +387,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CUYO — FOOD & DINING
     {
       "id": "ar_cuy_f01",
       "country": "Argentina",
@@ -427,8 +405,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CUYO — NIGHTLIFE
     {
       "id": "ar_cuy_n01",
       "country": "Argentina",
@@ -447,10 +423,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // NORTHWEST & IGUAZU / LITORAL
-    // ============================================================
     {
       "id": "ar_nwi_001",
       "country": "Argentina",
@@ -541,8 +513,6 @@
       "multi_day": false,
       "duration_note": "Entry includes show. La Casona del Molino on Balcarce Street is the most acclaimed venue"
     },
-
-    // NORTHWEST — FOOD & DINING
     {
       "id": "ar_nwi_f01",
       "country": "Argentina",
@@ -561,8 +531,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // NORTHWEST — NIGHTLIFE
     {
       "id": "ar_nwi_n01",
       "country": "Argentina",

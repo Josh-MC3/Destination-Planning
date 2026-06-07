@@ -10,10 +10,6 @@
     "Pacific Coast"
   ],
   "activities": [
-
-    // ============================================================
-    // YUCATAN PENINSULA
-    // ============================================================
     {
       "id": "mx_yuc_001",
       "country": "Mexico",
@@ -104,8 +100,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // YUCATAN — FOOD & DINING
     {
       "id": "mx_yuc_f01",
       "country": "Mexico",
@@ -124,8 +118,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // YUCATAN — NIGHTLIFE
     {
       "id": "mx_yuc_n01",
       "country": "Mexico",
@@ -162,10 +154,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // OAXACA & CHIAPAS
-    // ============================================================
     {
       "id": "mx_oax_001",
       "country": "Mexico",
@@ -256,8 +244,6 @@
       "multi_day": false,
       "duration_note": "No photography whatsoever inside the church — strictly enforced by indigenous autonomous police"
     },
-
-    // OAXACA & CHIAPAS — FOOD & DINING
     {
       "id": "mx_oax_f01",
       "country": "Mexico",
@@ -276,8 +262,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // OAXACA & CHIAPAS — NIGHTLIFE
     {
       "id": "mx_oax_n01",
       "country": "Mexico",
@@ -314,10 +298,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // CENTRAL MEXICO & CDMX
-    // ============================================================
     {
       "id": "mx_cdm_001",
       "country": "Mexico",
@@ -408,8 +388,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CENTRAL MEXICO — FOOD & DINING
     {
       "id": "mx_cdm_f01",
       "country": "Mexico",
@@ -446,8 +424,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // CENTRAL MEXICO — NIGHTLIFE
     {
       "id": "mx_cdm_n01",
       "country": "Mexico",
@@ -484,10 +460,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // BAJA CALIFORNIA
-    // ============================================================
     {
       "id": "mx_baj_001",
       "country": "Mexico",
@@ -578,8 +550,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BAJA — FOOD & DINING
     {
       "id": "mx_baj_f01",
       "country": "Mexico",
@@ -598,8 +568,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BAJA — NIGHTLIFE
     {
       "id": "mx_baj_n01",
       "country": "Mexico",
@@ -618,10 +586,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // PACIFIC COAST
-    // ============================================================
     {
       "id": "mx_pac_001",
       "country": "Mexico",
@@ -712,8 +676,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PACIFIC COAST — FOOD & DINING
     {
       "id": "mx_pac_f01",
       "country": "Mexico",
@@ -732,8 +694,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PACIFIC COAST — NIGHTLIFE
     {
       "id": "mx_pac_n01",
       "country": "Mexico",

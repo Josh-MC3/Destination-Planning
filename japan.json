@@ -22,7 +22,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_002",
@@ -38,7 +40,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 14,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_003",
@@ -54,7 +58,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_004",
@@ -70,7 +76,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_005",
@@ -86,7 +94,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 13,
-      "price_usd_max": 23
+      "price_usd_max": 23,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_006",
@@ -102,7 +112,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 13,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_fuk_007",
@@ -118,7 +130,9 @@
       "local_currency": "JPY",
       "location": "Fukuoka",
       "price_usd_min": 13,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_001",
@@ -134,7 +148,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 2,
-      "price_usd_max": 2
+      "price_usd_max": 2,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_002",
@@ -150,7 +166,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_003",
@@ -166,7 +184,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 8,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_004",
@@ -182,7 +202,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 29,
-      "price_usd_max": 29
+      "price_usd_max": 29,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_005",
@@ -198,7 +220,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 8,
-      "price_usd_max": 13
+      "price_usd_max": 13,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ngs_006",
@@ -214,7 +238,9 @@
       "local_currency": "JPY",
       "location": "Nagasaki",
       "price_usd_min": 6,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kum_001",
@@ -230,7 +256,9 @@
       "local_currency": "JPY",
       "location": "Kumamoto",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kum_002",
@@ -246,7 +274,9 @@
       "local_currency": "JPY",
       "location": "Kumamoto",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kum_003",
@@ -262,7 +292,9 @@
       "local_currency": "JPY",
       "location": "Kumamoto",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kum_004",
@@ -278,7 +310,9 @@
       "local_currency": "JPY",
       "location": "Kumamoto",
       "price_usd_min": 6,
-      "price_usd_max": 39
+      "price_usd_max": 39,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kum_005",
@@ -294,7 +328,9 @@
       "local_currency": "JPY",
       "location": "Kumamoto",
       "price_usd_min": 5,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kag_001",
@@ -310,7 +346,9 @@
       "local_currency": "JPY",
       "location": "Kagoshima",
       "price_usd_min": 3,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kag_002",
@@ -326,7 +364,9 @@
       "local_currency": "JPY",
       "location": "Kagoshima",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kag_003",
@@ -342,7 +382,9 @@
       "local_currency": "JPY",
       "location": "Chiran, Kagoshima",
       "price_usd_min": 4,
-      "price_usd_max": 4
+      "price_usd_max": 4,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kag_004",
@@ -358,7 +400,9 @@
       "local_currency": "JPY",
       "location": "Kagoshima",
       "price_usd_min": 13,
-      "price_usd_max": 23
+      "price_usd_max": 23,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kag_005",
@@ -374,7 +418,9 @@
       "local_currency": "JPY",
       "location": "Kagoshima",
       "price_usd_min": 6,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kit_001",
@@ -390,7 +436,9 @@
       "local_currency": "JPY",
       "location": "Moji, Kitakyushu",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kit_002",
@@ -406,7 +454,9 @@
       "local_currency": "JPY",
       "location": "Kitakyushu",
       "price_usd_min": 8,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kit_003",
@@ -422,7 +472,9 @@
       "local_currency": "JPY",
       "location": "Kitakyushu",
       "price_usd_min": 3,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kit_004",
@@ -438,7 +490,9 @@
       "local_currency": "JPY",
       "location": "Moji, Kitakyushu",
       "price_usd_min": 6,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_001",
@@ -454,7 +508,9 @@
       "local_currency": "JPY",
       "location": "Miyazaki",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_002",
@@ -470,7 +526,9 @@
       "local_currency": "JPY",
       "location": "Nichinan, Miyazaki",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_003",
@@ -486,7 +544,9 @@
       "local_currency": "JPY",
       "location": "Nichinan, Miyazaki",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_004",
@@ -502,7 +562,9 @@
       "local_currency": "JPY",
       "location": "Miyazaki",
       "price_usd_min": 26,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_005",
@@ -518,7 +580,9 @@
       "local_currency": "JPY",
       "location": "Miyazaki",
       "price_usd_min": 10,
-      "price_usd_max": 19
+      "price_usd_max": 19,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_miy_006",
@@ -534,7 +598,9 @@
       "local_currency": "JPY",
       "location": "Miyazaki",
       "price_usd_min": 5,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_bep_001",
@@ -550,7 +616,9 @@
       "local_currency": "JPY",
       "location": "Beppu",
       "price_usd_min": 16,
-      "price_usd_max": 16
+      "price_usd_max": 16,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_bep_002",
@@ -566,7 +634,9 @@
       "local_currency": "JPY",
       "location": "Beppu",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_bep_003",
@@ -582,7 +652,9 @@
       "local_currency": "JPY",
       "location": "Beppu",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_bep_004",
@@ -598,7 +670,9 @@
       "local_currency": "JPY",
       "location": "Beppu",
       "price_usd_min": 10,
-      "price_usd_max": 16
+      "price_usd_max": 16,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_bep_005",
@@ -614,7 +688,9 @@
       "local_currency": "JPY",
       "location": "Beppu",
       "price_usd_min": 8,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yuf_001",
@@ -630,7 +706,9 @@
       "local_currency": "JPY",
       "location": "Yufuin",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yuf_002",
@@ -646,7 +724,9 @@
       "local_currency": "JPY",
       "location": "Yufuin",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yuf_003",
@@ -662,7 +742,9 @@
       "local_currency": "JPY",
       "location": "Yufuin",
       "price_usd_min": 11,
-      "price_usd_max": 11
+      "price_usd_max": 11,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yuf_004",
@@ -678,7 +760,9 @@
       "local_currency": "JPY",
       "location": "Yufuin",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yuf_005",
@@ -694,7 +778,9 @@
       "local_currency": "JPY",
       "location": "Yufuin",
       "price_usd_min": 19,
-      "price_usd_max": 32
+      "price_usd_max": 32,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kro_001",
@@ -710,7 +796,9 @@
       "local_currency": "JPY",
       "location": "Kurokawa Onsen",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kro_002",
@@ -726,7 +814,9 @@
       "local_currency": "JPY",
       "location": "Kurokawa Onsen",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kro_003",
@@ -742,7 +832,9 @@
       "local_currency": "JPY",
       "location": "Kurokawa Onsen",
       "price_usd_min": 13,
-      "price_usd_max": 13
+      "price_usd_max": 13,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kro_004",
@@ -758,7 +850,9 @@
       "local_currency": "JPY",
       "location": "Kurokawa Onsen",
       "price_usd_min": 10,
-      "price_usd_max": 16
+      "price_usd_max": 16,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sas_001",
@@ -774,7 +868,9 @@
       "local_currency": "JPY",
       "location": "Sasebo",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sas_002",
@@ -790,7 +886,9 @@
       "local_currency": "JPY",
       "location": "Sasebo",
       "price_usd_min": 48,
-      "price_usd_max": 48
+      "price_usd_max": 48,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sas_003",
@@ -806,7 +904,9 @@
       "local_currency": "JPY",
       "location": "Sasebo",
       "price_usd_min": 6,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_daz_001",
@@ -822,7 +922,9 @@
       "local_currency": "JPY",
       "location": "Dazaifu",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_daz_002",
@@ -838,7 +940,9 @@
       "local_currency": "JPY",
       "location": "Dazaifu",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_daz_003",
@@ -854,7 +958,9 @@
       "local_currency": "JPY",
       "location": "Dazaifu",
       "price_usd_min": 1,
-      "price_usd_max": 1
+      "price_usd_max": 1,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_daz_004",
@@ -870,7 +976,9 @@
       "local_currency": "JPY",
       "location": "Dazaifu",
       "price_usd_min": 2,
-      "price_usd_max": 4
+      "price_usd_max": 4,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_aso_001",
@@ -886,7 +994,9 @@
       "local_currency": "JPY",
       "location": "Aso City",
       "price_usd_min": 8,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_aso_002",
@@ -902,7 +1012,9 @@
       "local_currency": "JPY",
       "location": "Aso City",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_aso_003",
@@ -918,7 +1030,9 @@
       "local_currency": "JPY",
       "location": "Aso City",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_aso_004",
@@ -934,7 +1048,9 @@
       "local_currency": "JPY",
       "location": "Aso City",
       "price_usd_min": 10,
-      "price_usd_max": 19
+      "price_usd_max": 19,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kar_001",
@@ -950,7 +1066,9 @@
       "local_currency": "JPY",
       "location": "Karatsu",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kar_002",
@@ -966,7 +1084,9 @@
       "local_currency": "JPY",
       "location": "Karatsu",
       "price_usd_min": 12,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kar_003",
@@ -982,7 +1102,9 @@
       "local_currency": "JPY",
       "location": "Karatsu",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kar_004",
@@ -998,7 +1120,9 @@
       "local_currency": "JPY",
       "location": "Karatsu",
       "price_usd_min": 19,
-      "price_usd_max": 29
+      "price_usd_max": 29,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yan_001",
@@ -1014,7 +1138,9 @@
       "local_currency": "JPY",
       "location": "Yanagawa",
       "price_usd_min": 11,
-      "price_usd_max": 11
+      "price_usd_max": 11,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yan_002",
@@ -1030,7 +1156,9 @@
       "local_currency": "JPY",
       "location": "Yanagawa",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yan_003",
@@ -1046,7 +1174,9 @@
       "local_currency": "JPY",
       "location": "Yanagawa",
       "price_usd_min": 23,
-      "price_usd_max": 32
+      "price_usd_max": 32,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yak_001",
@@ -1062,7 +1192,9 @@
       "local_currency": "JPY",
       "location": "Yakushima",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yak_002",
@@ -1078,7 +1210,9 @@
       "local_currency": "JPY",
       "location": "Yakushima",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yak_003",
@@ -1094,7 +1228,9 @@
       "local_currency": "JPY",
       "location": "Yakushima",
       "price_usd_min": 1,
-      "price_usd_max": 1
+      "price_usd_max": 1,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_yak_004",
@@ -1110,7 +1246,9 @@
       "local_currency": "JPY",
       "location": "Yakushima",
       "price_usd_min": 10,
-      "price_usd_max": 18
+      "price_usd_max": 18,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tak_001",
@@ -1126,7 +1264,9 @@
       "local_currency": "JPY",
       "location": "Takachiho Gorge",
       "price_usd_min": 26,
-      "price_usd_max": 33
+      "price_usd_max": 33,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tak_002",
@@ -1142,7 +1282,9 @@
       "local_currency": "JPY",
       "location": "Takachiho Gorge",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tak_003",
@@ -1158,7 +1300,9 @@
       "local_currency": "JPY",
       "location": "Takachiho Gorge",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tak_004",
@@ -1174,7 +1318,9 @@
       "local_currency": "JPY",
       "location": "Takachiho Gorge",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tak_005",
@@ -1190,7 +1336,9 @@
       "local_currency": "JPY",
       "location": "Takachiho Gorge",
       "price_usd_min": 8,
-      "price_usd_max": 16
+      "price_usd_max": 16,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_001",
@@ -1206,7 +1354,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_002",
@@ -1222,7 +1372,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 4,
-      "price_usd_max": 4
+      "price_usd_max": 4,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_003",
@@ -1238,7 +1390,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 55,
-      "price_usd_max": 67
+      "price_usd_max": 67,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_004",
@@ -1254,7 +1408,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_005",
@@ -1270,7 +1426,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 10,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_006",
@@ -1286,7 +1444,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 10,
-      "price_usd_max": 19
+      "price_usd_max": 19,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_007",
@@ -1302,7 +1462,9 @@
       "local_currency": "JPY",
       "location": "Osaka",
       "price_usd_min": 13,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_osa_008",
@@ -1318,7 +1480,9 @@
       "local_currency": "JPY",
       "location": "Minoo, Osaka",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_001",
@@ -1334,7 +1498,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_002",
@@ -1350,7 +1516,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_003",
@@ -1366,7 +1534,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 5,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_004",
@@ -1382,7 +1552,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 4,
-      "price_usd_max": 4
+      "price_usd_max": 4,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_005",
@@ -1398,7 +1570,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_006",
@@ -1414,7 +1588,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 39,
-      "price_usd_max": 96
+      "price_usd_max": 96,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_007",
@@ -1430,7 +1606,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 8,
-      "price_usd_max": 13
+      "price_usd_max": 13,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_kyo_008",
@@ -1446,7 +1624,9 @@
       "local_currency": "JPY",
       "location": "Kyoto",
       "price_usd_min": 6,
-      "price_usd_max": 13
+      "price_usd_max": 13,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_001",
@@ -1462,7 +1642,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 14,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_002",
@@ -1478,7 +1660,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 0,
-      "price_usd_max": 30
+      "price_usd_max": 30,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_003",
@@ -1494,7 +1678,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 13,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_004",
@@ -1510,7 +1696,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_005",
@@ -1526,7 +1714,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_006",
@@ -1542,7 +1732,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 25,
-      "price_usd_max": 25
+      "price_usd_max": 25,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_007",
@@ -1558,7 +1750,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 10,
-      "price_usd_max": 30
+      "price_usd_max": 30,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_008",
@@ -1574,7 +1768,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 2,
-      "price_usd_max": 2
+      "price_usd_max": 2,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_009",
@@ -1590,7 +1786,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_010",
@@ -1606,7 +1804,9 @@
       "local_currency": "JPY",
       "location": "Kamakura, Kanagawa",
       "price_usd_min": 2,
-      "price_usd_max": 2
+      "price_usd_max": 2,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_011",
@@ -1622,7 +1822,9 @@
       "local_currency": "JPY",
       "location": "Nikko, Tochigi",
       "price_usd_min": 14,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_012",
@@ -1638,7 +1840,9 @@
       "local_currency": "JPY",
       "location": "Mt. Takao, Tokyo",
       "price_usd_min": 0,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_013",
@@ -1654,7 +1858,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 10,
-      "price_usd_max": 25
+      "price_usd_max": 25,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_014",
@@ -1670,7 +1876,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 13,
-      "price_usd_max": 13
+      "price_usd_max": 13,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_015",
@@ -1686,7 +1894,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 19,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_tky_016",
@@ -1702,7 +1912,9 @@
       "local_currency": "JPY",
       "location": "Tokyo",
       "price_usd_min": 29,
-      "price_usd_max": 51
+      "price_usd_max": 51,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_001",
@@ -1718,7 +1930,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_002",
@@ -1734,7 +1948,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_003",
@@ -1750,7 +1966,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 14,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_004",
@@ -1766,7 +1984,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_005",
@@ -1782,7 +2002,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 7,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_006",
@@ -1798,7 +2020,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 19,
-      "price_usd_max": 29
+      "price_usd_max": 29,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_sap_007",
@@ -1814,7 +2038,9 @@
       "local_currency": "JPY",
       "location": "Sapporo",
       "price_usd_min": 5,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ota_001",
@@ -1830,7 +2056,9 @@
       "local_currency": "JPY",
       "location": "Otaru",
       "price_usd_min": 0,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ota_002",
@@ -1846,7 +2074,9 @@
       "local_currency": "JPY",
       "location": "Otaru",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ota_003",
@@ -1862,7 +2092,9 @@
       "local_currency": "JPY",
       "location": "Otaru",
       "price_usd_min": 23,
-      "price_usd_max": 39
+      "price_usd_max": 39,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ota_004",
@@ -1878,7 +2110,9 @@
       "local_currency": "JPY",
       "location": "Otaru",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "jp_ota_005",
@@ -1894,7 +2128,9 @@
       "local_currency": "JPY",
       "location": "Otaru",
       "price_usd_min": 5,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     }
   ]
 }

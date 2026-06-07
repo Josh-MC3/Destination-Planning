@@ -9,10 +9,6 @@
     "Verapaces, Pacific & Caribbean Coasts"
   ],
   "activities": [
-
-    // ============================================================
-    // ANTIGUA & CENTRAL HIGHLANDS
-    // ============================================================
     {
       "id": "gt_ant_001",
       "country": "Guatemala",
@@ -103,8 +99,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ANTIGUA — FOOD & DINING
     {
       "id": "gt_ant_f01",
       "country": "Guatemala",
@@ -123,8 +117,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ANTIGUA — NIGHTLIFE
     {
       "id": "gt_ant_n01",
       "country": "Guatemala",
@@ -161,10 +153,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // LAKE ATITLAN & WESTERN HIGHLANDS
-    // ============================================================
     {
       "id": "gt_atl_001",
       "country": "Guatemala",
@@ -255,8 +243,6 @@
       "multi_day": false,
       "duration_note": "Go before 11:00 AM — the Xocomil afternoon winds make the lake choppy by midday"
     },
-
-    // LAKE ATITLAN — FOOD & DINING
     {
       "id": "gt_atl_f01",
       "country": "Guatemala",
@@ -275,8 +261,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // LAKE ATITLAN — NIGHTLIFE
     {
       "id": "gt_atl_n01",
       "country": "Guatemala",
@@ -295,10 +279,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // EL PETEN & MAYA LOWLANDS
-    // ============================================================
     {
       "id": "gt_pet_001",
       "country": "Guatemala",
@@ -389,8 +369,6 @@
       "multi_day": false,
       "duration_note": "Free — bring cash for food and drinks from boardwalk stalls"
     },
-
-    // EL PETEN — FOOD & DINING
     {
       "id": "gt_pet_f01",
       "country": "Guatemala",
@@ -409,8 +387,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // EL PETEN — NIGHTLIFE
     {
       "id": "gt_pet_n01",
       "country": "Guatemala",
@@ -429,10 +405,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // VERAPACES, PACIFIC & CARIBBEAN COASTS
-    // ============================================================
     {
       "id": "gt_ver_001",
       "country": "Guatemala",
@@ -523,8 +495,6 @@
       "multi_day": false,
       "duration_note": "Guided night excursion only — best on moonless nights for maximum bioluminescence visibility"
     },
-
-    // VERAPACES — FOOD & DINING
     {
       "id": "gt_ver_f01",
       "country": "Guatemala",
@@ -543,8 +513,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // VERAPACES — NIGHTLIFE
     {
       "id": "gt_ver_n01",
       "country": "Guatemala",

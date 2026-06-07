@@ -22,7 +22,9 @@
       "local_currency": "PHP",
       "location": "Metro Manila",
       "price_usd_min": 5,
-      "price_usd_max": 21
+      "price_usd_max": 21,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_002",
@@ -38,7 +40,9 @@
       "local_currency": "PHP",
       "location": "Zambales / Tarlac",
       "price_usd_min": 60,
-      "price_usd_max": 95
+      "price_usd_max": 95,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_003",
@@ -54,7 +58,9 @@
       "local_currency": "PHP",
       "location": "Banaue, Ifugao",
       "price_usd_min": 26,
-      "price_usd_max": 52
+      "price_usd_max": 52,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_004",
@@ -70,7 +76,9 @@
       "local_currency": "PHP",
       "location": "Sagada, Mountain Province",
       "price_usd_min": 17,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_005",
@@ -86,7 +94,9 @@
       "local_currency": "PHP",
       "location": "Vigan, Ilocos Sur",
       "price_usd_min": 3,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_006",
@@ -102,7 +112,9 @@
       "local_currency": "PHP",
       "location": "Benguet",
       "price_usd_min": 69,
-      "price_usd_max": 120
+      "price_usd_max": 120,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_007",
@@ -118,7 +130,9 @@
       "local_currency": "PHP",
       "location": "San Juan, La Union",
       "price_usd_min": 10,
-      "price_usd_max": 21
+      "price_usd_max": 21,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_008",
@@ -134,7 +148,9 @@
       "local_currency": "PHP",
       "location": "Tagaytay / Batangas",
       "price_usd_min": 34,
-      "price_usd_max": 69
+      "price_usd_max": 69,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_009",
@@ -150,7 +166,9 @@
       "local_currency": "PHP",
       "location": "Caramoan, Camarines Sur",
       "price_usd_min": 43,
-      "price_usd_max": 78
+      "price_usd_max": 78,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_010",
@@ -166,7 +184,9 @@
       "local_currency": "PHP",
       "location": "Legazpi, Albay",
       "price_usd_min": 31,
-      "price_usd_max": 78
+      "price_usd_max": 78,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_f01",
@@ -182,7 +202,9 @@
       "local_currency": "PHP",
       "location": "Binondo, Metro Manila",
       "price_usd_min": 4,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_f02",
@@ -198,7 +220,9 @@
       "local_currency": "PHP",
       "location": "Vigan / Laoag, Ilocos",
       "price_usd_min": 3,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_f03",
@@ -214,7 +238,9 @@
       "local_currency": "PHP",
       "location": "Legazpi, Albay",
       "price_usd_min": 4,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_n01",
@@ -230,7 +256,9 @@
       "local_currency": "PHP",
       "location": "Poblacion, Makati",
       "price_usd_min": 10,
-      "price_usd_max": 30
+      "price_usd_max": 30,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_n02",
@@ -246,7 +274,9 @@
       "local_currency": "PHP",
       "location": "San Juan, La Union",
       "price_usd_min": 5,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_001",
@@ -262,7 +292,9 @@
       "local_currency": "PHP",
       "location": "Boracay Island",
       "price_usd_min": 9,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_002",
@@ -278,7 +310,9 @@
       "local_currency": "PHP",
       "location": "Bohol",
       "price_usd_min": 21,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_003",
@@ -294,7 +328,9 @@
       "local_currency": "PHP",
       "location": "Malapascua, North Cebu",
       "price_usd_min": 43,
-      "price_usd_max": 78
+      "price_usd_max": 78,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_004",
@@ -310,7 +346,9 @@
       "local_currency": "PHP",
       "location": "Badian, Cebu",
       "price_usd_min": 26,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_005",
@@ -326,7 +364,9 @@
       "local_currency": "PHP",
       "location": "Moalboal, Cebu",
       "price_usd_min": 5,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_006",
@@ -342,7 +382,9 @@
       "local_currency": "PHP",
       "location": "El Nido, Palawan",
       "price_usd_min": 21,
-      "price_usd_max": 38
+      "price_usd_max": 38,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_007",
@@ -358,7 +400,9 @@
       "local_currency": "PHP",
       "location": "Puerto Princesa, Palawan",
       "price_usd_min": 34,
-      "price_usd_max": 55
+      "price_usd_max": 55,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_008",
@@ -374,7 +418,9 @@
       "local_currency": "PHP",
       "location": "Coron, Palawan",
       "price_usd_min": 31,
-      "price_usd_max": 60
+      "price_usd_max": 60,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_009",
@@ -390,7 +436,9 @@
       "local_currency": "PHP",
       "location": "Siquijor Island",
       "price_usd_min": 7,
-      "price_usd_max": 17
+      "price_usd_max": 17,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_010",
@@ -406,7 +454,9 @@
       "local_currency": "PHP",
       "location": "Apo Island, Negros Oriental",
       "price_usd_min": 26,
-      "price_usd_max": 52
+      "price_usd_max": 52,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_011",
@@ -422,7 +472,9 @@
       "local_currency": "PHP",
       "location": "Carles, Iloilo",
       "price_usd_min": 26,
-      "price_usd_max": 48
+      "price_usd_max": 48,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_012",
@@ -438,7 +490,9 @@
       "local_currency": "PHP",
       "location": "Palompon, Leyte",
       "price_usd_min": 21,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_013",
@@ -454,7 +508,9 @@
       "local_currency": "PHP",
       "location": "Cebu City",
       "price_usd_min": 2,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_014",
@@ -470,7 +526,9 @@
       "local_currency": "PHP",
       "location": "Cauayan, Negros Occidental",
       "price_usd_min": 43,
-      "price_usd_max": 69
+      "price_usd_max": 69,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_015",
@@ -486,7 +544,9 @@
       "local_currency": "PHP",
       "location": "Leyte / Samar",
       "price_usd_min": 4,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_f01",
@@ -502,7 +562,9 @@
       "local_currency": "PHP",
       "location": "Cebu City",
       "price_usd_min": 4,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_f02",
@@ -518,7 +580,9 @@
       "local_currency": "PHP",
       "location": "Iloilo City",
       "price_usd_min": 2,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_f03",
@@ -534,7 +598,9 @@
       "local_currency": "PHP",
       "location": "Loboc, Bohol",
       "price_usd_min": 3,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_f04",
@@ -550,7 +616,9 @@
       "local_currency": "PHP",
       "location": "El Nido, Palawan",
       "price_usd_min": 5,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_n01",
@@ -566,7 +634,9 @@
       "local_currency": "PHP",
       "location": "Boracay Island",
       "price_usd_min": 5,
-      "price_usd_max": 20
+      "price_usd_max": 20,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_n02",
@@ -582,7 +652,9 @@
       "local_currency": "PHP",
       "location": "El Nido, Palawan",
       "price_usd_min": 5,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_vis_n03",
@@ -598,7 +670,9 @@
       "local_currency": "PHP",
       "location": "Panglao, Bohol",
       "price_usd_min": 5,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_001",
@@ -614,7 +688,9 @@
       "local_currency": "PHP",
       "location": "General Luna, Siargao",
       "price_usd_min": 9,
-      "price_usd_max": 21
+      "price_usd_max": 21,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_002",
@@ -630,7 +706,9 @@
       "local_currency": "PHP",
       "location": "Bucas Grande / Siargao",
       "price_usd_min": 34,
-      "price_usd_max": 69
+      "price_usd_max": 69,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_003",
@@ -646,7 +724,9 @@
       "local_currency": "PHP",
       "location": "Hinatuan, Surigao del Sur",
       "price_usd_min": 5,
-      "price_usd_max": 14
+      "price_usd_max": 14,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_004",
@@ -662,7 +742,9 @@
       "local_currency": "PHP",
       "location": "Bislig, Surigao del Sur",
       "price_usd_min": 4,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_005",
@@ -678,7 +760,9 @@
       "local_currency": "PHP",
       "location": "Davao / Digos",
       "price_usd_min": 103,
-      "price_usd_max": 190
+      "price_usd_max": 190,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_006",
@@ -694,7 +778,9 @@
       "local_currency": "PHP",
       "location": "Camiguin Island",
       "price_usd_min": 26,
-      "price_usd_max": 60
+      "price_usd_max": 60,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_007",
@@ -710,7 +796,9 @@
       "local_currency": "PHP",
       "location": "Iligan City",
       "price_usd_min": 2,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_008",
@@ -726,7 +814,9 @@
       "local_currency": "PHP",
       "location": "Lake Sebu, South Cotabato",
       "price_usd_min": 14,
-      "price_usd_max": 34
+      "price_usd_max": 34,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_009",
@@ -742,7 +832,9 @@
       "local_currency": "PHP",
       "location": "Cateel, Davao Oriental",
       "price_usd_min": 4,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_010",
@@ -758,7 +850,9 @@
       "local_currency": "PHP",
       "location": "Manolo Fortich, Bukidnon",
       "price_usd_min": 14,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_f01",
@@ -774,7 +868,9 @@
       "local_currency": "PHP",
       "location": "Davao City",
       "price_usd_min": 4,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_f02",
@@ -790,7 +886,9 @@
       "local_currency": "PHP",
       "location": "General Luna, Siargao",
       "price_usd_min": 4,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_f03",
@@ -806,7 +904,9 @@
       "local_currency": "PHP",
       "location": "Lake Sebu, South Cotabato",
       "price_usd_min": 3,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_n01",
@@ -822,7 +922,9 @@
       "local_currency": "PHP",
       "location": "General Luna, Siargao",
       "price_usd_min": 5,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_min_n02",
@@ -838,7 +940,9 @@
       "local_currency": "PHP",
       "location": "Davao City",
       "price_usd_min": 5,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "ph_luz_011",

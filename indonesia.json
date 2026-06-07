@@ -2,12 +2,13 @@
   "country": "Indonesia",
   "countryCode": "ID",
   "currency": "IDR",
-  "regions": ["Bali & Lombok", "Java", "Sumatra", "East Nusa Tenggara"],
+  "regions": [
+    "Bali & Lombok",
+    "Java",
+    "Sumatra",
+    "East Nusa Tenggara"
+  ],
   "activities": [
-
-    // ============================================================
-    // BALI & LOMBOK
-    // ============================================================
     {
       "id": "id_bal_001",
       "country": "Indonesia",
@@ -98,8 +99,6 @@
       "multi_day": true,
       "duration_note": "3 days / 2 nights, full porter and guide package"
     },
-
-    // BALI & LOMBOK — FOOD & DINING
     {
       "id": "id_bal_f01",
       "country": "Indonesia",
@@ -136,8 +135,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BALI & LOMBOK — NIGHTLIFE
     {
       "id": "id_bal_n01",
       "country": "Indonesia",
@@ -174,10 +171,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // JAVA
-    // ============================================================
     {
       "id": "id_jav_001",
       "country": "Indonesia",
@@ -268,8 +261,6 @@
       "multi_day": false,
       "duration_note": "Full day from Malang. Mandatory canyon guide required for descent"
     },
-
-    // JAVA — FOOD & DINING
     {
       "id": "id_jav_f01",
       "country": "Indonesia",
@@ -306,8 +297,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // JAVA — NIGHTLIFE
     {
       "id": "id_jav_n01",
       "country": "Indonesia",
@@ -344,10 +333,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // SUMATRA
-    // ============================================================
     {
       "id": "id_sum_001",
       "country": "Indonesia",
@@ -438,8 +423,6 @@
       "multi_day": true,
       "duration_note": "4 days / 3 nights, specialized wilderness expedition with ranger guides"
     },
-
-    // SUMATRA — FOOD & DINING
     {
       "id": "id_sum_f01",
       "country": "Indonesia",
@@ -476,8 +459,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SUMATRA — NIGHTLIFE
     {
       "id": "id_sum_n01",
       "country": "Indonesia",
@@ -496,10 +477,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // EAST NUSA TENGGARA (KOMODO & FLORES)
-    // ============================================================
     {
       "id": "id_ent_001",
       "country": "Indonesia",
@@ -568,7 +545,9 @@
       "price_usd_max": 10,
       "price_local": 150000,
       "local_currency": "IDR",
-      "location": "Moni, Ende, Flores"
+      "location": "Moni, Ende, Flores",
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "id_ent_005",
@@ -588,8 +567,6 @@
       "multi_day": true,
       "duration_note": "2 days / 1 night including local transport, certified guide, and traditional homestay"
     },
-
-    // EAST NUSA TENGGARA — FOOD & DINING
     {
       "id": "id_ent_f01",
       "country": "Indonesia",
@@ -626,8 +603,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // EAST NUSA TENGGARA — NIGHTLIFE
     {
       "id": "id_ent_n01",
       "country": "Indonesia",

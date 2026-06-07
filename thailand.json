@@ -18,7 +18,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 15,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_002",
@@ -34,7 +36,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_003",
@@ -50,7 +54,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_004",
@@ -66,7 +72,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_005",
@@ -82,7 +90,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_006",
@@ -98,7 +108,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 26,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_007",
@@ -114,7 +126,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 46,
-      "price_usd_max": 46
+      "price_usd_max": 46,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_008",
@@ -130,7 +144,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_009",
@@ -146,7 +162,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_010",
@@ -162,7 +180,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 8,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_011",
@@ -178,7 +198,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 11,
-      "price_usd_max": 17
+      "price_usd_max": 17,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_012",
@@ -194,7 +216,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 15,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_bkk_013",
@@ -210,7 +234,9 @@
       "local_currency": "THB",
       "location": "Bangkok",
       "price_usd_min": 11,
-      "price_usd_max": 17
+      "price_usd_max": 17,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_001",
@@ -226,7 +252,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_002",
@@ -242,7 +270,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_003",
@@ -258,7 +288,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 76,
-      "price_usd_max": 76
+      "price_usd_max": 76,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_004",
@@ -274,7 +306,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 43,
-      "price_usd_max": 43
+      "price_usd_max": 43,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_005",
@@ -290,7 +324,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 15,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_006",
@@ -306,7 +342,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_007",
@@ -322,7 +360,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 2,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_008",
@@ -338,7 +378,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 3,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cnx_009",
@@ -354,7 +396,9 @@
       "local_currency": "THB",
       "location": "Chiang Mai",
       "price_usd_min": 3,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_001",
@@ -370,7 +414,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 67,
-      "price_usd_max": 67
+      "price_usd_max": 67,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_002",
@@ -386,7 +432,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 73,
-      "price_usd_max": 73
+      "price_usd_max": 73,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_003",
@@ -402,7 +450,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_004",
@@ -418,7 +468,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 0,
-      "price_usd_max": 20
+      "price_usd_max": 20,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_005",
@@ -434,7 +486,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 15,
-      "price_usd_max": 30
+      "price_usd_max": 30,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_006",
@@ -450,7 +504,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 15,
-      "price_usd_max": 25
+      "price_usd_max": 25,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hkt_007",
@@ -466,7 +522,9 @@
       "local_currency": "THB",
       "location": "Phuket",
       "price_usd_min": 6,
-      "price_usd_max": 21
+      "price_usd_max": 21,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_krb_001",
@@ -482,7 +540,9 @@
       "local_currency": "THB",
       "location": "Krabi",
       "price_usd_min": 3,
-      "price_usd_max": 10
+      "price_usd_max": 10,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_krb_002",
@@ -498,7 +558,9 @@
       "local_currency": "THB",
       "location": "Krabi",
       "price_usd_min": 49,
-      "price_usd_max": 49
+      "price_usd_max": 49,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_krb_003",
@@ -514,7 +576,9 @@
       "local_currency": "THB",
       "location": "Krabi",
       "price_usd_min": 12,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_krb_004",
@@ -530,7 +594,9 @@
       "local_currency": "THB",
       "location": "Krabi",
       "price_usd_min": 31,
-      "price_usd_max": 31
+      "price_usd_max": 31,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_krb_005",
@@ -546,7 +612,9 @@
       "local_currency": "THB",
       "location": "Krabi",
       "price_usd_min": 4,
-      "price_usd_max": 7
+      "price_usd_max": 7,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_001",
@@ -562,7 +630,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 15,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_002",
@@ -578,7 +648,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 12,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_003",
@@ -594,7 +666,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_004",
@@ -610,7 +684,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 31,
-      "price_usd_max": 31
+      "price_usd_max": 31,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_005",
@@ -626,7 +702,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 0,
-      "price_usd_max": 20
+      "price_usd_max": 20,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pty_006",
@@ -642,7 +720,9 @@
       "local_currency": "THB",
       "location": "Pattaya",
       "price_usd_min": 15,
-      "price_usd_max": 20
+      "price_usd_max": 20,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_usm_001",
@@ -658,7 +738,9 @@
       "local_currency": "THB",
       "location": "Koh Samui",
       "price_usd_min": 79,
-      "price_usd_max": 79
+      "price_usd_max": 79,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_usm_002",
@@ -674,7 +756,9 @@
       "local_currency": "THB",
       "location": "Koh Samui",
       "price_usd_min": 49,
-      "price_usd_max": 49
+      "price_usd_max": 49,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_usm_003",
@@ -690,7 +774,9 @@
       "local_currency": "THB",
       "location": "Koh Samui",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_usm_004",
@@ -706,7 +792,9 @@
       "local_currency": "THB",
       "location": "Koh Samui",
       "price_usd_min": 6,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_usm_005",
@@ -722,7 +810,9 @@
       "local_currency": "THB",
       "location": "Koh Samui",
       "price_usd_min": 8,
-      "price_usd_max": 19
+      "price_usd_max": 19,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_phn_001",
@@ -738,7 +828,9 @@
       "local_currency": "THB",
       "location": "Koh Phangan",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_phn_002",
@@ -754,7 +846,9 @@
       "local_currency": "THB",
       "location": "Koh Phangan",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_phn_003",
@@ -770,7 +864,9 @@
       "local_currency": "THB",
       "location": "Koh Phangan",
       "price_usd_min": 5,
-      "price_usd_max": 8
+      "price_usd_max": 8,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kta_001",
@@ -786,7 +882,9 @@
       "local_currency": "THB",
       "location": "Koh Tao",
       "price_usd_min": 26,
-      "price_usd_max": 26
+      "price_usd_max": 26,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kta_002",
@@ -802,7 +900,9 @@
       "local_currency": "THB",
       "location": "Koh Tao",
       "price_usd_min": 17,
-      "price_usd_max": 17
+      "price_usd_max": 17,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kta_003",
@@ -818,7 +918,9 @@
       "local_currency": "THB",
       "location": "Koh Tao",
       "price_usd_min": 10,
-      "price_usd_max": 20
+      "price_usd_max": 20,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cei_001",
@@ -834,7 +936,9 @@
       "local_currency": "THB",
       "location": "Chiang Rai",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cei_002",
@@ -850,7 +954,9 @@
       "local_currency": "THB",
       "location": "Chiang Rai",
       "price_usd_min": 2,
-      "price_usd_max": 2
+      "price_usd_max": 2,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cei_003",
@@ -866,7 +972,9 @@
       "local_currency": "THB",
       "location": "Chiang Rai",
       "price_usd_min": 40,
-      "price_usd_max": 40
+      "price_usd_max": 40,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_cei_004",
@@ -882,7 +990,9 @@
       "local_currency": "THB",
       "location": "Chiang Rai",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pai_001",
@@ -898,7 +1008,9 @@
       "local_currency": "THB",
       "location": "Pai",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pai_002",
@@ -914,7 +1026,9 @@
       "local_currency": "THB",
       "location": "Pai",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pai_003",
@@ -930,7 +1044,9 @@
       "local_currency": "THB",
       "location": "Pai",
       "price_usd_min": 21,
-      "price_usd_max": 21
+      "price_usd_max": 21,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_pai_004",
@@ -946,7 +1062,9 @@
       "local_currency": "THB",
       "location": "Pai",
       "price_usd_min": 2,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ayt_001",
@@ -962,7 +1080,9 @@
       "local_currency": "THB",
       "location": "Ayutthaya",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ayt_002",
@@ -978,7 +1098,9 @@
       "local_currency": "THB",
       "location": "Ayutthaya",
       "price_usd_min": 9,
-      "price_usd_max": 9
+      "price_usd_max": 9,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ayt_003",
@@ -994,7 +1116,9 @@
       "local_currency": "THB",
       "location": "Ayutthaya",
       "price_usd_min": 18,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_skt_001",
@@ -1010,7 +1134,9 @@
       "local_currency": "THB",
       "location": "Sukhothai",
       "price_usd_min": 4,
-      "price_usd_max": 4
+      "price_usd_max": 4,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_skt_002",
@@ -1026,7 +1152,9 @@
       "local_currency": "THB",
       "location": "Sukhothai",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_skt_003",
@@ -1042,7 +1170,9 @@
       "local_currency": "THB",
       "location": "Sukhothai",
       "price_usd_min": 28,
-      "price_usd_max": 28
+      "price_usd_max": 28,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kan_001",
@@ -1058,7 +1188,9 @@
       "local_currency": "THB",
       "location": "Kanchanaburi",
       "price_usd_min": 5,
-      "price_usd_max": 5
+      "price_usd_max": 5,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kan_002",
@@ -1074,7 +1206,9 @@
       "local_currency": "THB",
       "location": "Kanchanaburi",
       "price_usd_min": 12,
-      "price_usd_max": 12
+      "price_usd_max": 12,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kan_003",
@@ -1090,7 +1224,9 @@
       "local_currency": "THB",
       "location": "Kanchanaburi",
       "price_usd_min": 3,
-      "price_usd_max": 3
+      "price_usd_max": 3,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_kan_004",
@@ -1106,7 +1242,9 @@
       "local_currency": "THB",
       "location": "Kanchanaburi",
       "price_usd_min": 15,
-      "price_usd_max": 15
+      "price_usd_max": 15,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hhn_001",
@@ -1122,7 +1260,9 @@
       "local_currency": "THB",
       "location": "Hua Hin",
       "price_usd_min": 18,
-      "price_usd_max": 18
+      "price_usd_max": 18,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hhn_002",
@@ -1138,7 +1278,9 @@
       "local_currency": "THB",
       "location": "Hua Hin",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hhn_003",
@@ -1154,7 +1296,9 @@
       "local_currency": "THB",
       "location": "Hua Hin",
       "price_usd_min": 35,
-      "price_usd_max": 35
+      "price_usd_max": 35,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_hhn_004",
@@ -1170,7 +1314,9 @@
       "local_currency": "THB",
       "location": "Hua Hin",
       "price_usd_min": 8,
-      "price_usd_max": 23
+      "price_usd_max": 23,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ksk_001",
@@ -1186,7 +1332,9 @@
       "local_currency": "THB",
       "location": "Khao Sok",
       "price_usd_min": 98,
-      "price_usd_max": 146
+      "price_usd_max": 146,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ksk_002",
@@ -1202,7 +1350,9 @@
       "local_currency": "THB",
       "location": "Khao Sok",
       "price_usd_min": 18,
-      "price_usd_max": 18
+      "price_usd_max": 18,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ksk_003",
@@ -1218,7 +1368,9 @@
       "local_currency": "THB",
       "location": "Khao Sok",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_ksk_004",
@@ -1234,7 +1386,9 @@
       "local_currency": "THB",
       "location": "Khao Sok",
       "price_usd_min": 49,
-      "price_usd_max": 49
+      "price_usd_max": 49,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_nan_001",
@@ -1250,7 +1404,9 @@
       "local_currency": "THB",
       "location": "Nan",
       "price_usd_min": 0,
-      "price_usd_max": 0
+      "price_usd_max": 0,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_nan_002",
@@ -1266,7 +1422,9 @@
       "local_currency": "THB",
       "location": "Nan",
       "price_usd_min": 37,
-      "price_usd_max": 37
+      "price_usd_max": 37,
+      "multi_day": false,
+      "duration_note": null
     },
     {
       "id": "th_nan_003",
@@ -1282,7 +1440,10 @@
       "local_currency": "THB",
       "location": "Nan",
       "price_usd_min": 6,
-      "price_usd_max": 6
+      "price_usd_max": 6,
+      "multi_day": false,
+      "duration_note": null
     }
-  ]
+  ],
+  "regions": []
 }

@@ -10,10 +10,6 @@
     "Iguacu & Southern Highlands"
   ],
   "activities": [
-
-    // ============================================================
-    // RIO DE JANEIRO & SOUTHEAST COAST
-    // ============================================================
     {
       "id": "br_rio_001",
       "country": "Brazil",
@@ -104,8 +100,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // RIO — FOOD & DINING
     {
       "id": "br_rio_f01",
       "country": "Brazil",
@@ -142,8 +136,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // RIO — NIGHTLIFE
     {
       "id": "br_rio_n01",
       "country": "Brazil",
@@ -180,10 +172,6 @@
       "multi_day": false,
       "duration_note": "Monday evenings only — free entry, pay for drinks"
     },
-
-    // ============================================================
-    // BAHIA & NORTHEAST
-    // ============================================================
     {
       "id": "br_bah_001",
       "country": "Brazil",
@@ -274,8 +262,6 @@
       "multi_day": false,
       "duration_note": "Seasonal: lagoons only exist May through September. Park e-ticket required in advance via ICMBio portal (~$19 USD for foreign adults)"
     },
-
-    // BAHIA — FOOD & DINING
     {
       "id": "br_bah_f01",
       "country": "Brazil",
@@ -312,8 +298,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // BAHIA — NIGHTLIFE
     {
       "id": "br_bah_n01",
       "country": "Brazil",
@@ -350,10 +334,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // AMAZON RAINFOREST BASIN
-    // ============================================================
     {
       "id": "br_amz_001",
       "country": "Brazil",
@@ -426,8 +406,6 @@
       "multi_day": false,
       "duration_note": "Licensed IBAMA guides required — only at authorized interaction sites"
     },
-
-    // AMAZON — FOOD & DINING
     {
       "id": "br_amz_f01",
       "country": "Brazil",
@@ -446,8 +424,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // AMAZON — NIGHTLIFE
     {
       "id": "br_amz_n01",
       "country": "Brazil",
@@ -466,10 +442,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // PANTANAL & CERRADO
-    // ============================================================
     {
       "id": "br_pan_001",
       "country": "Brazil",
@@ -524,8 +496,6 @@
       "multi_day": false,
       "duration_note": "Limited daily slots — book well in advance. Physical fitness required for abseil"
     },
-
-    // PANTANAL — FOOD & DINING
     {
       "id": "br_pan_f01",
       "country": "Brazil",
@@ -544,8 +514,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PANTANAL — NIGHTLIFE
     {
       "id": "br_pan_n01",
       "country": "Brazil",
@@ -564,10 +532,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // IGUACU & SOUTHERN HIGHLANDS
-    // ============================================================
     {
       "id": "br_igu_001",
       "country": "Brazil",
@@ -622,8 +586,6 @@
       "multi_day": false,
       "duration_note": "Pack thermals June–August — temperatures can drop near freezing in the southern highlands"
     },
-
-    // IGUACU — FOOD & DINING
     {
       "id": "br_igu_f01",
       "country": "Brazil",
@@ -642,8 +604,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // IGUACU — NIGHTLIFE
     {
       "id": "br_igu_n01",
       "country": "Brazil",

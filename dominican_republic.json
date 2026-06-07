@@ -10,10 +10,6 @@
     "Wild Southwest & Barahona"
   ],
   "activities": [
-
-    // ============================================================
-    // SANTO DOMINGO & SOUTHERN COAST
-    // ============================================================
     {
       "id": "do_sdo_001",
       "country": "Dominican Republic",
@@ -104,8 +100,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SANTO DOMINGO — FOOD & DINING
     {
       "id": "do_sdo_f01",
       "country": "Dominican Republic",
@@ -142,8 +136,6 @@
       "multi_day": false,
       "duration_note": "Always verify seafood price by weight before ordering"
     },
-
-    // SANTO DOMINGO — NIGHTLIFE
     {
       "id": "do_sdo_n01",
       "country": "Dominican Republic",
@@ -180,10 +172,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // PUNTA CANA & BAVARO
-    // ============================================================
     {
       "id": "do_puc_001",
       "country": "Dominican Republic",
@@ -274,8 +262,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PUNTA CANA — FOOD & DINING
     {
       "id": "do_puc_f01",
       "country": "Dominican Republic",
@@ -294,8 +280,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // PUNTA CANA — NIGHTLIFE
     {
       "id": "do_puc_n01",
       "country": "Dominican Republic",
@@ -314,10 +298,6 @@
       "multi_day": false,
       "duration_note": "Price includes open-bar package"
     },
-
-    // ============================================================
-    // SAMANA PENINSULA
-    // ============================================================
     {
       "id": "do_sam_001",
       "country": "Dominican Republic",
@@ -408,8 +388,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SAMANA — FOOD & DINING
     {
       "id": "do_sam_f01",
       "country": "Dominican Republic",
@@ -428,8 +406,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SAMANA — NIGHTLIFE
     {
       "id": "do_sam_n01",
       "country": "Dominican Republic",
@@ -448,10 +424,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // NORTHERN SURF COAST & PUERTO PLATA
-    // ============================================================
     {
       "id": "do_nor_001",
       "country": "Dominican Republic",
@@ -542,8 +514,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // NORTH COAST — FOOD & DINING
     {
       "id": "do_nor_f01",
       "country": "Dominican Republic",
@@ -562,8 +532,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // NORTH COAST — NIGHTLIFE
     {
       "id": "do_nor_n01",
       "country": "Dominican Republic",
@@ -582,10 +550,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // ============================================================
-    // WILD SOUTHWEST & BARAHONA
-    // ============================================================
     {
       "id": "do_swo_001",
       "country": "Dominican Republic",
@@ -676,8 +640,6 @@
       "multi_day": false,
       "duration_note": "High-clearance 4x4 required for mountain road access"
     },
-
-    // SOUTHWEST — FOOD & DINING
     {
       "id": "do_swo_f01",
       "country": "Dominican Republic",
@@ -696,8 +658,6 @@
       "multi_day": false,
       "duration_note": null
     },
-
-    // SOUTHWEST — NIGHTLIFE
     {
       "id": "do_swo_n01",
       "country": "Dominican Republic",
