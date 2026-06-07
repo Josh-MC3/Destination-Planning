@@ -136,7 +136,9 @@ function buildNav() {
   buildMobileNav();
 }
 
-// ── DESKTOP NAV: two-row ────────────────────────────────
+// ── DESKTOP NAV: continent pills + collapsible country grid panel ──
+// Row 1: Planner · continent pills (with count + caret) · active country label
+// Panel: full-width grid of country cards, slides open below row 1
 function buildDesktopNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = '';
@@ -145,13 +147,18 @@ function buildDesktopNav() {
   const row1 = document.createElement('div');
   row1.className = 'nav-row nav-row-continents';
 
+  // Planner button
   const plannerBtn = document.createElement('button');
   plannerBtn.className = 'nav-tab nav-planner' + (STATE.currentCountry === '__planner' ? ' active' : '');
   plannerBtn.textContent = '📋 Planner';
   plannerBtn.dataset.country = '__planner';
-  plannerBtn.addEventListener('click', () => switchTab('__planner'));
+  plannerBtn.addEventListener('click', () => {
+    closeCountryPanel();
+    switchTab('__planner');
+  });
   row1.appendChild(plannerBtn);
 
+  // Build continent map
   const continentMap = {};
   for (const entry of STATE.countryIndex) {
     const c = entry.continent || 'Other';
@@ -160,7 +167,8 @@ function buildDesktopNav() {
   }
 
   const continentEmoji = {
-    'Asia':'🌏','Americas':'🌎','Europe':'🌍','Africa':'🌍','Oceania':'🌏','Other':'🌐',
+    'Asia':'🌏','Americas':'🌎','Europe':'🌍',
+    'Africa':'🌍','Middle East':'🕌','Oceania':'🌏','Other':'🌐',
   };
 
   const continentNames = Object.keys(continentMap);
@@ -172,41 +180,98 @@ function buildDesktopNav() {
     const isActive = continent === STATE.currentContinent && STATE.currentCountry !== '__planner';
     const pill = document.createElement('button');
     pill.className = 'nav-continent-pill' + (isActive ? ' active' : '');
-    pill.textContent = `${continentEmoji[continent] || '🌐'} ${continent}`;
+    pill.innerHTML = `${continentEmoji[continent] || '🌐'} ${continent} <span class="pill-count">${entries.length}</span> <span class="pill-caret">▾</span>`;
     pill.dataset.continent = continent;
-    pill.addEventListener('click', () => {
-      STATE.currentContinent = continent;
-      const inContinent = entries.some(e => e.slug === STATE.currentCountry);
-      if (!inContinent) switchTab(entries[0].slug);
-      else buildDesktopNav();
+
+    pill.addEventListener('click', e => {
+      e.stopPropagation();
+      const panel = document.getElementById('country-grid-panel');
+      const alreadyOpen = panel && panel.dataset.continent === continent && panel.classList.contains('open');
+      closeCountryPanel();
+      if (!alreadyOpen) openCountryPanel(continent, entries, pill);
     });
     row1.appendChild(pill);
   }
+
+  // Active country label — persists in row 1 so you always see where you are
+  const activeLabelWrap = document.createElement('div');
+  activeLabelWrap.className = 'nav-active-label-wrap';
+  if (STATE.currentCountry && STATE.currentCountry !== '__planner') {
+    const activeEntry = STATE.countryIndex.find(e => e.slug === STATE.currentCountry);
+    if (activeEntry) {
+      const lbl = document.createElement('span');
+      lbl.className = 'nav-active-label';
+      lbl.textContent = `${activeEntry.flag} ${activeEntry.name}`;
+      activeLabelWrap.appendChild(lbl);
+    }
+  }
+  row1.appendChild(activeLabelWrap);
   nav.appendChild(row1);
 
-  const row2 = document.createElement('div');
-  row2.className = 'nav-row nav-row-countries';
-
-  if (STATE.currentCountry !== '__planner') {
-    const activeEntries = continentMap[STATE.currentContinent] || [];
-    for (const entry of activeEntries) {
-      const d = STATE.countries[entry.slug];
-      const btn = document.createElement('button');
-      btn.className = 'nav-tab' + (STATE.currentCountry === entry.slug ? ' active' : '');
-      const count = document.createElement('span');
-      count.className = 'tab-count';
-      count.textContent = d ? d.activities.length : 0;
-      btn.innerHTML = `${entry.flag} ${entry.name} `;
-      btn.appendChild(count);
-      btn.dataset.country = entry.slug;
-      btn.addEventListener('click', () => switchTab(entry.slug));
-      row2.appendChild(btn);
-    }
-    nav.appendChild(row2);
-  }
+  // Country grid panel — child of #nav-bar, hidden until a continent is clicked
+  const panel = document.createElement('div');
+  panel.id = 'country-grid-panel';
+  panel.className = 'country-grid-panel';
+  nav.appendChild(panel);
 }
 
-// ── MOBILE NAV: continent dropdowns ────────────────────
+function openCountryPanel(continent, entries, anchorPill) {
+  const panel = document.getElementById('country-grid-panel');
+  if (!panel) return;
+
+  panel.dataset.continent = continent;
+  panel.innerHTML = '';
+
+  const continentEmoji = {
+    'Asia':'🌏','Americas':'🌎','Europe':'🌍',
+    'Africa':'🌍','Middle East':'🕌','Oceania':'🌏','Other':'🌐',
+  };
+
+  const header = document.createElement('div');
+  header.className = 'cgp-header';
+  header.innerHTML = `<span class="cgp-title">${continentEmoji[continent] || '🌐'} ${continent}</span><span class="cgp-count">${entries.length} destinations</span>`;
+  panel.appendChild(header);
+
+  const grid = document.createElement('div');
+  grid.className = 'cgp-grid';
+
+  for (const entry of entries) {
+    const d = STATE.countries[entry.slug];
+    const actCount = d ? d.activities.length : 0;
+    const isActive = STATE.currentCountry === entry.slug;
+
+    const card = document.createElement('button');
+    card.className = 'cgp-card' + (isActive ? ' active' : '');
+    card.innerHTML = `
+      <span class="cgp-flag">${entry.flag}</span>
+      <span class="cgp-name">${entry.name}</span>
+      <span class="cgp-acts">${actCount} activities</span>
+    `;
+    card.addEventListener('click', () => {
+      closeCountryPanel();
+      switchTab(entry.slug);
+    });
+    grid.appendChild(card);
+  }
+
+  panel.appendChild(grid);
+  panel.classList.add('open');
+  if (anchorPill) anchorPill.classList.add('open');
+  requestAnimationFrame(updateLayoutHeight);
+}
+
+function closeCountryPanel() {
+  const panel = document.getElementById('country-grid-panel');
+  if (panel) {
+    panel.classList.remove('open');
+    panel.dataset.continent = '';
+  }
+  document.querySelectorAll('#nav-bar .nav-continent-pill.open').forEach(p => p.classList.remove('open'));
+  requestAnimationFrame(updateLayoutHeight);
+}
+
+// ── MOBILE NAV: continent triggers + collapsible country grid panel ──
+// Same grid panel approach as desktop, panel injected below #mobile-nav.
 function buildMobileNav() {
   const nav = document.getElementById('mobile-nav');
   nav.innerHTML = '';
@@ -215,7 +280,10 @@ function buildMobileNav() {
   const plannerBtn = document.createElement('button');
   plannerBtn.className = 'mobile-planner-btn' + (STATE.currentCountry === '__planner' ? ' active' : '');
   plannerBtn.textContent = '📋 Planner';
-  plannerBtn.addEventListener('click', () => { closeAllDropdowns(); switchTab('__planner'); });
+  plannerBtn.addEventListener('click', () => {
+    closeMobilePanel();
+    switchTab('__planner');
+  });
   nav.appendChild(plannerBtn);
 
   const continentMap = {};
@@ -226,46 +294,96 @@ function buildMobileNav() {
   }
 
   const continentEmoji = {
-    'Asia':'🌏','Americas':'🌎','Europe':'🌍','Africa':'🌍','Oceania':'🌏','Other':'🌐',
+    'Asia':'🌏','Americas':'🌎','Europe':'🌍',
+    'Africa':'🌍','Middle East':'🕌','Oceania':'🌏','Other':'🌐',
   };
 
   for (const [continent, entries] of Object.entries(continentMap)) {
     const hasActive = entries.some(e => e.slug === STATE.currentCountry);
-    const group = document.createElement('div');
-    group.className = 'continent-group';
+    const pill = document.createElement('button');
+    pill.className = 'continent-trigger' + (hasActive ? ' has-active' : '');
+    pill.innerHTML = `${continentEmoji[continent] || '🌐'} ${continent} <span class="caret">▼</span>`;
+    pill.dataset.continent = continent;
 
-    const trigger = document.createElement('button');
-    trigger.className = 'continent-trigger' + (hasActive ? ' has-active' : '');
-    trigger.innerHTML = `${continentEmoji[continent] || '🌐'} ${continent} <span class="caret">▼</span>`;
-
-    const dropdown = document.createElement('div');
-    dropdown.className = 'continent-dropdown';
-
-    for (const entry of entries) {
-      const d = STATE.countries[entry.slug];
-      const item = document.createElement('button');
-      item.className = 'continent-dropdown-item' + (STATE.currentCountry === entry.slug ? ' active' : '');
-      item.innerHTML = `<span>${entry.flag} ${entry.name}</span><span class="item-count">${d ? d.activities.length : 0}</span>`;
-      item.addEventListener('click', () => { closeAllDropdowns(); switchTab(entry.slug); });
-      dropdown.appendChild(item);
-    }
-
-    trigger.addEventListener('click', e => {
+    pill.addEventListener('click', e => {
       e.stopPropagation();
-      const isOpen = dropdown.classList.contains('open');
-      closeAllDropdowns();
-      if (!isOpen) { dropdown.classList.add('open'); trigger.classList.add('open'); }
+      const panel = document.getElementById('mobile-country-panel');
+      const alreadyOpen = panel && panel.dataset.continent === continent && panel.classList.contains('open');
+      closeMobilePanel();
+      if (!alreadyOpen) openMobilePanel(continent, entries, pill);
     });
 
-    group.appendChild(trigger);
-    group.appendChild(dropdown);
-    nav.appendChild(group);
+    nav.appendChild(pill);
+  }
+
+  // Mobile grid panel — inserted immediately after #mobile-nav in the DOM
+  let mobilePanel = document.getElementById('mobile-country-panel');
+  if (!mobilePanel) {
+    mobilePanel = document.createElement('div');
+    mobilePanel.id = 'mobile-country-panel';
+    mobilePanel.className = 'mobile-country-panel';
+    nav.parentNode.insertBefore(mobilePanel, nav.nextSibling);
   }
 }
 
+function openMobilePanel(continent, entries, anchorPill) {
+  const panel = document.getElementById('mobile-country-panel');
+  if (!panel) return;
+
+  panel.dataset.continent = continent;
+  panel.innerHTML = '';
+
+  const continentEmoji = {
+    'Asia':'🌏','Americas':'🌎','Europe':'🌍',
+    'Africa':'🌍','Middle East':'🕌','Oceania':'🌏','Other':'🌐',
+  };
+
+  const header = document.createElement('div');
+  header.className = 'cgp-header';
+  header.innerHTML = `<span class="cgp-title">${continentEmoji[continent] || '🌐'} ${continent}</span><span class="cgp-count">${entries.length} destinations</span>`;
+  panel.appendChild(header);
+
+  const grid = document.createElement('div');
+  grid.className = 'cgp-grid cgp-grid-mobile';
+
+  for (const entry of entries) {
+    const d = STATE.countries[entry.slug];
+    const actCount = d ? d.activities.length : 0;
+    const isActive = STATE.currentCountry === entry.slug;
+
+    const card = document.createElement('button');
+    card.className = 'cgp-card' + (isActive ? ' active' : '');
+    card.innerHTML = `
+      <span class="cgp-flag">${entry.flag}</span>
+      <span class="cgp-name">${entry.name}</span>
+      <span class="cgp-acts">${actCount} activities</span>
+    `;
+    card.addEventListener('click', () => {
+      closeMobilePanel();
+      switchTab(entry.slug);
+    });
+    grid.appendChild(card);
+  }
+
+  panel.appendChild(grid);
+  panel.classList.add('open');
+  if (anchorPill) anchorPill.classList.add('open');
+  requestAnimationFrame(updateLayoutHeight);
+}
+
+function closeMobilePanel() {
+  const panel = document.getElementById('mobile-country-panel');
+  if (panel) {
+    panel.classList.remove('open');
+    panel.dataset.continent = '';
+  }
+  document.querySelectorAll('#mobile-nav .continent-trigger.open').forEach(p => p.classList.remove('open'));
+  requestAnimationFrame(updateLayoutHeight);
+}
+
 function closeAllDropdowns() {
-  document.querySelectorAll('.continent-dropdown.open').forEach(d => d.classList.remove('open'));
-  document.querySelectorAll('.continent-trigger.open').forEach(t => t.classList.remove('open'));
+  closeCountryPanel();
+  closeMobilePanel();
 }
 
 function switchTab(key) {
@@ -283,6 +401,8 @@ function switchTab(key) {
   document.getElementById('filter-category').value = '';
   document.getElementById('filter-price').value = '';
 
+  closeCountryPanel();
+  closeMobilePanel();
   buildNav();
 
   if (key === '__planner') {
@@ -1598,13 +1718,24 @@ function bindEvents() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
-      closeAllDropdowns();
+      closeCountryPanel();
+      closeMobilePanel();
       document.getElementById('assign-popover')?.remove();
     }
   });
 
+  // Close country grid panels when clicking outside the nav
   document.addEventListener('click', e => {
-    if (!e.target.closest('.continent-group')) closeAllDropdowns();
+    const panel       = document.getElementById('country-grid-panel');
+    const mobilePanel = document.getElementById('mobile-country-panel');
+    const navBar      = document.getElementById('nav-bar');
+    const mobileNav   = document.getElementById('mobile-nav');
+    if (panel && panel.classList.contains('open')) {
+      if (!navBar || !navBar.contains(e.target)) closeCountryPanel();
+    }
+    if (mobilePanel && mobilePanel.classList.contains('open')) {
+      if ((!mobileNav || !mobileNav.contains(e.target)) && !mobilePanel.contains(e.target)) closeMobilePanel();
+    }
   });
 
   function checkMobile() {
