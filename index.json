@@ -1,15 +1,19 @@
 {
   "name": "Bachelor Party Planner — Activity Data Index",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Master index for all country activity data files. Each file contains structured activity cards with pricing, duration, category, and operational notes.",
   "schema_version": "1.0",
-  "total_activities": 590,
-  "total_countries": 11,
+  "total_activities": 1644,
+  "total_countries": 34,
   "continents": [
+    "Africa",
+    "Americas",
     "Asia",
-    "Americas"
+    "Europe",
+    "Middle East",
+    "Oceania"
   ],
-  "last_updated": "2026-06-06",
+  "last_updated": "2026-06-07",
   "fields": {
     "id": "Unique activity identifier (country_region_###)",
     "country": "Country name",
@@ -41,6 +45,36 @@
   ],
   "countries": [
     {
+      "name": "Albania",
+      "slug": "albania",
+      "flag": "🇦🇱",
+      "country_code": "AL",
+      "continent": "Europe",
+      "currency": "ALL",
+      "file": "albania.json",
+      "activity_count": 40,
+      "regions": [
+        "The Albanian Alps & North",
+        "The Albanian Riviera",
+        "The East Lakes & Pogradec",
+        "Tirana & Central Albania",
+        "UNESCO Historic Ottoman South"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 7,
+        "Food & Dining": 6,
+        "Nature": 4,
+        "Nightlife": 5,
+        "Sightseeing": 5,
+        "Water Sports": 4,
+        "Wellness": 2
+      },
+      "multi_day_activities": 1,
+      "free_activities": 5,
+      "avg_price_usd": 19.25
+    },
+    {
       "name": "Argentina",
       "slug": "argentina",
       "flag": "🇦🇷",
@@ -66,6 +100,69 @@
       "multi_day_activities": 0,
       "free_activities": 2,
       "avg_price_usd": 34.14
+    },
+    {
+      "name": "Australia",
+      "slug": "australia",
+      "flag": "🇦🇺",
+      "country_code": "AU",
+      "continent": "Oceania",
+      "currency": "AUD",
+      "file": "australia.json",
+      "activity_count": 45,
+      "regions": [
+        "Melbourne & Victoria",
+        "Queensland & The Reef",
+        "Sydney & New New South Wales",
+        "Sydney & New South Wales",
+        "Tasmania",
+        "The Outback & Red Centre",
+        "Western Australia"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 6,
+        "Wellness": 3
+      },
+      "multi_day_activities": 1,
+      "free_activities": 4,
+      "avg_price_usd": 90.82
+    },
+    {
+      "name": "Bahrain",
+      "slug": "bahrain",
+      "flag": "🇧🇭",
+      "country_code": "BH",
+      "continent": "Middle East",
+      "currency": "BHD",
+      "file": "bahrain.json",
+      "activity_count": 45,
+      "regions": [
+        "Ancient Pearling Kingdom (Muharraq Island)",
+        "Archipelago Islands & Marine (Amwaj, Hawar & Jarada)",
+        "Artistic & Culinary Quarter (Adliya / Block 338)",
+        "Capital & Urban Hub (Manama & Juffair)",
+        "Desert Adventure & Motorsport (Sakhir & Zallaq)",
+        "Northern Coast & Archeology (Seef, Al Jasra & Barbar)"
+      ],
+      "category_breakdown": {
+        "Adventure": 5,
+        "Cultural": 13,
+        "Food & Dining": 8,
+        "Nature": 2,
+        "Nightlife": 6,
+        "Sightseeing": 5,
+        "Water Sports": 5,
+        "Wellness": 1
+      },
+      "multi_day_activities": 0,
+      "free_activities": 11,
+      "avg_price_usd": 45.14
     },
     {
       "name": "Brazil",
@@ -95,6 +192,68 @@
       "multi_day_activities": 1,
       "free_activities": 1,
       "avg_price_usd": 53.71
+    },
+    {
+      "name": "Cambodia",
+      "slug": "cambodia",
+      "flag": "🇰🇭",
+      "country_code": "KH",
+      "continent": "Asia",
+      "currency": "KHR",
+      "file": "cambodia.json",
+      "activity_count": 50,
+      "regions": [
+        "Battambang & The Northwest Hinterlands",
+        "Phnom Penh & The Central Plains",
+        "Siem Reap & The Angkor Temples",
+        "The South Coast & Cardamom Foothills",
+        "The Southern Islands & Sihanoukville",
+        "The Wild East & Eco-Adventure Highlands"
+      ],
+      "category_breakdown": {
+        "Adventure": 10,
+        "Cultural": 5,
+        "Food & Dining": 8,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 8,
+        "Water Sports": 5,
+        "Wellness": 2
+      },
+      "multi_day_activities": 1,
+      "free_activities": 1,
+      "avg_price_usd": 29.18
+    },
+    {
+      "name": "Canada",
+      "slug": "canada",
+      "flag": "🇨🇦",
+      "country_code": "CA",
+      "continent": "Americas",
+      "currency": "CAD",
+      "file": "canada.json",
+      "activity_count": 47,
+      "regions": [
+        "Ontario & The Heartland",
+        "Québec & French Canada",
+        "The Atlantic Maritimes",
+        "The Canadian Rockies & Alberta Prairies",
+        "The North & Arctic Territories",
+        "The West Coast & British Columbia"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 7,
+        "Nature": 7,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 5,
+        "Wellness": 4
+      },
+      "multi_day_activities": 3,
+      "free_activities": 2,
+      "avg_price_usd": 154.43
     },
     {
       "name": "Colombia",
@@ -154,6 +313,130 @@
       "avg_price_usd": 30.41
     },
     {
+      "name": "Egypt",
+      "slug": "egypt",
+      "flag": "🇪🇬",
+      "country_code": "EG",
+      "continent": "Africa",
+      "currency": "EGP",
+      "file": "egypt.json",
+      "activity_count": 41,
+      "regions": [
+        "Greater Cairo & Giza",
+        "Red Sea Riviera (Hurghada & Marsa Alam)",
+        "Sinai Peninsula (Sharm & Dahab)",
+        "St. Catherine, Central Sinai",
+        "The Mediterranean Coast & Alexandria",
+        "The Nile Valley (Luxor & Aswan)",
+        "The Western Desert & Oases"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 9,
+        "Food & Dining": 6,
+        "Nature": 3,
+        "Nightlife": 5,
+        "Sightseeing": 3,
+        "Water Sports": 6,
+        "Wellness": 2
+      },
+      "multi_day_activities": 2,
+      "free_activities": 0,
+      "avg_price_usd": 60.78
+    },
+    {
+      "name": "France",
+      "slug": "france",
+      "flag": "🇫🇷",
+      "country_code": "FR",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "france.json",
+      "activity_count": 40,
+      "regions": [
+        "Bordeaux & the Atlantic Southwest",
+        "Normandy & Brittany",
+        "Paris & Île-de-France",
+        "The Alps & Lyon",
+        "The French Riviera & Provence"
+      ],
+      "category_breakdown": {
+        "Adventure": 5,
+        "Cultural": 6,
+        "Food & Dining": 9,
+        "Nature": 2,
+        "Nightlife": 7,
+        "Sightseeing": 4,
+        "Water Sports": 5,
+        "Wellness": 2
+      },
+      "multi_day_activities": 0,
+      "free_activities": 2,
+      "avg_price_usd": 87.33
+    },
+    {
+      "name": "Germany",
+      "slug": "germany",
+      "flag": "🇩🇪",
+      "country_code": "DE",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "germany.json",
+      "activity_count": 44,
+      "regions": [
+        "Bavaria & The Alps",
+        "Berlin & The East",
+        "Central Highlands & Harz",
+        "Hamburg & The North Coast",
+        "The Black Forest & Southwest",
+        "The Rhine & Western Germany"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 11,
+        "Food & Dining": 6,
+        "Nature": 4,
+        "Nightlife": 5,
+        "Sightseeing": 6,
+        "Water Sports": 3,
+        "Wellness": 3
+      },
+      "multi_day_activities": 0,
+      "free_activities": 2,
+      "avg_price_usd": 39.89
+    },
+    {
+      "name": "Greece",
+      "slug": "greece",
+      "flag": "🇬🇷",
+      "country_code": "GR",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "greece.json",
+      "activity_count": 41,
+      "regions": [
+        "Athens & Attica",
+        "Crete",
+        "Cyclades Islands",
+        "Ionian Islands",
+        "Mainland & Thessaly",
+        "Peloponnese"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 5,
+        "Nightlife": 6,
+        "Sightseeing": 4,
+        "Water Sports": 4,
+        "Wellness": 2
+      },
+      "multi_day_activities": 1,
+      "free_activities": 4,
+      "avg_price_usd": 52.46
+    },
+    {
       "name": "Guatemala",
       "slug": "guatemala",
       "flag": "🇬🇹",
@@ -182,34 +465,6 @@
       "avg_price_usd": 34.59
     },
     {
-      "name": "Mexico",
-      "slug": "mexico",
-      "flag": "🇲🇽",
-      "country_code": "MX",
-      "continent": "Americas",
-      "currency": "MXN",
-      "file": "mexico.json",
-      "activity_count": 40,
-      "regions": [
-        "Baja California",
-        "Central Mexico & CDMX",
-        "Oaxaca & Chiapas",
-        "Pacific Coast",
-        "Yucatan Peninsula"
-      ],
-      "category_breakdown": {
-        "Adventure": 4,
-        "Cultural": 10,
-        "Food & Dining": 7,
-        "Nature": 5,
-        "Nightlife": 9,
-        "Water Sports": 5
-      },
-      "multi_day_activities": 0,
-      "free_activities": 5,
-      "avg_price_usd": 39.23
-    },
-    {
       "name": "Indonesia",
       "slug": "indonesia",
       "flag": "🇮🇩",
@@ -235,6 +490,69 @@
       "multi_day_activities": 6,
       "free_activities": 0,
       "avg_price_usd": 104.62
+    },
+    {
+      "name": "Ireland",
+      "slug": "ireland",
+      "flag": "🇮🇪",
+      "country_code": "IE",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "ireland.json",
+      "activity_count": 52,
+      "regions": [
+        "Dublin & the East Coast",
+        "Galway & the Wild West",
+        "Northern Ireland & Causeway Coast",
+        "The Hidden Heartlands & Shannon",
+        "The Northwest & Surf Coast",
+        "The South West & Kerry",
+        "The Sunny South East"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 8,
+        "Food & Dining": 7,
+        "Nature": 6,
+        "Nightlife": 7,
+        "Sightseeing": 7,
+        "Water Sports": 7,
+        "Wellness": 3
+      },
+      "multi_day_activities": 0,
+      "free_activities": 3,
+      "avg_price_usd": 38.01
+    },
+    {
+      "name": "Italy",
+      "slug": "italy",
+      "flag": "🇮🇹",
+      "country_code": "IT",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "italy.json",
+      "activity_count": 48,
+      "regions": [
+        "Central Italy: Florence, Tuscany & Umbria",
+        "Northeast Italy: Venice, Veneto & Bologna",
+        "Northern Italy: Lakes, Alps & Milan",
+        "Rome & Lazio: The Eternal City & Coasts",
+        "Southern Italy: Naples, Amalfi Coast & Puglia",
+        "The Islands: Sicily & Sardinia"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 6,
+        "Wellness": 6
+      },
+      "multi_day_activities": 0,
+      "free_activities": 3,
+      "avg_price_usd": 98.59
     },
     {
       "name": "Japan",
@@ -266,6 +584,189 @@
       "avg_price_usd": 13.63
     },
     {
+      "name": "Laos",
+      "slug": "laos",
+      "flag": "🇱🇦",
+      "country_code": "LA",
+      "continent": "Asia",
+      "currency": "LAK",
+      "file": "laos.json",
+      "activity_count": 53,
+      "regions": [
+        "Central Laos (Khammouane & The Thakhek Loop)",
+        "Northern Laos (Luang Prabang & Oudomxay)",
+        "Si Phan Don (The 4,000 Islands Archipelago)",
+        "Southern Laos (Champasak & The Bolaven Plateau)",
+        "Vang Vieng & The Karst Landscapes",
+        "Vientiane Capital Prefecture",
+        "Xieng Khouang & Hua Phan (The Mystical Northeast)"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 8,
+        "Food & Dining": 8,
+        "Nature": 5,
+        "Nightlife": 7,
+        "Sightseeing": 8,
+        "Water Sports": 6,
+        "Wellness": 3
+      },
+      "multi_day_activities": 3,
+      "free_activities": 3,
+      "avg_price_usd": 18.05
+    },
+    {
+      "name": "Mexico",
+      "slug": "mexico",
+      "flag": "🇲🇽",
+      "country_code": "MX",
+      "continent": "Americas",
+      "currency": "MXN",
+      "file": "mexico.json",
+      "activity_count": 40,
+      "regions": [
+        "Baja California",
+        "Central Mexico & CDMX",
+        "Oaxaca & Chiapas",
+        "Pacific Coast",
+        "Yucatan Peninsula"
+      ],
+      "category_breakdown": {
+        "Adventure": 4,
+        "Cultural": 10,
+        "Food & Dining": 7,
+        "Nature": 5,
+        "Nightlife": 9,
+        "Water Sports": 5
+      },
+      "multi_day_activities": 0,
+      "free_activities": 5,
+      "avg_price_usd": 39.23
+    },
+    {
+      "name": "Netherlands",
+      "slug": "netherlands",
+      "flag": "🇳🇱",
+      "country_code": "NL",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "netherlands.json",
+      "activity_count": 42,
+      "regions": [
+        "Amsterdam & North Holland",
+        "Rotterdam & South Holland",
+        "The East & Hoge Veluwe",
+        "The North & Wadden Islands",
+        "The South & Limburg Hills",
+        "Utrecht & Central Central"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 3,
+        "Nightlife": 7,
+        "Sightseeing": 8,
+        "Water Sports": 4,
+        "Wellness": 2
+      },
+      "multi_day_activities": 0,
+      "free_activities": 1,
+      "avg_price_usd": 27.14
+    },
+    {
+      "name": "New Zealand",
+      "slug": "new_zealand",
+      "flag": "🇳🇿",
+      "country_code": "NZ",
+      "continent": "Oceania",
+      "currency": "NZD",
+      "file": "new_zealand.json",
+      "activity_count": 47,
+      "regions": [
+        "Auckland & Northland",
+        "Canterbury, Marlborough & the West Coast",
+        "Fiordland & the Deep South",
+        "Queenstown & the Southern Lakes",
+        "Rotorua & the Central Volcanic Plateau",
+        "Wellington & the Cook Strait Coast"
+      ],
+      "category_breakdown": {
+        "Adventure": 10,
+        "Cultural": 4,
+        "Food & Dining": 8,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 5,
+        "Water Sports": 6,
+        "Wellness": 2
+      },
+      "multi_day_activities": 1,
+      "free_activities": 3,
+      "avg_price_usd": 77.09
+    },
+    {
+      "name": "Oman",
+      "slug": "oman",
+      "flag": "🇴🇲",
+      "country_code": "OM",
+      "continent": "Middle East",
+      "currency": "OMR",
+      "file": "oman.json",
+      "activity_count": 40,
+      "regions": [
+        "Al Hajar Mountains & Interior",
+        "Dhofar & The South",
+        "Musandam Peninsula Exclave",
+        "Muscat Capital Region",
+        "Sharqiya Sands & Wadis"
+      ],
+      "category_breakdown": {
+        "Adventure": 5,
+        "Cultural": 7,
+        "Food & Dining": 7,
+        "Nature": 4,
+        "Nightlife": 6,
+        "Sightseeing": 5,
+        "Water Sports": 4,
+        "Wellness": 2
+      },
+      "multi_day_activities": 2,
+      "free_activities": 3,
+      "avg_price_usd": 49.58
+    },
+    {
+      "name": "Peru",
+      "slug": "peru",
+      "flag": "🇵🇪",
+      "country_code": "PE",
+      "continent": "Americas",
+      "currency": "PEN",
+      "file": "peru.json",
+      "activity_count": 44,
+      "regions": [
+        "Amazon Rainforest & Iquitos",
+        "Arequipa & Lake Titicaca",
+        "Cusco & The Sacred Valley",
+        "Lima & Central Coast",
+        "The Desert South & Nazca",
+        "The Northern Highlands & Coast"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 7,
+        "Food & Dining": 8,
+        "Nature": 5,
+        "Nightlife": 8,
+        "Sightseeing": 2,
+        "Water Sports": 4,
+        "Wellness": 3
+      },
+      "multi_day_activities": 5,
+      "free_activities": 0,
+      "avg_price_usd": 135.84
+    },
+    {
       "name": "Philippines",
       "slug": "philippines",
       "flag": "🇵🇭",
@@ -293,6 +794,129 @@
       "avg_price_usd": 31.65
     },
     {
+      "name": "Qatar",
+      "slug": "qatar",
+      "flag": "🇶🇦",
+      "country_code": "QA",
+      "continent": "Middle East",
+      "currency": "QAR",
+      "file": "qatar.json",
+      "activity_count": 50,
+      "regions": [
+        "Al Khor & The Mangrove Coast",
+        "Doha Metropolitan Area",
+        "The North-West Nomadic Plains",
+        "The Pearl & Lusail Luxury Coast",
+        "The Southern Desert & Inland Sea",
+        "The Western Historic Hinterland"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 7,
+        "Food & Dining": 7,
+        "Nature": 5,
+        "Nightlife": 7,
+        "Sightseeing": 6,
+        "Water Sports": 8,
+        "Wellness": 4
+      },
+      "multi_day_activities": 1,
+      "free_activities": 12,
+      "avg_price_usd": 56.69
+    },
+    {
+      "name": "Saudi Arabia",
+      "slug": "saudi_arabia",
+      "flag": "🇸🇦",
+      "country_code": "SA",
+      "continent": "Middle East",
+      "currency": "SAR",
+      "file": "saudi_arabia.json",
+      "activity_count": 40,
+      "regions": [
+        "Al-Ahsa & The Eastern Province",
+        "AlUla & The Northwest",
+        "Asir & The Southwestern Highlands",
+        "Riyadh & The Central Heartland",
+        "The Red Sea & Western Coast"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 6,
+        "Food & Dining": 5,
+        "Nature": 4,
+        "Nightlife": 5,
+        "Sightseeing": 5,
+        "Water Sports": 4,
+        "Wellness": 4
+      },
+      "multi_day_activities": 1,
+      "free_activities": 0,
+      "avg_price_usd": 87.25
+    },
+    {
+      "name": "Spain",
+      "slug": "spain",
+      "flag": "🇪🇸",
+      "country_code": "ES",
+      "continent": "Europe",
+      "currency": "EUR",
+      "file": "spain.json",
+      "activity_count": 48,
+      "regions": [
+        "Andalusia",
+        "Catalonia",
+        "Green Spain & Basque Country",
+        "Madrid & Central Plains",
+        "Mediterranean Coast & Valencia",
+        "The Balearic Islands"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 6,
+        "Wellness": 6
+      },
+      "multi_day_activities": 0,
+      "free_activities": 7,
+      "avg_price_usd": 49.97
+    },
+    {
+      "name": "Switzerland",
+      "slug": "switzerland",
+      "flag": "🇨🇭",
+      "country_code": "CH",
+      "continent": "Europe",
+      "currency": "CHF",
+      "file": "switzerland.json",
+      "activity_count": 45,
+      "regions": [
+        "Bernese Oberland & Central Switzerland",
+        "Graubünden & The High Engadin",
+        "Lake Geneva & Western French Switzerland",
+        "Ticino & The Italian-Swiss Lakes",
+        "Valais & The Southwest Alps",
+        "Zurich & Greater Eastern Switzerland"
+      ],
+      "category_breakdown": {
+        "Adventure": 7,
+        "Cultural": 4,
+        "Food & Dining": 7,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 4,
+        "Wellness": 5
+      },
+      "multi_day_activities": 0,
+      "free_activities": 3,
+      "avg_price_usd": 92.04
+    },
+    {
       "name": "Thailand",
       "slug": "thailand",
       "flag": "🇹🇭",
@@ -316,6 +940,100 @@
       "multi_day_activities": 0,
       "free_activities": 7,
       "avg_price_usd": 22.05
+    },
+    {
+      "name": "UAE",
+      "slug": "uae",
+      "flag": "🇦🇪",
+      "country_code": "AE",
+      "continent": "Middle East",
+      "currency": "AED",
+      "file": "uae.json",
+      "activity_count": 43,
+      "regions": [
+        "Abu Dhabi & the Islands",
+        "Al Ain & the Eastern Oasis",
+        "Dubai & the Northern Emirates",
+        "Fujairah & the Indian Ocean Coast",
+        "Ras Al Khaimah & the Musandam Border",
+        "The Liwa Oasis & Empty Quarter"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 9,
+        "Food & Dining": 8,
+        "Nature": 4,
+        "Nightlife": 4,
+        "Sightseeing": 4,
+        "Water Sports": 3,
+        "Wellness": 3
+      },
+      "multi_day_activities": 1,
+      "free_activities": 9,
+      "avg_price_usd": 110.95
+    },
+    {
+      "name": "UK",
+      "slug": "uk",
+      "flag": "🇬🇧",
+      "country_code": "GB",
+      "continent": "Europe",
+      "currency": "GBP",
+      "file": "uk.json",
+      "activity_count": 48,
+      "regions": [
+        "Heart of England & Wales",
+        "London & the South East",
+        "Northern Ireland",
+        "Scotland & the Highlands",
+        "South West England",
+        "The North of England"
+      ],
+      "category_breakdown": {
+        "Adventure": 6,
+        "Cultural": 6,
+        "Food & Dining": 6,
+        "Nature": 6,
+        "Nightlife": 6,
+        "Sightseeing": 6,
+        "Water Sports": 6,
+        "Wellness": 6
+      },
+      "multi_day_activities": 0,
+      "free_activities": 0,
+      "avg_price_usd": 72.38
+    },
+    {
+      "name": "Venezuela",
+      "slug": "venezuela",
+      "flag": "🇻🇪",
+      "country_code": "VE",
+      "continent": "Americas",
+      "currency": "VES",
+      "file": "venezuela.json",
+      "activity_count": 61,
+      "regions": [
+        "Capital Region & Coastal Cordillera (Caracas & La Guaira)",
+        "Los Roques Archipelago & Caribbean Islands",
+        "The Caribbean Coast & Orinoco Delta (Morrocoy to Delta Amacuro)",
+        "The Guayana Highlands & Amazonia (Canaima & Roraima)",
+        "The Llanos (The Great Plains & Wildlife Savannas)",
+        "The Venezuelan Andes (Mérida & Táchira)",
+        "The Western Region & Lake Maracaibo (Zulia & Falcón Dunes)"
+      ],
+      "category_breakdown": {
+        "Adventure": 8,
+        "Cultural": 10,
+        "Food & Dining": 8,
+        "Nature": 9,
+        "Nightlife": 8,
+        "Sightseeing": 7,
+        "Water Sports": 7,
+        "Wellness": 4
+      },
+      "multi_day_activities": 4,
+      "free_activities": 2,
+      "avg_price_usd": 71.2
     },
     {
       "name": "Vietnam",
