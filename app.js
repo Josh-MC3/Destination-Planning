@@ -181,6 +181,12 @@ function buildNav() {
     btn.addEventListener('click', () => switchTab(entry.slug));
     nav.appendChild(btn);
   }
+
+  // Scroll the active pill into view on mobile
+  requestAnimationFrame(() => {
+    const active = nav.querySelector('.nav-tab.active');
+    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  });
 }
 
 function switchTab(key) {

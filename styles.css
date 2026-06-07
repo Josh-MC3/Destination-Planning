@@ -131,6 +131,52 @@ select option{background:var(--surface2);color:var(--text)}
   width:18px;height:18px;border-radius:9px;font-size:.65rem;margin-left:6px;
 }
 .nav-tab.active .tab-count{background:var(--gold-dim);color:var(--gold-light)}
+
+/* ── MOBILE NAV — horizontal scrolling pill strip ── */
+@media(max-width:900px){
+  #nav-bar{
+    padding:8px 12px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    gap:6px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    /* Fade-out right edge to hint scrollability */
+    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
+    mask-image:linear-gradient(to right,black 85%,transparent 100%);
+  }
+  #nav-bar::-webkit-scrollbar{display:none}
+
+  .nav-tab{
+    /* Switch from underline tabs to rounded pills */
+    padding:7px 12px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    font-size:.72rem;
+    letter-spacing:.03em;
+    background:var(--surface2);
+    color:var(--text-dim);
+    flex-shrink:0;
+    scroll-snap-align:start;
+    /* Hide activity count on mobile to keep pills compact */
+  }
+  .nav-tab:hover{
+    border-color:var(--border-light);
+    color:var(--text);
+    background:var(--surface3);
+  }
+  .nav-tab.active{
+    background:rgba(201,168,76,.15);
+    border-color:var(--gold-dim);
+    color:var(--gold-light);
+    border-bottom-color:var(--gold-dim);
+  }
+  /* Hide count badges on mobile — keep pills tight */
+  .nav-tab .tab-count{display:none}
+}
  
 /* ── MAIN LAYOUT ── */
 #main-layout{display:flex;height:calc(100vh - 104px);overflow:hidden;position:relative}
