@@ -1,5 +1,3 @@
-
-styles.css
 /* ── RESET & VARIABLES ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,7 +13,7 @@ styles.css
   --shadow-gold:0 0 20px rgba(201,168,76,.15);
   --transition:.2s ease;
 }
- 
+
 /* ── LIGHT MODE OVERRIDES ── */
 html[data-theme="light"]{
   --black:#F5F3EF;--surface:#FFFFFF;--surface2:#F0EDE8;--surface3:#E8E4DD;
@@ -26,9 +24,7 @@ html[data-theme="light"]{
 }
 html[data-theme="light"] body{background:var(--black)}
 html[data-theme="light"] #app-header{background:rgba(245,243,239,.96)}
- 
-/* Ensure all form controls pick up light-mode surface + text tokens.
-   This covers inputs inside modals, filter bars, and the itinerary toolbar. */
+
 html[data-theme="light"] input,
 html[data-theme="light"] select,
 html[data-theme="light"] textarea{
@@ -37,8 +33,7 @@ html[data-theme="light"] textarea{
   border-color:var(--border-light);
 }
 html[data-theme="light"] select option{background:var(--surface);color:var(--text)}
- 
-/* Modal-specific light-mode overrides — prevents invisible text on white backgrounds */
+
 html[data-theme="light"] .modal{
   background:var(--surface);
   border-color:var(--border-light);
@@ -55,12 +50,19 @@ html[data-theme="light"] .modal textarea{
 }
 html[data-theme="light"] .modal input::placeholder,
 html[data-theme="light"] .modal textarea::placeholder{color:var(--text-muted)}
- 
+
 html[data-theme="light"] #loading{background:var(--black)}
 html[data-theme="light"] #toast{background:var(--surface2);color:var(--text);border-color:var(--border-light)}
 html[data-theme="light"] ::-webkit-scrollbar-track{background:var(--surface2)}
 html[data-theme="light"] ::-webkit-scrollbar-thumb{background:var(--border-light)}
- 
+html[data-theme="light"] .nav-row-continents{background:var(--surface2);border-bottom-color:var(--border-light)}
+html[data-theme="light"] .nav-continent-pill{background:var(--surface3);border-color:var(--border-light);color:var(--text-dim)}
+html[data-theme="light"] .nav-continent-pill.active{background:rgba(201,168,76,.2);border-color:var(--gold-dim);color:var(--gold)}
+html[data-theme="light"] .region-select-bar{background:var(--surface2);border-bottom-color:var(--border-light)}
+html[data-theme="light"] .region-select{background:var(--surface3);color:var(--text);border-color:var(--border-light)}
+html[data-theme="light"] .add-trip-choice-btn{background:var(--surface2);border-color:var(--border-light);color:var(--text)}
+html[data-theme="light"] .add-trip-choice-btn:hover{border-color:var(--gold-dim);background:var(--surface3)}
+
 /* ── THEME TOGGLE BUTTON ── */
 #btn-theme{
   width:34px;height:34px;border-radius:50%;border:1px solid var(--border-light);
@@ -69,7 +71,7 @@ html[data-theme="light"] ::-webkit-scrollbar-thumb{background:var(--border-light
   transition:all var(--transition);flex-shrink:0;
 }
 #btn-theme:hover{border-color:var(--gold);color:var(--gold);background:var(--surface2)}
- 
+
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--black);color:var(--text);min-height:100vh;overflow-x:hidden}
 a{color:var(--gold);text-decoration:none}
@@ -86,7 +88,7 @@ select option{background:var(--surface2);color:var(--text)}
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold-dim)}
- 
+
 /* ── HEADER ── */
 #app-header{
   position:sticky;top:0;z-index:100;
@@ -98,7 +100,7 @@ select option{background:var(--surface2);color:var(--text)}
 .header-logo{font-family:var(--font-display);font-size:1.5rem;font-weight:300;letter-spacing:.08em;color:var(--gold)}
 .header-logo span{color:var(--text-dim);font-style:italic;font-size:.9rem;margin-left:8px}
 .header-actions{display:flex;gap:8px;align-items:center}
- 
+
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);border:none;font-size:.8rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:all var(--transition)}
 .btn-gold{background:var(--gold);color:var(--black)}
@@ -112,12 +114,86 @@ select option{background:var(--surface2);color:var(--text)}
 .btn-sm{padding:5px 10px;font-size:.75rem}
 .btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:50%;background:var(--surface3);border:1px solid var(--border);color:var(--text-dim)}
 .btn-icon:hover{border-color:var(--gold);color:var(--gold)}
- 
-/* ── NAV TABS ── */
+
+/* ═══════════════════════════════════════════════════════
+   DESKTOP NAV — two-row layout
+   Row 1: continent pills + Planner
+   Row 2: country tabs for the active continent
+   ═══════════════════════════════════════════════════════ */
 #nav-bar{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:0 24px;display:flex;align-items:center;gap:0;flex-wrap:wrap;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  padding:0;
 }
+
+/* Row shared styles */
+.nav-row{
+  display:flex;
+  align-items:center;
+  gap:0;
+  padding:0 24px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-row::-webkit-scrollbar{display:none}
+
+/* Row 1: continent pills */
+.nav-row-continents{
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  padding:6px 24px;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+/* Planner button in row 1 — styled like a continent pill */
+.nav-tab.nav-planner{
+  padding:5px 14px;
+  border-radius:16px;
+  border:1px solid var(--border-light);
+  background:var(--surface3);
+  color:var(--text-dim);
+  font-size:.75rem;font-weight:500;letter-spacing:.04em;
+  border-bottom:none;
+  transition:all var(--transition);
+  white-space:nowrap;
+  text-transform:uppercase;
+}
+.nav-tab.nav-planner:hover{border-color:var(--gold);color:var(--gold)}
+.nav-tab.nav-planner.active{
+  background:rgba(201,168,76,.15);
+  border-color:var(--gold-dim);
+  color:var(--gold-light);
+}
+
+/* Continent pills */
+.nav-continent-pill{
+  padding:5px 14px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:var(--surface3);
+  color:var(--text-dim);
+  font-size:.75rem;font-weight:500;letter-spacing:.04em;
+  white-space:nowrap;
+  transition:all var(--transition);
+  text-transform:none;
+}
+.nav-continent-pill:hover{border-color:var(--border-light);color:var(--text)}
+.nav-continent-pill.active{
+  background:rgba(201,168,76,.15);
+  border-color:var(--gold-dim);
+  color:var(--gold-light);
+}
+
+/* Row 2: country tabs */
+.nav-row-countries{
+  padding:0 24px;
+  min-height:44px;
+}
+
+/* Standard country nav tab (unchanged style) */
 .nav-tab{
   padding:14px 20px;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
   color:var(--text-muted);border:none;background:none;white-space:nowrap;
@@ -136,10 +212,8 @@ select option{background:var(--surface2);color:var(--text)}
 #mobile-nav{display:none}
 
 @media(max-width:900px){
-  /* Hide desktop tab bar entirely */
   #nav-bar{display:none}
 
-  /* Show mobile nav */
   #mobile-nav{
     display:flex;
     align-items:center;
@@ -152,7 +226,6 @@ select option{background:var(--surface2);color:var(--text)}
     z-index:50;
   }
 
-  /* Planner button sits inline with the continent dropdowns */
   #mobile-nav .mobile-planner-btn{
     padding:7px 14px;
     border-radius:20px;
@@ -171,7 +244,6 @@ select option{background:var(--surface2);color:var(--text)}
     color:var(--gold-light);
   }
 
-  /* Each continent is a wrapper holding the trigger + dropdown */
   .continent-group{position:relative}
 
   .continent-trigger{
@@ -197,7 +269,6 @@ select option{background:var(--surface2);color:var(--text)}
   }
   .continent-trigger.open .caret{transform:rotate(180deg)}
 
-  /* Dropdown panel */
   .continent-dropdown{
     display:none;
     position:absolute;top:calc(100% + 6px);left:0;
@@ -234,10 +305,10 @@ select option{background:var(--surface2);color:var(--text)}
     background:var(--gold-dim);color:var(--gold-light);
   }
 }
- 
+
 /* ── MAIN LAYOUT ── */
 #main-layout{display:flex;height:calc(100vh - 104px);overflow:hidden;position:relative}
- 
+
 /* ── POOL REOPEN TAB ── */
 #pool-reopen-tab{
   display:none;
@@ -254,13 +325,13 @@ select option{background:var(--surface2);color:var(--text)}
 }
 #pool-reopen-tab:hover{background:var(--surface3);border-color:var(--gold);width:24px}
 #pool-reopen-tab.visible{display:flex}
- 
+
 #trip-pool{
   width:280px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;transition:width .3s ease,min-width .3s ease;
 }
 #trip-pool.collapsed{width:0;min-width:0;overflow:hidden}
- 
+
 .pool-header{
   padding:16px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
@@ -280,7 +351,7 @@ select option{background:var(--surface2);color:var(--text)}
 .headcount-row{display:flex;align-items:center;gap:8px;margin-top:8px}
 .headcount-row label{font-size:.75rem;color:var(--text-dim);white-space:nowrap}
 .headcount-row input{width:60px;text-align:center;font-size:.85rem}
- 
+
 /* ── POOL CARD ── */
 .pool-card{
   background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
@@ -301,10 +372,10 @@ select option{background:var(--surface2);color:var(--text)}
   transition:all var(--transition);
 }
 .pool-card-remove:hover{background:var(--accent-red);color:#fff}
- 
+
 /* ── CENTER PANEL ── */
 #center-panel{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0}
- 
+
 /* ── VIEW TABS ── */
 #view-tabs{
   display:flex;align-items:center;justify-content:space-between;
@@ -314,7 +385,7 @@ select option{background:var(--surface2);color:var(--text)}
 .view-btn{padding:5px 14px;border:none;border-radius:4px;font-size:.75rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);background:none;transition:all var(--transition)}
 .view-btn.active{background:var(--surface3);color:var(--text);border:1px solid var(--border-light)}
 .view-actions{display:flex;gap:6px;align-items:center}
- 
+
 /* ── ACTIVITY BROWSER ── */
 #activity-view{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .filter-bar{
@@ -324,7 +395,47 @@ select option{background:var(--surface2);color:var(--text)}
 .filter-bar input[type=text]{flex:1;min-width:140px;font-size:.8rem}
 .filter-bar select{font-size:.78rem;min-width:120px}
 .filter-count{font-size:.75rem;color:var(--text-dim);white-space:nowrap;margin-left:auto}
- 
+
+/* ── REGION SELECT BAR (2C: unified selects on desktop + mobile) ── */
+/* The old pill bars are hidden via JS; this bar handles both layouts. */
+#region-pills{display:none !important}
+#subregion-pills{display:none !important}
+
+.region-select-bar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  padding:8px 16px;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+/* On mobile, stack selects vertically */
+@media(max-width:900px){
+  .region-select-bar{
+    flex-direction:column;
+    align-items:stretch;
+    padding:8px 12px;
+  }
+}
+
+.region-select{
+  font-size:.78rem;
+  padding:6px 10px;
+  background:var(--surface3);
+  color:var(--text);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-sm);
+  min-width:160px;
+  transition:border-color var(--transition);
+}
+.region-select:focus{border-color:var(--gold)}
+
+/* Legacy mobile-region-selects wrapper — kept for safety but hidden since we
+   now render selects in #region-select-bar for both platforms */
+#mobile-region-selects{display:none !important}
+
 .activity-grid{
   flex:1;overflow-y:auto;padding:16px;
   display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;
@@ -350,7 +461,7 @@ select option{background:var(--surface2);color:var(--text)}
 .cat-Wellness{background:rgba(233,30,99,.15);color:#F48FB1}
 .cat-Shopping{background:rgba(158,158,158,.15);color:#BDBDBD}
 .cat-Sightseeing{background:rgba(121,85,72,.15);color:#BCAAA4}
- 
+
 .card-name{font-size:1rem;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:6px}
 .card-location{font-size:.8rem;color:var(--text-dim);margin-bottom:10px;display:flex;align-items:center;gap:4px}
 .card-desc{padding:0 16px;font-size:.8rem;color:var(--text-dim);line-height:1.6;flex:1}
@@ -369,7 +480,7 @@ select option{background:var(--surface2);color:var(--text)}
 .card-add-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
 .card-add-btn.added{background:var(--gold-dim);border-color:var(--gold-dim);color:var(--gold-light)}
 .activity-card.multi-day .card-name::after{content:" ★";color:var(--gold-dim);font-size:.7rem}
- 
+
 /* ── ITINERARY VIEW ── */
 #itinerary-view{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .itinerary-toolbar{
@@ -393,7 +504,7 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .toggle-switch input:checked+.toggle-slider{background:var(--gold-dim);border-color:var(--gold)}
 .toggle-switch input:checked+.toggle-slider::before{transform:translateX(16px);background:var(--gold-light)}
- 
+
 .itinerary-canvas{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;gap:0;padding:0}
 .day-column{
   min-width:200px;flex:1;border-right:1px solid var(--border);
@@ -408,6 +519,47 @@ select option{background:var(--surface2);color:var(--text)}
 .day-header span{color:var(--gold);font-family:var(--font-display);font-size:1rem;font-weight:400;text-transform:none;letter-spacing:0}
 .day-body{flex:1;overflow-y:auto;padding:0;min-height:200px}
 .day-body.drag-over{background:rgba(201,168,76,.04)}
+
+/* Touch drag target highlights (4C) */
+.day-body.touch-drop-target{
+  outline:2px dashed var(--border-light);
+  outline-offset:-2px;
+}
+.day-body.touch-drop-hover{
+  background:rgba(201,168,76,.08);
+  outline:2px solid var(--gold-dim);
+  outline-offset:-2px;
+}
+
+/* Long-press activated state on an itinerary item */
+.itinerary-item.long-press-active,
+.timeline-block.long-press-active{
+  border-left-color:var(--gold);
+  box-shadow:var(--shadow-gold);
+  transform:scale(1.02);
+  z-index:10;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+/* Floating clone shown under finger during touch drag */
+.touch-drag-clone{
+  position:fixed;
+  z-index:500;
+  background:var(--surface3);
+  border:1px solid var(--gold);
+  border-radius:var(--radius-sm);
+  padding:6px 12px;
+  font-size:.78rem;
+  font-weight:500;
+  color:var(--text);
+  max-width:200px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;
+  box-shadow:var(--shadow-gold);
+  opacity:.9;
+}
 
 /* ── UNSCHEDULED BIN ── */
 .unscheduled-block{
@@ -427,7 +579,7 @@ select option{background:var(--surface2);color:var(--text)}
 .day-drop-zone.drag-over{border-color:var(--gold-dim);background:rgba(201,168,76,.05);color:var(--gold-dim)}
 
 /* ── TIMELINE GRID (hour mode ON) ── */
-:root{ --slot-h:60px; --timeline-start:6; } /* 6 AM start */
+:root{ --slot-h:60px; --timeline-start:6; }
 
 .timeline-wrapper{
   position:relative;
@@ -437,11 +589,9 @@ select option{background:var(--surface2);color:var(--text)}
 
 .timeline-grid{
   position:relative;
-  /* 24 hours × slot height */
   height:calc(24 * var(--slot-h));
 }
 
-/* Hour row lines + labels */
 .timeline-row{
   position:absolute;left:0;right:0;
   height:var(--slot-h);
@@ -456,14 +606,12 @@ select option{background:var(--surface2);color:var(--text)}
   padding:3px 6px 0 4px;text-align:right;
   user-select:none;
 }
-/* Half-hour tick */
 .timeline-half{
   position:absolute;left:38px;right:0;top:50%;
   border-top:1px dashed rgba(255,255,255,.05);
   pointer-events:none;
 }
 
-/* Transparent drag-capture surface sitting on top of the rows */
 .timeline-drop-surface{
   position:absolute;inset:0;left:38px;
   z-index:1;
@@ -471,17 +619,15 @@ select option{background:var(--surface2);color:var(--text)}
 .timeline-drop-surface.drag-active{
   background:rgba(201,168,76,.03);
 }
-/* Ghost line shown while dragging over */
 .timeline-ghost-line{
   position:absolute;left:0;right:0;height:2px;
   background:var(--gold);opacity:.7;pointer-events:none;z-index:3;
   transition:top .05s linear;
 }
 
-/* Activity blocks */
 .timeline-block{
   position:absolute;
-  left:2px;right:2px;          /* default full-width; overridden for overlaps */
+  left:2px;right:2px;
   z-index:2;
   background:var(--surface3);
   border:1px solid var(--border-light);
@@ -510,7 +656,6 @@ select option{background:var(--surface2);color:var(--text)}
   font-size:.64rem;color:var(--text-dim);white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis;
 }
-/* Hide time label on very short blocks (< ~45px tall) */
 .timeline-block[data-short="true"] .timeline-block-time{ display:none; }
 .timeline-block[data-short="true"] .timeline-block-name{ font-size:.68rem; }
 
@@ -523,7 +668,6 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .timeline-block-remove:hover{background:var(--accent-red);color:#fff}
 
-/* Current-time indicator */
 .timeline-now-line{
   position:absolute;left:0;right:0;height:2px;
   background:var(--accent-red);opacity:.5;
@@ -533,7 +677,7 @@ select option{background:var(--surface2);color:var(--text)}
   content:'';position:absolute;left:32px;top:-4px;
   width:8px;height:8px;border-radius:50%;background:var(--accent-red);opacity:.8;
 }
- 
+
 /* ── ITINERARY ITEM (list mode + unscheduled bin) ── */
 .itinerary-item{
   background:var(--surface3);border:1px solid var(--border-light);border-radius:var(--radius-sm);
@@ -551,7 +695,7 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .itinerary-item-remove:hover{background:var(--accent-red);color:#fff}
 .custom-item{border-left-color:var(--accent-blue)}
- 
+
 /* ── MODALS ── */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
@@ -579,7 +723,7 @@ select option{background:var(--surface2);color:var(--text)}
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
- 
+
 /* ── TOAST ── */
 #toast{
   position:fixed;bottom:24px;right:24px;z-index:300;
@@ -591,7 +735,7 @@ select option{background:var(--surface2);color:var(--text)}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.success{border-color:var(--gold-dim)}
 #toast.success::before{content:'✓';color:var(--gold)}
- 
+
 /* ── LOADING ── */
 #loading{
   position:fixed;inset:0;background:var(--black);z-index:400;
@@ -603,14 +747,14 @@ select option{background:var(--surface2);color:var(--text)}
 .loading-bar{width:200px;height:2px;background:var(--surface3);border-radius:1px;overflow:hidden}
 .loading-fill{height:100%;background:var(--gold);width:0%;transition:width .3s ease;border-radius:1px}
 .loading-text{font-size:.75rem;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase}
- 
+
 /* ── EMPTY STATE ── */
 .empty-state{
   grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);
 }
 .empty-state .icon{font-size:3rem;margin-bottom:12px;opacity:.25}
 .empty-state p{font-size:.85rem;line-height:1.8}
- 
+
 /* ── EXPORT VIEW ── */
 #export-view{flex:1;overflow-y:auto;padding:24px;display:none}
 #export-view.active{display:block}
@@ -620,62 +764,17 @@ select option{background:var(--surface2);color:var(--text)}
 .export-day h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
 .export-item{display:flex;justify-content:space-between;padding:6px 0;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.04)}
 .export-total{display:flex;justify-content:space-between;padding:12px 0;font-size:.9rem;font-weight:500;border-top:2px solid var(--gold-dim);margin-top:8px}
- 
-/* ── REGION PILLS ── */
-.region-filter-bar{
-  display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;
-  background:var(--surface2);border-bottom:1px solid var(--border);flex-shrink:0;
-}
-.region-pill{
-  padding:4px 12px;border-radius:12px;font-size:.7rem;font-weight:500;letter-spacing:.04em;
-  background:var(--surface3);border:1px solid var(--border);color:var(--text-dim);
-  transition:all var(--transition);
-}
-.region-pill.active{background:rgba(201,168,76,.12);border-color:var(--gold-dim);color:var(--gold-light)}
-.region-pill:hover{border-color:var(--border-light);color:var(--text)}
 
-/* ── MOBILE REGION FILTER — native select dropdowns ── */
-#mobile-region-selects{display:none}
-
-@media(max-width:900px){
-  /* Hide pill bars on mobile */
-  #region-pills{display:none !important}
-  #subregion-pills{display:none !important}
-
-  /* Show the select wrapper */
-  #mobile-region-selects{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding:8px 12px;
-    background:var(--surface2);
-    border-bottom:1px solid var(--border);
-    flex-shrink:0;
-  }
-  #mobile-region-selects select{
-    width:100%;
-    font-size:.8rem;
-    padding:8px 10px;
-    background:var(--surface3);
-    color:var(--text);
-    border:1px solid var(--border-light);
-    border-radius:var(--radius-sm);
-  }
-  #mobile-region-selects select:focus{border-color:var(--gold)}
-}
- 
 /* ── MOBILE ── */
 #pool-toggle-mobile{display:none}
- 
+
 @media(max-width:900px){
-  /* Stack vertically — pool on top, content below */
   #main-layout{
     flex-direction:column;
     height:auto;
     overflow:visible;
   }
- 
-  /* Pool panel takes a fixed max-height slice; transitions use max-height */
+
   #trip-pool{
     width:100%;
     min-width:0;
@@ -684,7 +783,6 @@ select option{background:var(--surface2);color:var(--text)}
     border-bottom:1px solid var(--border);
     transition:max-height .3s ease;
   }
-  /* Collapsed state on mobile: zero-height rather than zero-width */
   #trip-pool.collapsed{
     width:100%;
     min-width:0;
@@ -692,10 +790,8 @@ select option{background:var(--surface2);color:var(--text)}
     overflow:hidden;
   }
 
-  /* Pool reopen tab is irrelevant on mobile — keep it hidden */
   #pool-reopen-tab{display:none !important}
 
-  /* Mobile pool toggle bar — always visible between pool and content */
   #pool-toggle-bar{
     display:flex;
     align-items:center;
@@ -717,52 +813,49 @@ select option{background:var(--surface2);color:var(--text)}
     transition:background var(--transition);
   }
   #pool-toggle-bar:hover{background:var(--surface3)}
- 
+
   #center-panel{min-height:60vh}
- 
-  /* Responsive card grid — drop to single column sooner */
+
   .activity-grid{
     grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
     padding:10px;
   }
- 
+
   #pool-toggle-mobile{display:flex}
- 
+
   .itinerary-canvas{overflow-x:auto}
   .day-column{min-width:200px}
- 
+
   .filter-bar{gap:6px}
   .filter-bar select{min-width:100px}
 }
- 
+
 @media(max-width:600px){
   #app-header{padding:0 14px}
   .header-logo span{display:none}
-  /* Wrap header buttons on very small screens */
   .header-actions{gap:4px;flex-wrap:wrap;justify-content:flex-end}
- 
+
   #nav-bar{padding:0 10px}
   .nav-tab{padding:12px 10px;font-size:.72rem}
- 
-  /* Single column grid on phones */
+
   .activity-grid{
     grid-template-columns:1fr;
     padding:8px;
   }
- 
+
   .form-row{grid-template-columns:1fr}
- 
+
   #trip-pool{max-height:340px}
   #trip-pool.collapsed{max-height:0}
- 
+
   .filter-bar select{min-width:90px;font-size:.72rem}
   .filter-bar input[type=text]{min-width:120px}
 }
- 
+
 /* ── POOL TOGGLE BAR — mobile only ── */
 #pool-toggle-bar{display:none}
 
-/* ── TAP-TO-ASSIGN POPOVER (mobile) ── */
+/* ── BOTTOM SHEETS (tap-assign + add-to-trip choice) ── */
 .tap-assign-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:250;
   display:flex;align-items:flex-end;justify-content:center;
@@ -794,6 +887,34 @@ select option{background:var(--surface2);color:var(--text)}
   font-size:.8rem;transition:all var(--transition);
 }
 .tap-assign-cancel:hover{border-color:var(--text-muted);color:var(--text)}
+
+/* 5C: Add-to-trip choice buttons */
+.add-trip-choices{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:16px;
+}
+.add-trip-choice-btn{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-radius:var(--radius);
+  background:var(--surface3);
+  border:1px solid var(--border-light);
+  color:var(--text);
+  text-align:left;
+  transition:all var(--transition);
+}
+.add-trip-choice-btn:hover,.add-trip-choice-btn:active{
+  border-color:var(--gold-dim);
+  background:var(--surface2);
+  box-shadow:var(--shadow-gold);
+}
+.choice-icon{font-size:1.4rem;flex-shrink:0}
+.choice-label{font-size:.88rem;font-weight:500;color:var(--text);display:block;line-height:1.3}
+.choice-desc{font-size:.72rem;color:var(--text-dim);display:block;margin-top:2px}
 
 /* ── PRINT ── */
 @media print{

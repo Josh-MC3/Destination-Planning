@@ -5,6 +5,7 @@ const STATE = {
   countries: {},         // loaded country data keyed by slug
   countryIndex: [],      // parsed index.json countries array — single source of truth
   currentCountry: null,
+  currentContinent: null, // tracks active continent for two-row desktop nav
   pool: [],              // {id, name, location, price_usd, duration, category, multi_day, custom}
   itinerary: {},         // {day: [{...item, hour?}]}
   dayCount: 5,
@@ -21,9 +22,6 @@ const STATE = {
 
 // ═══════════════════════════════════════════════════════
 // UTILITY: Safe JSON comment stripper
-// Strips // single-line comments only when they appear
-// OUTSIDE of string literals, so URLs like https://...
-// inside field values are never corrupted.
 // ═══════════════════════════════════════════════════════
 function stripJSONComments(text) {
   let result = '';
@@ -33,37 +31,25 @@ function stripJSONComments(text) {
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
 
-    if (escaped) {
-      result += ch;
-      escaped = false;
-      continue;
-    }
+    if (escaped) { result += ch; escaped = false; continue; }
+    if (ch === '\\' && inString) { result += ch; escaped = true; continue; }
+    if (ch === '"') { inString = !inString; result += ch; continue; }
 
-    if (ch === '\\' && inString) {
-      result += ch;
-      escaped = true;
-      continue;
-    }
-
-    if (ch === '"') {
-      inString = !inString;
-      result += ch;
-      continue;
-    }
-
-    // Only strip // comments when we are NOT inside a string literal
     if (!inString && ch === '/' && text[i + 1] === '/') {
-      // Advance past everything until the next newline
       while (i < text.length && text[i] !== '\n') i++;
-      // Keep the newline so line numbers stay intact for debugging
       result += '\n';
       continue;
     }
-
     result += ch;
   }
-
   return result;
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILITY: Is the current viewport mobile?
+// ═══════════════════════════════════════════════════════
+function isMobile() {
+  return window.innerWidth <= 900;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -73,7 +59,6 @@ async function loadCountries() {
   const fill = document.getElementById('loading-fill');
   const txt  = document.getElementById('loading-text');
 
-  // ── Phase 1: fetch index.json ──────────────────────────
   txt.textContent = 'Loading index…';
   let indexData;
   try {
@@ -91,14 +76,12 @@ async function loadCountries() {
   STATE.countryIndex = indexData.countries;
   fill.style.width = '10%';
 
-  // ── Phase 2: fetch all country files in parallel ───────
   txt.textContent = 'Loading destinations…';
 
   async function fetchJSON(url) {
     const r = await fetch(url);
     if (!r.ok) throw new Error(`${url} returned ${r.status}`);
     const text = await r.text();
-    // Use the safe comment stripper that respects string literals
     const clean = stripJSONComments(text);
     return JSON.parse(clean);
   }
@@ -129,6 +112,8 @@ async function loadCountries() {
 
   fill.style.width = '100%';
   STATE.currentCountry = STATE.countryIndex[0].slug;
+  // Set initial continent from first country
+  STATE.currentContinent = STATE.countryIndex[0].continent || null;
   txt.textContent = 'Ready';
 
   setTimeout(() => {
@@ -160,41 +145,98 @@ function buildNav() {
   buildMobileNav();
 }
 
+// ── DESKTOP NAV: two-row layout ─────────────────────────
+// Row 1: Planner button + one pill per continent
+// Row 2: Country tabs for the active continent only
 function buildDesktopNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = '';
 
   if (!STATE.countryIndex || !STATE.countryIndex.length) return;
 
+  // ── Row 1: continent pills ───────────────────────────
+  const row1 = document.createElement('div');
+  row1.className = 'nav-row nav-row-continents';
+
+  // Planner always visible in row 1
   const plannerBtn = document.createElement('button');
-  plannerBtn.className = 'nav-tab' + (STATE.currentCountry === '__planner' ? ' active' : '');
+  plannerBtn.className = 'nav-tab nav-planner' + (STATE.currentCountry === '__planner' ? ' active' : '');
   plannerBtn.textContent = '📋 Planner';
   plannerBtn.dataset.country = '__planner';
   plannerBtn.addEventListener('click', () => switchTab('__planner'));
-  nav.appendChild(plannerBtn);
+  row1.appendChild(plannerBtn);
 
+  // Build continent map from index
+  const continentMap = {};
   for (const entry of STATE.countryIndex) {
-    const d = STATE.countries[entry.slug];
-    const btn = document.createElement('button');
-    btn.className = 'nav-tab' + (STATE.currentCountry === entry.slug ? ' active' : '');
-    const count = document.createElement('span');
-    count.className = 'tab-count';
-    count.textContent = d ? d.activities.length : 0;
-    btn.innerHTML = `${entry.flag} ${entry.name} `;
-    btn.appendChild(count);
-    btn.dataset.country = entry.slug;
-    btn.addEventListener('click', () => switchTab(entry.slug));
-    nav.appendChild(btn);
+    const c = entry.continent || 'Other';
+    if (!continentMap[c]) continentMap[c] = [];
+    continentMap[c].push(entry);
+  }
+
+  const continentEmoji = {
+    'Asia': '🌏', 'Americas': '🌎', 'Europe': '🌍',
+    'Africa': '🌍', 'Oceania': '🌏', 'Other': '🌐',
+  };
+
+  // Ensure currentContinent is valid; fall back to first continent
+  const continentNames = Object.keys(continentMap);
+  if (!STATE.currentContinent || !continentMap[STATE.currentContinent]) {
+    STATE.currentContinent = continentNames[0];
+  }
+
+  for (const [continent, entries] of Object.entries(continentMap)) {
+    const isActive = continent === STATE.currentContinent && STATE.currentCountry !== '__planner';
+    const pill = document.createElement('button');
+    pill.className = 'nav-continent-pill' + (isActive ? ' active' : '');
+    pill.textContent = `${continentEmoji[continent] || '🌐'} ${continent}`;
+    pill.dataset.continent = continent;
+    pill.addEventListener('click', () => {
+      STATE.currentContinent = continent;
+      // Switch to first country in this continent if not already on one within it
+      const inContinent = entries.some(e => e.slug === STATE.currentCountry);
+      if (!inContinent) {
+        switchTab(entries[0].slug);
+      } else {
+        buildDesktopNav(); // just refresh the nav highlight
+      }
+    });
+    row1.appendChild(pill);
+  }
+
+  nav.appendChild(row1);
+
+  // ── Row 2: country tabs for active continent ─────────
+  // Hidden when Planner is active (no country row needed)
+  const row2 = document.createElement('div');
+  row2.className = 'nav-row nav-row-countries';
+
+  if (STATE.currentCountry !== '__planner') {
+    const activeEntries = continentMap[STATE.currentContinent] || [];
+    for (const entry of activeEntries) {
+      const d = STATE.countries[entry.slug];
+      const btn = document.createElement('button');
+      btn.className = 'nav-tab' + (STATE.currentCountry === entry.slug ? ' active' : '');
+      const count = document.createElement('span');
+      count.className = 'tab-count';
+      count.textContent = d ? d.activities.length : 0;
+      btn.innerHTML = `${entry.flag} ${entry.name} `;
+      btn.appendChild(count);
+      btn.dataset.country = entry.slug;
+      btn.addEventListener('click', () => switchTab(entry.slug));
+      row2.appendChild(btn);
+    }
+    nav.appendChild(row2);
   }
 }
 
+// ── MOBILE NAV: continent dropdown groups (unchanged) ───
 function buildMobileNav() {
   const nav = document.getElementById('mobile-nav');
   nav.innerHTML = '';
 
   if (!STATE.countryIndex || !STATE.countryIndex.length) return;
 
-  // Planner button
   const plannerBtn = document.createElement('button');
   plannerBtn.className = 'mobile-planner-btn' + (STATE.currentCountry === '__planner' ? ' active' : '');
   plannerBtn.textContent = '📋 Planner';
@@ -204,7 +246,6 @@ function buildMobileNav() {
   });
   nav.appendChild(plannerBtn);
 
-  // Group countries by continent from index.json
   const continentMap = {};
   for (const entry of STATE.countryIndex) {
     const c = entry.continent || 'Other';
@@ -212,14 +253,9 @@ function buildMobileNav() {
     continentMap[c].push(entry);
   }
 
-  // Continent emoji map
   const continentEmoji = {
-    'Asia': '🌏',
-    'Americas': '🌎',
-    'Europe': '🌍',
-    'Africa': '🌍',
-    'Oceania': '🌏',
-    'Other': '🌐',
+    'Asia': '🌏', 'Americas': '🌎', 'Europe': '🌍',
+    'Africa': '🌍', 'Oceania': '🌏', 'Other': '🌐',
   };
 
   for (const [continent, entries] of Object.entries(continentMap)) {
@@ -273,6 +309,11 @@ function closeAllDropdowns() {
 
 function switchTab(key) {
   STATE.currentCountry = key;
+  // Keep currentContinent in sync when switching to a country
+  if (key !== '__planner') {
+    const entry = STATE.countryIndex.find(e => e.slug === key);
+    if (entry && entry.continent) STATE.currentContinent = entry.continent;
+  }
   STATE.filterCategory = '';
   STATE.filterPrice = '';
   STATE.filterRegion = '';
@@ -306,7 +347,6 @@ function switchView(view) {
   if (view === 'itinerary') renderItinerary();
   if (view === 'export') renderExport();
 
-  // Recalculate layout height whenever we switch views — fixes clipping in hour mode
   requestAnimationFrame(updateLayoutHeight);
 }
 
@@ -320,129 +360,48 @@ function renderActivityView() {
 
   document.getElementById('country-label').textContent = data.country || '';
 
-  buildRegionPills(data);
+  buildRegionSelects(data);
   renderCards(data);
 }
 
-// ── UTILITY: Determine the best grouping key for a country's activities.
-// Falls back to 'destination' for countries that omit the 'region' field
-// (e.g. Thailand). Null/empty values are treated as absent.
+// ── Region key detection ─────────────────────────────────
 function getRegionKey(activities) {
   return activities.some(a => a.region != null && a.region !== '') ? 'region' : 'destination';
 }
 
-function buildRegionPills(data) {
-  const bar    = document.getElementById('region-pills');
-  const subBar = document.getElementById('subregion-pills');
-  const acts   = data.activities;
+// ── Unified region selects (desktop + mobile) ───────────
+// 2C: replaces pill bars on desktop and the old mobile-only selects.
+// On desktop the wrapper sits inline in the filter bar area.
+// On mobile it stacks vertically (CSS handles the layout difference).
+function buildRegionSelects(data) {
+  // Always hide the old pill bars — they are no longer used
+  const pillBar    = document.getElementById('region-pills');
+  const subPillBar = document.getElementById('subregion-pills');
+  if (pillBar)    pillBar.style.display    = 'none';
+  if (subPillBar) subPillBar.style.display = 'none';
 
-  const regionKey = getRegionKey(acts);
-
-  // Guard: filter out null / undefined / empty-string values before sorting
-  const regions = [
-    ...new Set(
-      acts
-        .map(a => a[regionKey])
-        .filter(v => v != null && v !== '')
-    )
-  ].sort();
-
-  bar.innerHTML = '';
-
-  if (!regions.length) {
-    bar.style.display = 'none';
-    subBar.style.display = 'none';
-    buildMobileRegionSelects(data, regions, regionKey);
-    return;
-  }
-  bar.style.display = 'flex';
-
-  const allLabel = regionKey === 'destination' ? 'All Cities' : 'All Regions';
-  const allBtn = document.createElement('button');
-  allBtn.className = 'region-pill' + (!STATE.filterRegion ? ' active' : '');
-  allBtn.textContent = allLabel;
-  allBtn.addEventListener('click', () => {
-    STATE.filterRegion = '';
-    STATE.filterSubRegion = '';
-    buildRegionPills(data);
-    renderCards(data);
-  });
-  bar.appendChild(allBtn);
-
-  for (const r of regions) {
-    const btn = document.createElement('button');
-    btn.className = 'region-pill' + (STATE.filterRegion === r ? ' active' : '');
-    btn.textContent = r;
-    btn.addEventListener('click', () => {
-      STATE.filterRegion = r;
-      STATE.filterSubRegion = '';
-      buildRegionPills(data);
-      renderCards(data);
-    });
-    bar.appendChild(btn);
-  }
-
-  // Sub-region pills (city breakdown within a selected region)
-  subBar.innerHTML = '';
-  if (STATE.filterRegion && regionKey === 'region') {
-    const inRegion = acts.filter(a => a.region === STATE.filterRegion);
-    const cities = [
-      ...new Set(
-        inRegion
-          .map(a => a.destination)
-          .filter(v => v != null && v !== '')
-      )
-    ].sort();
-
-    if (cities.length > 1) {
-      subBar.style.display = 'flex';
-
-      const allCities = document.createElement('button');
-      allCities.className = 'region-pill' + (!STATE.filterSubRegion ? ' active' : '');
-      allCities.textContent = 'All ' + STATE.filterRegion + ' Cities';
-      allCities.addEventListener('click', () => {
-        STATE.filterSubRegion = '';
-        buildRegionPills(data);
-        renderCards(data);
-      });
-      subBar.appendChild(allCities);
-
-      for (const city of cities) {
-        const cityBtn = document.createElement('button');
-        cityBtn.className = 'region-pill' + (STATE.filterSubRegion === city ? ' active' : '');
-        cityBtn.textContent = STATE.filterRegion + ' — ' + city;
-        cityBtn.addEventListener('click', () => {
-          STATE.filterSubRegion = city;
-          buildRegionPills(data);
-          renderCards(data);
-        });
-        subBar.appendChild(cityBtn);
-      }
-    } else {
-      subBar.style.display = 'none';
-    }
-  } else {
-    subBar.style.display = 'none';
-  }
-
-  // Build the mobile select dropdowns in sync
-  buildMobileRegionSelects(data, regions, regionKey);
-}
-
-function buildMobileRegionSelects(data, regions, regionKey) {
-  const wrapper = document.getElementById('mobile-region-selects');
+  const wrapper = document.getElementById('region-select-bar');
   if (!wrapper) return;
   wrapper.innerHTML = '';
+
+  const acts      = data.activities;
+  const regionKey = getRegionKey(acts);
+
+  const regions = [
+    ...new Set(acts.map(a => a[regionKey]).filter(v => v != null && v !== ''))
+  ].sort();
 
   if (!regions.length) {
     wrapper.style.display = 'none';
     return;
   }
+  wrapper.style.display = '';
 
   // Region select
   const allLabel = regionKey === 'destination' ? 'All Cities' : 'All Regions';
   const regionSel = document.createElement('select');
-  regionSel.id = 'mobile-region-select';
+  regionSel.id = 'region-select';
+  regionSel.className = 'region-select';
 
   const allOpt = document.createElement('option');
   allOpt.value = '';
@@ -460,24 +419,23 @@ function buildMobileRegionSelects(data, regions, regionKey) {
   regionSel.addEventListener('change', () => {
     STATE.filterRegion = regionSel.value;
     STATE.filterSubRegion = '';
-    buildRegionPills(data);
+    buildRegionSelects(data);
     renderCards(data);
   });
 
   wrapper.appendChild(regionSel);
 
-  // Sub-region select — only show if a region is selected and has multiple cities
+  // Sub-region select — only when a region is selected and has multiple cities
   if (STATE.filterRegion && regionKey === 'region') {
-    const inRegion = data.activities.filter(a => a.region === STATE.filterRegion);
+    const inRegion = acts.filter(a => a.region === STATE.filterRegion);
     const cities = [
-      ...new Set(
-        inRegion.map(a => a.destination).filter(v => v != null && v !== '')
-      )
+      ...new Set(inRegion.map(a => a.destination).filter(v => v != null && v !== ''))
     ].sort();
 
     if (cities.length > 1) {
       const citySel = document.createElement('select');
-      citySel.id = 'mobile-subregion-select';
+      citySel.id = 'subregion-select';
+      citySel.className = 'region-select';
 
       const allCityOpt = document.createElement('option');
       allCityOpt.value = '';
@@ -494,7 +452,7 @@ function buildMobileRegionSelects(data, regions, regionKey) {
 
       citySel.addEventListener('change', () => {
         STATE.filterSubRegion = citySel.value;
-        buildRegionPills(data);
+        buildRegionSelects(data);
         renderCards(data);
       });
 
@@ -509,7 +467,6 @@ function renderCards(data) {
 
   const regionKey = getRegionKey(acts);
 
-  // Apply region/sub-region filters — null-safe comparisons
   if (STATE.filterRegion) {
     acts = acts.filter(a => {
       const val = a[regionKey];
@@ -522,11 +479,9 @@ function renderCards(data) {
       return val != null && val === STATE.filterSubRegion;
     });
   }
-
   if (STATE.filterCategory) {
     acts = acts.filter(a => (a.category || '') === STATE.filterCategory);
   }
-
   if (STATE.searchQuery) {
     const q = STATE.searchQuery.toLowerCase();
     acts = acts.filter(a =>
@@ -535,7 +490,6 @@ function renderCards(data) {
       (a.destination || '').toLowerCase().includes(q)
     );
   }
-
   if (STATE.filterPrice) {
     if (STATE.filterPrice === 'free') {
       acts = acts.filter(a => (a.price_usd || 0) === 0);
@@ -595,11 +549,72 @@ function buildActivityCard(act, added) {
 
   card.querySelector('.card-add-btn').addEventListener('click', function(e) {
     e.stopPropagation();
-    if (STATE.pool.find(p => p.id === act.id)) { removeFromPool(act.id); }
-    else { addToPool(act); }
+    // If already in pool, toggle it off (same on both platforms)
+    if (STATE.pool.find(p => p.id === act.id)) {
+      removeFromPool(act.id);
+      return;
+    }
+    // 5C: On mobile, show a two-option choice sheet.
+    // On desktop, add to pool immediately (existing behavior).
+    if (isMobile()) {
+      showAddToTripSheet(act);
+    } else {
+      addToPool(act);
+    }
   });
 
   return card;
+}
+
+// ── 5C: Mobile "Add to Trip" choice sheet ───────────────
+// Shows "Save to Pool" and "Schedule a Day" options.
+// Both paths add to the pool so cost tracking stays accurate.
+function showAddToTripSheet(act) {
+  const existing = document.getElementById('add-trip-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'tap-assign-overlay';
+  overlay.id = 'add-trip-overlay';
+
+  const sheet = document.createElement('div');
+  sheet.className = 'tap-assign-sheet';
+
+  sheet.innerHTML = `
+    <div class="tap-assign-title">${act.name}</div>
+    <div class="tap-assign-sub">What would you like to do?</div>
+    <div class="add-trip-choices">
+      <button class="add-trip-choice-btn" id="choice-pool">
+        <span class="choice-icon">🗂</span>
+        <span class="choice-label">Save to Pool</span>
+        <span class="choice-desc">Add to your trip pool for later</span>
+      </button>
+      <button class="add-trip-choice-btn" id="choice-day">
+        <span class="choice-icon">📅</span>
+        <span class="choice-label">Schedule a Day</span>
+        <span class="choice-desc">Assign directly to a day</span>
+      </button>
+    </div>
+    <button class="tap-assign-cancel">Cancel</button>
+  `;
+
+  sheet.querySelector('#choice-pool').addEventListener('click', () => {
+    overlay.remove();
+    addToPool(act);
+  });
+
+  sheet.querySelector('#choice-day').addEventListener('click', () => {
+    overlay.remove();
+    // Add to pool first (ensures cost tracking), then open day picker
+    if (!STATE.pool.find(p => p.id === act.id)) addToPool(act);
+    showTapAssign(act);
+  });
+
+  sheet.querySelector('.tap-assign-cancel').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+  overlay.appendChild(sheet);
+  document.body.appendChild(overlay);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -668,6 +683,11 @@ function buildPoolCard(item) {
   card.draggable = true;
   card.dataset.id = item.id;
   const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)}d` : `${item.duration}h`;
+
+  // 4C: "Assign to Day" button removed from pool cards.
+  // Desktop: drag from pool to itinerary day column.
+  // Mobile: use "Schedule a Day" from the Add to Trip sheet,
+  //         or long-press itinerary items to rearrange.
   card.innerHTML = `
     <div class="pool-card-name">${item.name}</div>
     <div class="pool-card-meta">
@@ -675,18 +695,12 @@ function buildPoolCard(item) {
       <span class="pool-card-badge price">$${item.price_usd || 0}</span>
       <span class="pool-card-badge">${dur}</span>
     </div>
-    <div class="pool-card-actions" style="display:flex;gap:6px;margin-top:8px">
-      <button class="btn btn-outline btn-sm pool-card-assign" data-id="${item.id}" style="flex:1;font-size:.7rem">📅 Assign to Day</button>
-    </div>
     <button class="pool-card-remove" data-id="${item.id}">✕</button>
   `;
 
   card.querySelector('.pool-card-remove').addEventListener('click', () => removeFromPool(item.id));
-  card.querySelector('.pool-card-assign').addEventListener('click', e => {
-    e.stopPropagation();
-    showTapAssign(item);
-  });
 
+  // Desktop drag-and-drop from pool to itinerary
   card.addEventListener('dragstart', e => {
     e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'pool', id: item.id }));
     card.classList.add('dragging');
@@ -700,9 +714,9 @@ function buildPoolCard(item) {
 // ITINERARY
 // ═══════════════════════════════════════════════════════
 
-const SLOT_H      = 60;   // px per hour
-const DAY_START   = 6;    // 6 AM
-const DAY_HOURS   = 24;   // render 24 hours (6 AM → 6 AM next day)
+const SLOT_H    = 60;  // px per hour
+const DAY_START = 6;   // 6 AM
+const DAY_HOURS = 24;  // render 24 hours
 
 function renderItinerary() {
   const canvas = document.getElementById('itinerary-canvas');
@@ -773,13 +787,12 @@ function renderTimeline(body, day) {
   body.style.padding = '0';
   const items = STATE.itinerary[day] || [];
 
-  // ── Unscheduled bin ───────────────────────────────────
+  // Unscheduled bin
   const unscheduled = items.filter(i => i.hour == null);
   if (unscheduled.length) {
     const bin = document.createElement('div');
     bin.className = 'unscheduled-block';
 
-    // Allow drops from pool/itinerary into the unscheduled bin
     bin.addEventListener('dragover', e => { e.preventDefault(); bin.style.background = 'rgba(201,168,76,.06)'; });
     bin.addEventListener('dragleave', () => bin.style.background = '');
     bin.addEventListener('drop', e => {
@@ -793,7 +806,6 @@ function renderTimeline(body, day) {
     body.appendChild(bin);
   }
 
-  // ── Timeline wrapper (scrollable) ────────────────────
   const wrapper = document.createElement('div');
   wrapper.className = 'timeline-wrapper';
   body.appendChild(wrapper);
@@ -803,7 +815,7 @@ function renderTimeline(body, day) {
   grid.style.height = (DAY_HOURS * SLOT_H) + 'px';
   wrapper.appendChild(grid);
 
-  // ── Hour rows (visual guides, not interactive) ────────
+  // Hour rows
   for (let i = 0; i < DAY_HOURS; i++) {
     const h = (DAY_START + i) % 24;
     const row = document.createElement('div');
@@ -822,12 +834,11 @@ function renderTimeline(body, day) {
     grid.appendChild(row);
   }
 
-  // ── Drag-capture surface ──────────────────────────────
+  // Drag-capture surface
   const surface = document.createElement('div');
   surface.className = 'timeline-drop-surface';
   grid.appendChild(surface);
 
-  // Ghost line that follows the cursor while dragging
   const ghostLine = document.createElement('div');
   ghostLine.className = 'timeline-ghost-line';
   ghostLine.style.display = 'none';
@@ -839,7 +850,6 @@ function renderTimeline(body, day) {
     ghostLine.style.display = 'block';
   });
   surface.addEventListener('dragleave', e => {
-    // Only fire if truly leaving the surface (not entering a child)
     if (!surface.contains(e.relatedTarget)) {
       surface.classList.remove('drag-active');
       ghostLine.style.display = 'none';
@@ -860,15 +870,15 @@ function renderTimeline(body, day) {
     handleDrop(e, day, hour);
   });
 
-  // ── Scheduled activity blocks ─────────────────────────
+  // Scheduled blocks
   const scheduled = items.filter(i => i.hour != null);
-  const columns   = resolveColumns(scheduled);   // handle overlaps
+  const columns   = resolveColumns(scheduled);
 
   for (const { item, col, totalCols } of columns) {
     grid.appendChild(buildTimelineBlock(item, day, col, totalCols));
   }
 
-  // ── Current-time line (today only, day 1) ─────────────
+  // Current-time line
   if (day === 1) {
     const now  = new Date();
     const mins = now.getHours() * 60 + now.getMinutes();
@@ -882,35 +892,28 @@ function renderTimeline(body, day) {
   }
 }
 
-// Convert a Y pixel offset inside the grid to a snapped hour (integer)
 function hourFromY(offsetY) {
-  const rawHour  = offsetY / SLOT_H;                              // fractional
-  const hour     = (Math.floor(rawHour) + DAY_START) % 24;       // integer, wrapped
+  const rawHour  = offsetY / SLOT_H;
+  const hour     = (Math.floor(rawHour) + DAY_START) % 24;
   const snapY    = Math.floor(rawHour) * SLOT_H;
   return { hour, snapY };
 }
 
-// Detect overlapping blocks and assign column slots so they render side-by-side
 function resolveColumns(items) {
-  // Sort by start hour
   const sorted = [...items].sort((a, b) => a.hour - b.hour);
   const result = [];
 
   for (const item of sorted) {
     const startH = item.hour;
     const endH   = startH + (item.duration || 1);
-
-    // Find the first column that doesn't overlap
     let col = 0;
     const usedCols = result
       .filter(r => r.item.hour < endH && (r.item.hour + (r.item.duration || 1)) > startH)
       .map(r => r.col);
-
     while (usedCols.includes(col)) col++;
-    result.push({ item, col, totalCols: 1 }); // totalCols patched below
+    result.push({ item, col, totalCols: 1 });
   }
 
-  // Now set totalCols: for each item find the max simultaneous column count
   for (const entry of result) {
     const startH = entry.item.hour;
     const endH   = startH + (entry.item.duration || 1);
@@ -926,12 +929,11 @@ function resolveColumns(items) {
 
 function buildTimelineBlock(item, day, col, totalCols) {
   const startH = item.hour;
-  const dur    = Math.max(item.duration || 1, 0.25); // minimum visible height
+  const dur    = Math.max(item.duration || 1, 0.25);
   const topPx  = ((startH - DAY_START + 24) % 24) * SLOT_H;
   const hPx    = dur * SLOT_H;
   const isShort = hPx < 46;
 
-  // Column width math: leave 2px gutters
   const colW    = (100 / totalCols);
   const leftPct = col * colW;
 
@@ -963,23 +965,25 @@ function buildTimelineBlock(item, day, col, totalCols) {
     removeFromItinerary(item.id, day);
   });
 
-  // Store drag offset so drop snaps to where user grabbed, not block top
+  // Desktop drag
   el.addEventListener('dragstart', e => {
     const rect = el.getBoundingClientRect();
-    const offsetY = e.clientY - rect.top;                     // px from block top
-    const hourOffset = offsetY / SLOT_H;                      // fractional hours
+    const offsetY = e.clientY - rect.top;
+    const hourOffset = offsetY / SLOT_H;
     e.dataTransfer.setData('text/plain', JSON.stringify({
-      source: 'itinerary', id: item.id, fromDay: day,
-      hourOffset                                               // carried through to drop
+      source: 'itinerary', id: item.id, fromDay: day, hourOffset
     }));
     setTimeout(() => el.classList.add('dragging'), 0);
   });
   el.addEventListener('dragend', () => el.classList.remove('dragging'));
 
+  // 4C: Mobile long-press drag
+  attachLongPressDrag(el, item, day);
+
   return el;
 }
 
-// ── SHARED ITEM (used in list mode + unscheduled bin) ────
+// ── SHARED ITEM (list mode + unscheduled bin) ─────────────
 function buildItineraryItem(item, day) {
   const el = document.createElement('div');
   el.className = 'itinerary-item' + (item.custom ? ' custom-item' : '');
@@ -1004,6 +1008,7 @@ function buildItineraryItem(item, day) {
     removeFromItinerary(item.id, day);
   });
 
+  // Desktop drag
   el.addEventListener('dragstart', e => {
     e.dataTransfer.setData('text/plain', JSON.stringify({
       source: 'itinerary', id: item.id, fromDay: day, hourOffset: 0
@@ -1012,7 +1017,128 @@ function buildItineraryItem(item, day) {
   });
   el.addEventListener('dragend', () => el.classList.remove('dragging'));
 
+  // 4C: Mobile long-press drag
+  attachLongPressDrag(el, item, day);
+
   return el;
+}
+
+// ── 4C: Long-press touch drag for mobile itinerary items ──
+// Hold ~400ms to initiate; then drag finger to a day column to move.
+// Visual feedback: gold border + slight scale on activation.
+function attachLongPressDrag(el, item, fromDay) {
+  let holdTimer = null;
+  let dragActive = false;
+  let touchDragEl = null; // floating clone shown under finger
+
+  function cancelHold() {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+
+  function startFloatingClone(touch) {
+    // Create a lightweight visual clone that follows the finger
+    touchDragEl = document.createElement('div');
+    touchDragEl.className = 'touch-drag-clone';
+    touchDragEl.textContent = item.name;
+    touchDragEl.style.left = (touch.clientX - 80) + 'px';
+    touchDragEl.style.top  = (touch.clientY - 20) + 'px';
+    document.body.appendChild(touchDragEl);
+  }
+
+  function moveFloatingClone(touch) {
+    if (!touchDragEl) return;
+    touchDragEl.style.left = (touch.clientX - 80) + 'px';
+    touchDragEl.style.top  = (touch.clientY - 20) + 'px';
+  }
+
+  function removeFloatingClone() {
+    if (touchDragEl) { touchDragEl.remove(); touchDragEl = null; }
+  }
+
+  // Highlight day columns as potential drop targets
+  function highlightDropTargets(on) {
+    document.querySelectorAll('.day-body').forEach(body => {
+      body.classList.toggle('touch-drop-target', on);
+    });
+  }
+
+  function findDayBodyUnder(x, y) {
+    // Temporarily hide clone so elementFromPoint works through it
+    if (touchDragEl) touchDragEl.style.display = 'none';
+    const el = document.elementFromPoint(x, y);
+    if (touchDragEl) touchDragEl.style.display = '';
+    if (!el) return null;
+    return el.closest('.day-body');
+  }
+
+  el.addEventListener('touchstart', e => {
+    if (!isMobile()) return;
+    dragActive = false;
+    holdTimer = setTimeout(() => {
+      dragActive = true;
+      el.classList.add('long-press-active');
+      highlightDropTargets(true);
+      // Haptic if supported
+      if (navigator.vibrate) navigator.vibrate(40);
+      const touch = e.touches[0];
+      startFloatingClone(touch);
+    }, 400);
+  }, { passive: true });
+
+  el.addEventListener('touchmove', e => {
+    if (!dragActive) { cancelHold(); return; }
+    e.preventDefault(); // prevent scroll during drag
+    const touch = e.touches[0];
+    moveFloatingClone(touch);
+
+    // Highlight the day body currently under the finger
+    document.querySelectorAll('.day-body').forEach(b => b.classList.remove('touch-drop-hover'));
+    const target = findDayBodyUnder(touch.clientX, touch.clientY);
+    if (target) target.classList.add('touch-drop-hover');
+  }, { passive: false });
+
+  el.addEventListener('touchend', e => {
+    cancelHold();
+    el.classList.remove('long-press-active');
+    document.querySelectorAll('.day-body').forEach(b => {
+      b.classList.remove('touch-drop-target', 'touch-drop-hover');
+    });
+
+    if (!dragActive) { removeFloatingClone(); return; }
+    dragActive = false;
+
+    const touch = e.changedTouches[0];
+    removeFloatingClone();
+
+    const targetBody = findDayBodyUnder(touch.clientX, touch.clientY);
+    if (!targetBody) return;
+
+    const toDay = parseInt(targetBody.dataset.day);
+    if (!toDay) return;
+
+    // Move the item from fromDay to toDay
+    const fromItems = STATE.itinerary[fromDay] || [];
+    const idx = fromItems.findIndex(i => i.id === item.id);
+    if (idx === -1) return;
+    const [moved] = fromItems.splice(idx, 1);
+    moved.hour = null; // drop into unscheduled on touch (no pixel-precise hour)
+    if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
+    STATE.itinerary[toDay].push(moved);
+
+    renderItinerary();
+    toast(`${item.name} → Day ${toDay}`, 'success');
+  }, { passive: true });
+
+  el.addEventListener('touchcancel', () => {
+    cancelHold();
+    dragActive = false;
+    el.classList.remove('long-press-active');
+    document.querySelectorAll('.day-body').forEach(b => {
+      b.classList.remove('touch-drop-target', 'touch-drop-hover');
+    });
+    removeFloatingClone();
+  }, { passive: true });
 }
 
 function formatHour(h) {
@@ -1032,13 +1158,11 @@ function handleDrop(e, toDay, hour) {
     if (!item) return;
     const already = (STATE.itinerary[toDay] || []).find(i => i.id === data.id);
     if (already) {
-      // If already scheduled and we're dropping on timeline, just update hour
       if (hour != null) { already.hour = hour; renderItinerary(); }
       else { toast('Already on this day'); }
       return;
     }
     if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
-    // Apply hourOffset for pool drops — drag started from the block top so offset=0
     const finalHour = hour != null ? Math.round((hour - (data.hourOffset || 0)) * 2) / 2 : null;
     STATE.itinerary[toDay].push({ ...item, hour: finalHour });
     toast(`${item.name} → Day ${toDay}`, 'success');
@@ -1050,11 +1174,10 @@ function handleDrop(e, toDay, hour) {
     const [item] = STATE.itinerary[fromDay].splice(idx, 1);
 
     if (hour != null) {
-      // Snap to half-hour increments; subtract grab offset so the block doesn't jump
       item.hour = Math.round((hour - (data.hourOffset || 0)) * 2) / 2;
-      item.hour = ((item.hour % 24) + 24) % 24; // keep in 0-23 range
+      item.hour = ((item.hour % 24) + 24) % 24;
     } else {
-      item.hour = null; // dropped onto unscheduled bin
+      item.hour = null;
     }
 
     if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
@@ -1259,7 +1382,6 @@ function toggleMobilePool() {
 function updateMobilePoolToggleLabel() {
   const bar = document.getElementById('pool-toggle-bar');
   if (!bar) return;
-  const countEl = document.getElementById('pool-toggle-count');
   const count = STATE.pool.length;
   const countBadge = count > 0 ? `· ${count} item${count === 1 ? '' : 's'}` : '';
   if (STATE.poolCollapsed) {
@@ -1270,10 +1392,11 @@ function updateMobilePoolToggleLabel() {
 }
 
 // ═══════════════════════════════════════════════════════
-// TAP-TO-ASSIGN (mobile: assign pool item to a day via bottom sheet)
+// TAP-TO-ASSIGN (assign pool item to a specific day)
+// Used by both "Schedule a Day" flow (mobile) and can be
+// called directly if needed.
 // ═══════════════════════════════════════════════════════
 function showTapAssign(item) {
-  // Remove any existing overlay
   const existing = document.getElementById('tap-assign-overlay');
   if (existing) existing.remove();
 
@@ -1361,7 +1484,7 @@ function bindEvents() {
     if (STATE.currentCountry !== '__planner') renderCards(STATE.countries[STATE.currentCountry]);
   });
 
-  // Pool collapse
+  // Pool collapse (desktop)
   document.getElementById('pool-collapse-btn').addEventListener('click', () => {
     STATE.poolCollapsed = !STATE.poolCollapsed;
     document.getElementById('trip-pool').classList.toggle('collapsed', STATE.poolCollapsed);
@@ -1414,10 +1537,10 @@ function bindEvents() {
     renderItinerary();
   });
 
-  // Hour mode toggle — recalculate layout height after re-render
+  // Hour mode toggle
   document.getElementById('hour-mode-toggle').addEventListener('change', e => {
     STATE.hourMode = e.target.checked;
-    renderItinerary(); // already calls updateLayoutHeight via requestAnimationFrame
+    renderItinerary();
   });
 
   // Clear itinerary
@@ -1459,7 +1582,7 @@ function bindEvents() {
     mobileToggle.addEventListener('click', () => toggleMobilePool());
   }
 
-  // Mobile pool toggle bar (always-visible bar between pool and content)
+  // Mobile pool toggle bar
   const toggleBar = document.getElementById('pool-toggle-bar');
   if (toggleBar) {
     toggleBar.addEventListener('click', () => toggleMobilePool());
@@ -1487,10 +1610,10 @@ function bindEvents() {
 
   // Mobile responsiveness
   function checkMobile() {
-    const isMobile = window.innerWidth <= 900;
-    if (mobileToggle) mobileToggle.style.display = isMobile ? 'flex' : 'none';
+    const mobile = window.innerWidth <= 900;
+    if (mobileToggle) mobileToggle.style.display = mobile ? 'flex' : 'none';
     const bar = document.getElementById('pool-toggle-bar');
-    if (bar) bar.style.display = isMobile ? 'flex' : 'none';
+    if (bar) bar.style.display = mobile ? 'flex' : 'none';
     updateMobilePoolToggleLabel();
   }
   window.addEventListener('resize', checkMobile);
