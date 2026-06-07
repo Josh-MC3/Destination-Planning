@@ -20,6 +20,53 @@ const STATE = {
 };
 
 // ═══════════════════════════════════════════════════════
+// UTILITY: Safe JSON comment stripper
+// Strips // single-line comments only when they appear
+// OUTSIDE of string literals, so URLs like https://...
+// inside field values are never corrupted.
+// ═══════════════════════════════════════════════════════
+function stripJSONComments(text) {
+  let result = '';
+  let inString = false;
+  let escaped = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    if (escaped) {
+      result += ch;
+      escaped = false;
+      continue;
+    }
+
+    if (ch === '\\' && inString) {
+      result += ch;
+      escaped = true;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = !inString;
+      result += ch;
+      continue;
+    }
+
+    // Only strip // comments when we are NOT inside a string literal
+    if (!inString && ch === '/' && text[i + 1] === '/') {
+      // Advance past everything until the next newline
+      while (i < text.length && text[i] !== '\n') i++;
+      // Keep the newline so line numbers stay intact for debugging
+      result += '\n';
+      continue;
+    }
+
+    result += ch;
+  }
+
+  return result;
+}
+
+// ═══════════════════════════════════════════════════════
 // LOAD DATA
 // ═══════════════════════════════════════════════════════
 async function loadCountries() {
@@ -38,23 +85,21 @@ async function loadCountries() {
     fill.style.width = '100%';
     fill.style.background = '#E57373';
     console.error('loadCountries: failed to fetch index.json', e);
-    return; // abort — nothing else can proceed without the index
+    return;
   }
 
-  // Store the index array in STATE so buildNav() and others can use it
   STATE.countryIndex = indexData.countries;
   fill.style.width = '10%';
 
   // ── Phase 2: fetch all country files in parallel ───────
   txt.textContent = 'Loading destinations…';
 
-  // Strip JS-style comments and parse JSON — country files contain // comment lines
   async function fetchJSON(url) {
     const r = await fetch(url);
     if (!r.ok) throw new Error(`${url} returned ${r.status}`);
     const text = await r.text();
-    // Remove single-line comments (// ...) that make the files invalid JSON
-    const clean = text.replace(/\/\/[^\n]*/g, '');
+    // Use the safe comment stripper that respects string literals
+    const clean = stripJSONComments(text);
     return JSON.parse(clean);
   }
 
@@ -62,18 +107,15 @@ async function loadCountries() {
     STATE.countryIndex.map(entry => fetchJSON(entry.file))
   );
 
-  // Store results — fulfilled entries get real data, rejected entries get a stub
   results.forEach((result, i) => {
     const entry = STATE.countryIndex[i];
     if (result.status === 'fulfilled') {
       const data = result.value;
-      // Support both {activities:[]} and flat array formats
       if (Array.isArray(data)) {
         STATE.countries[entry.slug] = { country: entry.name, activities: data };
       } else if (data.activities && Array.isArray(data.activities)) {
         STATE.countries[entry.slug] = data;
       } else {
-        // Try to find an array anywhere in the object
         const firstArray = Object.values(data).find(v => Array.isArray(v));
         STATE.countries[entry.slug] = { country: entry.name, activities: firstArray || [] };
         if (!firstArray) console.warn(`loadCountries: ${entry.file} has no activities array. Keys:`, Object.keys(data));
@@ -104,7 +146,6 @@ function initApp() {
   renderActivityView();
   renderItinerary();
   bindEvents();
-  // Init day state
   for (let i = 1; i <= STATE.dayCount; i++) {
     if (!STATE.itinerary[i]) STATE.itinerary[i] = [];
   }
@@ -120,7 +161,6 @@ function buildNav() {
 
   if (!STATE.countryIndex || !STATE.countryIndex.length) return;
 
-  // Planner tab
   const plannerBtn = document.createElement('button');
   plannerBtn.className = 'nav-tab' + (STATE.currentCountry === '__planner' ? ' active' : '');
   plannerBtn.textContent = '📋 Planner';
@@ -177,6 +217,9 @@ function switchView(view) {
 
   if (view === 'itinerary') renderItinerary();
   if (view === 'export') renderExport();
+
+  // Recalculate layout height whenever we switch views — fixes clipping in hour mode
+  requestAnimationFrame(updateLayoutHeight);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -189,23 +232,33 @@ function renderActivityView() {
 
   document.getElementById('country-label').textContent = data.country || '';
 
-  // Region pills
   buildRegionPills(data);
-
-  // Filter & render cards
   renderCards(data);
 }
 
+// ── UTILITY: Determine the best grouping key for a country's activities.
+// Falls back to 'destination' for countries that omit the 'region' field
+// (e.g. Thailand). Null/empty values are treated as absent.
+function getRegionKey(activities) {
+  return activities.some(a => a.region != null && a.region !== '') ? 'region' : 'destination';
+}
+
 function buildRegionPills(data) {
-  const bar = document.getElementById('region-pills');
+  const bar    = document.getElementById('region-pills');
   const subBar = document.getElementById('subregion-pills');
+  const acts   = data.activities;
 
-  // If no activity has a `region` value, fall back to grouping by `destination`.
-  // This handles countries like Thailand that omit the region field.
-  const hasRegions = data.activities.some(a => a.region);
-  const regionKey = hasRegions ? 'region' : 'destination';
+  const regionKey = getRegionKey(acts);
 
-  const regions = [...new Set(data.activities.map(a => a[regionKey]).filter(Boolean))].sort();
+  // Guard: filter out null / undefined / empty-string values before sorting
+  const regions = [
+    ...new Set(
+      acts
+        .map(a => a[regionKey])
+        .filter(v => v != null && v !== '')
+    )
+  ].sort();
+
   bar.innerHTML = '';
 
   if (!regions.length) {
@@ -215,9 +268,10 @@ function buildRegionPills(data) {
   }
   bar.style.display = 'flex';
 
+  const allLabel = regionKey === 'destination' ? 'All Cities' : 'All Regions';
   const allBtn = document.createElement('button');
   allBtn.className = 'region-pill' + (!STATE.filterRegion ? ' active' : '');
-  allBtn.textContent = 'All ' + (regionKey === 'destination' ? 'Cities' : 'Regions');
+  allBtn.textContent = allLabel;
   allBtn.addEventListener('click', () => {
     STATE.filterRegion = '';
     STATE.filterSubRegion = '';
@@ -239,14 +293,21 @@ function buildRegionPills(data) {
     bar.appendChild(btn);
   }
 
-  // Sub-region pills: show city breakdown when a region is selected
-  // and that region contains activities from more than one destination.
+  // Sub-region pills (city breakdown within a selected region)
   subBar.innerHTML = '';
   if (STATE.filterRegion && regionKey === 'region') {
-    const inRegion = data.activities.filter(a => a.region === STATE.filterRegion);
-    const cities = [...new Set(inRegion.map(a => a.destination).filter(Boolean))].sort();
+    const inRegion = acts.filter(a => a.region === STATE.filterRegion);
+    const cities = [
+      ...new Set(
+        inRegion
+          .map(a => a.destination)
+          .filter(v => v != null && v !== '')
+      )
+    ].sort();
+
     if (cities.length > 1) {
       subBar.style.display = 'flex';
+
       const allCities = document.createElement('button');
       allCities.className = 'region-pill' + (!STATE.filterSubRegion ? ' active' : '');
       allCities.textContent = 'All ' + STATE.filterRegion + ' Cities';
@@ -256,6 +317,7 @@ function buildRegionPills(data) {
         renderCards(data);
       });
       subBar.appendChild(allCities);
+
       for (const city of cities) {
         const cityBtn = document.createElement('button');
         cityBtn.className = 'region-pill' + (STATE.filterSubRegion === city ? ' active' : '');
@@ -279,22 +341,43 @@ function renderCards(data) {
   const grid = document.getElementById('activity-grid');
   let acts = data.activities;
 
-  // Filters
-  const hasRegions = acts.some(a => a.region);
-  const regionKey = hasRegions ? 'region' : 'destination';
-  if (STATE.filterRegion) acts = acts.filter(a => a[regionKey] === STATE.filterRegion);
-  if (STATE.filterSubRegion) acts = acts.filter(a => a.destination === STATE.filterSubRegion);
-  if (STATE.filterCategory) acts = acts.filter(a => a.category === STATE.filterCategory || (STATE.filterCategory === 'Food & Dining' && a.category === 'Food & Dining'));
+  const regionKey = getRegionKey(acts);
+
+  // Apply region/sub-region filters — null-safe comparisons
+  if (STATE.filterRegion) {
+    acts = acts.filter(a => {
+      const val = a[regionKey];
+      return val != null && val === STATE.filterRegion;
+    });
+  }
+  if (STATE.filterSubRegion) {
+    acts = acts.filter(a => {
+      const val = a.destination;
+      return val != null && val === STATE.filterSubRegion;
+    });
+  }
+
+  if (STATE.filterCategory) {
+    acts = acts.filter(a => (a.category || '') === STATE.filterCategory);
+  }
+
   if (STATE.searchQuery) {
     const q = STATE.searchQuery.toLowerCase();
-    acts = acts.filter(a => a.name.toLowerCase().includes(q) || (a.description||'').toLowerCase().includes(q) || (a.destination||'').toLowerCase().includes(q));
+    acts = acts.filter(a =>
+      (a.name || '').toLowerCase().includes(q) ||
+      (a.description || '').toLowerCase().includes(q) ||
+      (a.destination || '').toLowerCase().includes(q)
+    );
   }
+
   if (STATE.filterPrice) {
-    if (STATE.filterPrice === 'free') acts = acts.filter(a => a.price_usd === 0);
-    else if (STATE.filterPrice === '200+') acts = acts.filter(a => a.price_usd >= 200);
-    else {
-      const [lo,hi] = STATE.filterPrice.split('-').map(Number);
-      acts = acts.filter(a => a.price_usd >= lo && a.price_usd < hi);
+    if (STATE.filterPrice === 'free') {
+      acts = acts.filter(a => (a.price_usd || 0) === 0);
+    } else if (STATE.filterPrice === '200+') {
+      acts = acts.filter(a => (a.price_usd || 0) >= 200);
+    } else {
+      const [lo, hi] = STATE.filterPrice.split('-').map(Number);
+      acts = acts.filter(a => (a.price_usd || 0) >= lo && (a.price_usd || 0) < hi);
     }
   }
 
@@ -316,27 +399,31 @@ function buildActivityCard(act, added) {
   const card = document.createElement('div');
   card.className = 'activity-card' + (act.multi_day ? ' multi-day' : '') + (added ? ' added' : '');
 
-  const catKey = (act.category||'').replace('Food & Dining','Food').replace('Water Sports','Water').replace('& ','').replace(' ','');
-  const priceStr = act.price_usd === 0 ? 'Free' : `$${act.price_usd}`;
+  const catKey = (act.category || '')
+    .replace('Food & Dining', 'Food')
+    .replace('Water Sports', 'Water')
+    .replace('& ', '')
+    .replace(' ', '');
+  const priceStr   = act.price_usd === 0 ? 'Free' : `$${act.price_usd}`;
   const priceRange = (act.price_usd_min !== undefined && act.price_usd_min !== act.price_usd_max)
     ? `$${act.price_usd_min}–$${act.price_usd_max}` : priceStr;
   const dur = act.duration >= 24
-    ? `${Math.round(act.duration/24)}d` : `${act.duration}h`;
+    ? `${Math.round(act.duration / 24)}d` : `${act.duration}h`;
 
   card.innerHTML = `
     <div class="card-header">
-      <span class="card-category cat-${catKey}">${act.category||'General'}</span>
+      <span class="card-category cat-${catKey}">${act.category || 'General'}</span>
       <div class="card-name">${act.name}</div>
       <div class="card-location">📍 ${act.destination || act.location || ''}</div>
     </div>
-    <div class="card-desc">${act.description||''}</div>
+    <div class="card-desc">${act.description || ''}</div>
     <div class="card-footer">
       <div class="card-meta">
         <span class="price">💰 ${priceRange}</span>
         <span>⏱ ${dur}</span>
         ${act.multi_day ? '<span style="color:var(--gold-dim)">★ Multi-day</span>' : ''}
       </div>
-      <button class="card-add-btn${added?' added':''}" data-id="${act.id}">${added?'✓ Added':'Add to Trip'}</button>
+      <button class="card-add-btn${added ? ' added' : ''}" data-id="${act.id}">${added ? '✓ Added' : 'Add to Trip'}</button>
     </div>
   `;
 
@@ -364,7 +451,6 @@ function removeFromPool(id) {
   STATE.pool = STATE.pool.filter(p => p.id !== id);
   renderPool();
   refreshCardsAddedState();
-  // Also remove from itinerary
   for (const day of Object.keys(STATE.itinerary)) {
     STATE.itinerary[day] = STATE.itinerary[day].filter(i => i.id !== id);
   }
@@ -385,13 +471,13 @@ function refreshCardsAddedState() {
 }
 
 function renderPool() {
-  const body = document.getElementById('pool-body');
+  const body  = document.getElementById('pool-body');
   const empty = document.getElementById('pool-empty');
-  const meta = document.getElementById('pool-meta');
-  const total = STATE.pool.reduce((s, p) => s + (p.price_usd||0), 0);
+  const meta  = document.getElementById('pool-meta');
+  const total = STATE.pool.reduce((s, p) => s + (p.price_usd || 0), 0);
   const perPerson = STATE.headcount > 0 ? Math.round(total / STATE.headcount) : 0;
 
-  meta.textContent = `${STATE.pool.length} activit${STATE.pool.length===1?'y':'ies'} selected`;
+  meta.textContent = `${STATE.pool.length} activit${STATE.pool.length === 1 ? 'y' : 'ies'} selected`;
   document.getElementById('pool-total').textContent = '$' + total.toLocaleString();
   document.getElementById('pool-per-person').textContent = '$' + perPerson.toLocaleString();
 
@@ -402,7 +488,6 @@ function renderPool() {
   }
   empty.style.display = 'none';
 
-  // Re-render all cards
   body.querySelectorAll('.pool-card').forEach(c => c.remove());
   for (const item of STATE.pool) {
     body.appendChild(buildPoolCard(item));
@@ -414,12 +499,12 @@ function buildPoolCard(item) {
   card.className = 'pool-card';
   card.draggable = true;
   card.dataset.id = item.id;
-  const dur = item.duration >= 24 ? `${Math.round(item.duration/24)}d` : `${item.duration}h`;
+  const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)}d` : `${item.duration}h`;
   card.innerHTML = `
     <div class="pool-card-name">${item.name}</div>
     <div class="pool-card-meta">
-      <span class="pool-card-badge">${item.country||''}</span>
-      <span class="pool-card-badge price">$${item.price_usd||0}</span>
+      <span class="pool-card-badge">${item.country || ''}</span>
+      <span class="pool-card-badge price">$${item.price_usd || 0}</span>
       <span class="pool-card-badge">${dur}</span>
     </div>
     <button class="pool-card-remove" data-id="${item.id}">✕</button>
@@ -427,9 +512,8 @@ function buildPoolCard(item) {
 
   card.querySelector('.pool-card-remove').addEventListener('click', () => removeFromPool(item.id));
 
-  // Drag from pool to itinerary
   card.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', JSON.stringify({source:'pool', id: item.id}));
+    e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'pool', id: item.id }));
     card.classList.add('dragging');
   });
   card.addEventListener('dragend', () => card.classList.remove('dragging'));
@@ -444,7 +528,6 @@ function renderItinerary() {
   const canvas = document.getElementById('itinerary-canvas');
   canvas.innerHTML = '';
 
-  // Ensure all days exist
   for (let i = 1; i <= STATE.dayCount; i++) {
     if (!STATE.itinerary[i]) STATE.itinerary[i] = [];
   }
@@ -452,6 +535,9 @@ function renderItinerary() {
   for (let day = 1; day <= STATE.dayCount; day++) {
     canvas.appendChild(buildDayColumn(day));
   }
+
+  // Recalculate heights after DOM is fully populated — fixes clipping in hour mode
+  requestAnimationFrame(updateLayoutHeight);
 }
 
 function buildDayColumn(day) {
@@ -463,13 +549,13 @@ function buildDayColumn(day) {
   col.innerHTML = `
     <div class="day-header">
       <span>Day ${day}</span>
-      <span style="font-size:.68rem">${itemCount} item${itemCount===1?'':'s'}</span>
+      <span style="font-size:.68rem">${itemCount} item${itemCount === 1 ? '' : 's'}</span>
     </div>
     <div class="day-body" id="day-body-${day}" data-day="${day}"></div>
   `;
 
   const body = col.querySelector('.day-body');
-  // Drop zone
+
   body.addEventListener('dragover', e => { e.preventDefault(); body.classList.add('drag-over'); });
   body.addEventListener('dragleave', () => body.classList.remove('drag-over'));
   body.addEventListener('drop', e => {
@@ -501,19 +587,36 @@ function renderDayItems(body, day) {
 }
 
 function renderHourSlots(body, day) {
+  const items = STATE.itinerary[day] || [];
+
+  // Unscheduled items (no hour assigned) — render at the top
+  const unscheduled = items.filter(i => i.hour === undefined || i.hour === null);
+  if (unscheduled.length) {
+    const unscheduledBlock = document.createElement('div');
+    unscheduledBlock.className = 'unscheduled-block';
+    unscheduledBlock.innerHTML = '<div class="unscheduled-label">Unscheduled</div>';
+    unscheduled.forEach(item => unscheduledBlock.appendChild(buildItineraryItem(item, day)));
+    body.appendChild(unscheduledBlock);
+  }
+
+  // Hour grid: 6 AM → 5 AM (full 24-hour cycle)
   const slotDiv = document.createElement('div');
   slotDiv.className = 'hour-slots';
-  const hours = Array.from({length:24},(_,i)=>(i+6)%24);
+
+  const hours = Array.from({ length: 24 }, (_, i) => (i + 6) % 24);
   for (const h of hours) {
     const slot = document.createElement('div');
     slot.className = 'hour-slot';
+
     const label = document.createElement('div');
     label.className = 'hour-label';
-    label.textContent = h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h-12}p`;
+    label.textContent = h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
+
     const slotBody = document.createElement('div');
     slotBody.className = 'hour-slot-body';
     slotBody.dataset.day = day;
     slotBody.dataset.hour = h;
+
     slotBody.addEventListener('dragover', e => { e.preventDefault(); slotBody.classList.add('drag-over'); });
     slotBody.addEventListener('dragleave', () => slotBody.classList.remove('drag-over'));
     slotBody.addEventListener('drop', e => {
@@ -521,23 +624,18 @@ function renderHourSlots(body, day) {
       slotBody.classList.remove('drag-over');
       handleDrop(e, day, h);
     });
-    // Render items assigned to this hour
-    const items = (STATE.itinerary[day]||[]).filter(i => i.hour === h);
-    items.forEach(item => slotBody.appendChild(buildItineraryItem(item, day)));
+
+    // Render items assigned to this specific hour
+    items
+      .filter(i => i.hour === h)
+      .forEach(item => slotBody.appendChild(buildItineraryItem(item, day)));
+
     slot.appendChild(label);
     slot.appendChild(slotBody);
     slotDiv.appendChild(slot);
   }
+
   body.appendChild(slotDiv);
-  // Items with no hour at top
-  const unscheduled = (STATE.itinerary[day]||[]).filter(i => i.hour === undefined || i.hour === null);
-  if (unscheduled.length) {
-    const zone = document.createElement('div');
-    zone.style.cssText = 'padding:4px 0;border-bottom:1px solid var(--border);margin-bottom:4px';
-    zone.innerHTML = '<div style="font-size:.65rem;color:var(--text-muted);padding:0 4px 4px">Unscheduled</div>';
-    unscheduled.forEach(item => zone.appendChild(buildItineraryItem(item, day)));
-    body.insertBefore(zone, body.firstChild);
-  }
 }
 
 function buildItineraryItem(item, day) {
@@ -546,34 +644,38 @@ function buildItineraryItem(item, day) {
   el.draggable = true;
   el.dataset.id = item.id;
   el.dataset.day = day;
-  const dur = item.duration >= 24 ? `${Math.round(item.duration/24)}d` : `${item.duration}h`;
+
+  const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)}d` : `${item.duration}h`;
   el.innerHTML = `
     <div class="itinerary-item-name">${item.name}</div>
     <div class="itinerary-item-meta">
-      <span>$${item.price_usd||0}</span>
+      <span>$${item.price_usd || 0}</span>
       <span>•</span>
       <span>${dur}</span>
       ${item.hour !== undefined && item.hour !== null ? `<span>• ${formatHour(item.hour)}</span>` : ''}
     </div>
     <button class="itinerary-item-remove" data-id="${item.id}" data-day="${day}">✕</button>
   `;
+
   el.querySelector('.itinerary-item-remove').addEventListener('click', e => {
     e.stopPropagation();
     removeFromItinerary(item.id, day);
   });
+
   el.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', JSON.stringify({source:'itinerary', id: item.id, fromDay: day}));
+    e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'itinerary', id: item.id, fromDay: day }));
     el.classList.add('dragging');
   });
   el.addEventListener('dragend', () => el.classList.remove('dragging'));
+
   return el;
 }
 
 function formatHour(h) {
-  if (h === 0) return '12:00 AM';
-  if (h < 12) return `${h}:00 AM`;
+  if (h === 0)  return '12:00 AM';
+  if (h < 12)   return `${h}:00 AM`;
   if (h === 12) return '12:00 PM';
-  return `${h-12}:00 PM`;
+  return `${h - 12}:00 PM`;
 }
 
 function handleDrop(e, toDay, hour) {
@@ -583,14 +685,14 @@ function handleDrop(e, toDay, hour) {
   if (data.source === 'pool') {
     const item = STATE.pool.find(p => p.id === data.id);
     if (!item) return;
-    const already = (STATE.itinerary[toDay]||[]).find(i => i.id === data.id);
+    const already = (STATE.itinerary[toDay] || []).find(i => i.id === data.id);
     if (already) { toast('Already on this day'); return; }
     if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
-    STATE.itinerary[toDay].push({...item, hour: hour ?? undefined});
+    STATE.itinerary[toDay].push({ ...item, hour: hour ?? undefined });
     toast(`${item.name} → Day ${toDay}`, 'success');
   } else if (data.source === 'itinerary') {
     const fromDay = data.fromDay;
-    const idx = (STATE.itinerary[fromDay]||[]).findIndex(i => i.id === data.id);
+    const idx = (STATE.itinerary[fromDay] || []).findIndex(i => i.id === data.id);
     if (idx === -1) return;
     const [item] = STATE.itinerary[fromDay].splice(idx, 1);
     if (toDay === fromDay && hour !== undefined && hour !== null) {
@@ -600,13 +702,16 @@ function handleDrop(e, toDay, hour) {
       item.hour = hour ?? undefined;
       if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
       STATE.itinerary[toDay].push(item);
+    } else {
+      // Same day, no hour target — put it back
+      STATE.itinerary[fromDay].push(item);
     }
   }
   renderItinerary();
 }
 
 function removeFromItinerary(id, day) {
-  STATE.itinerary[day] = (STATE.itinerary[day]||[]).filter(i => i.id !== id);
+  STATE.itinerary[day] = (STATE.itinerary[day] || []).filter(i => i.id !== id);
   renderItinerary();
 }
 
@@ -615,8 +720,8 @@ function removeFromItinerary(id, day) {
 // ═══════════════════════════════════════════════════════
 function renderExport() {
   const container = document.getElementById('export-content');
-  const totalCost = STATE.pool.reduce((s,p) => s+(p.price_usd||0), 0);
-  const perPerson = STATE.headcount > 0 ? Math.round(totalCost/STATE.headcount) : 0;
+  const totalCost = STATE.pool.reduce((s, p) => s + (p.price_usd || 0), 0);
+  const perPerson = STATE.headcount > 0 ? Math.round(totalCost / STATE.headcount) : 0;
 
   let html = `<div class="export-section">
     <h3>Trip Overview</h3>
@@ -640,7 +745,6 @@ function renderExport() {
     </div>
   </div>`;
 
-  // Itinerary days
   let hasItinerary = false;
   let itinHtml = '';
   for (let d = 1; d <= STATE.dayCount; d++) {
@@ -649,9 +753,9 @@ function renderExport() {
     hasItinerary = true;
     itinHtml += `<div class="export-day"><h4>Day ${d}</h4>`;
     for (const item of items) {
-      const dur = item.duration >= 24 ? `${Math.round(item.duration/24)} days` : `${item.duration} hrs`;
+      const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)} days` : `${item.duration} hrs`;
       const timeStr = item.hour !== undefined ? ` — ${formatHour(item.hour)}` : '';
-      itinHtml += `<div class="export-item"><span>${item.name}${timeStr}</span><span style="color:var(--text-dim)">$${item.price_usd||0} · ${dur}</span></div>`;
+      itinHtml += `<div class="export-item"><span>${item.name}${timeStr}</span><span style="color:var(--text-dim)">$${item.price_usd || 0} · ${dur}</span></div>`;
     }
     itinHtml += '</div>';
   }
@@ -659,12 +763,11 @@ function renderExport() {
     html += `<div class="export-section"><h3>Itinerary Schedule</h3>${itinHtml}</div>`;
   }
 
-  // Pool list
   if (STATE.pool.length) {
     html += `<div class="export-section"><h3>All Selected Activities</h3>`;
     for (const item of STATE.pool) {
-      const dur = item.duration >= 24 ? `${Math.round(item.duration/24)} days` : `${item.duration} hrs`;
-      html += `<div class="export-item"><span>${item.name} <span style="color:var(--text-muted);font-size:.7rem">— ${item.country||''}</span></span><span style="color:var(--text-dim)">$${item.price_usd||0} · ${dur}</span></div>`;
+      const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)} days` : `${item.duration} hrs`;
+      html += `<div class="export-item"><span>${item.name} <span style="color:var(--text-muted);font-size:.7rem">— ${item.country || ''}</span></span><span style="color:var(--text-dim)">$${item.price_usd || 0} · ${dur}</span></div>`;
     }
     html += `<div class="export-total"><span>Total Estimated Cost</span><span style="color:var(--gold)">$${totalCost.toLocaleString()} ($${perPerson.toLocaleString()} / person)</span></div>`;
     html += '</div>';
@@ -683,13 +786,13 @@ function exportJSON() {
     trip_name: 'Bachelor Party Trip',
     generated: new Date().toISOString(),
     headcount: STATE.headcount,
-    total_cost_usd: STATE.pool.reduce((s,p) => s+(p.price_usd||0), 0),
+    total_cost_usd: STATE.pool.reduce((s, p) => s + (p.price_usd || 0), 0),
     pool: STATE.pool,
     itinerary: STATE.itinerary,
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
   a.href = url; a.download = 'bachelor-trip.json'; a.click();
   URL.revokeObjectURL(url);
 }
@@ -698,11 +801,11 @@ function exportJSON() {
 // SAVE / LOAD
 // ═══════════════════════════════════════════════════════
 function saveTrip(name) {
-  const key = 'bp_trip_' + (name || 'default').replace(/\s+/g,'_');
+  const key  = 'bp_trip_' + (name || 'default').replace(/\s+/g, '_');
   const data = {
     name, saved: new Date().toISOString(),
     pool: STATE.pool, itinerary: STATE.itinerary,
-    dayCount: STATE.dayCount, headcount: STATE.headcount
+    dayCount: STATE.dayCount, headcount: STATE.headcount,
   };
   localStorage.setItem(key, JSON.stringify(data));
   localStorage.setItem('bp_last_trip', key);
@@ -716,12 +819,12 @@ function loadLastTrip() {
   if (!raw) return;
   try {
     const data = JSON.parse(raw);
-    STATE.pool = data.pool || [];
+    STATE.pool      = data.pool      || [];
     STATE.itinerary = data.itinerary || {};
-    STATE.dayCount = data.dayCount || 5;
+    STATE.dayCount  = data.dayCount  || 5;
     STATE.headcount = data.headcount || 10;
     document.getElementById('day-count').value = STATE.dayCount;
-    document.getElementById('headcount').value = STATE.headcount;
+    document.getElementById('headcount').value  = STATE.headcount;
     renderPool();
     renderItinerary();
     toast(`Trip "${data.name}" loaded`, 'success');
@@ -742,22 +845,22 @@ function saveCustomEvent() {
   const name = document.getElementById('custom-name').value.trim();
   if (!name) { toast('Please enter an event name'); return; }
   const item = {
-    id: 'custom_' + Date.now(),
+    id:          'custom_' + Date.now(),
     name,
-    location: document.getElementById('custom-location').value.trim(),
-    country: 'Custom',
-    category: document.getElementById('custom-category').value,
-    price_usd: parseFloat(document.getElementById('custom-price').value) || 0,
-    price_usd_min: parseFloat(document.getElementById('custom-price').value) || 0,
-    price_usd_max: parseFloat(document.getElementById('custom-price').value) || 0,
-    duration: parseFloat(document.getElementById('custom-duration').value) || 2,
+    location:    document.getElementById('custom-location').value.trim(),
+    country:     'Custom',
+    category:    document.getElementById('custom-category').value,
+    price_usd:     parseFloat(document.getElementById('custom-price').value)    || 0,
+    price_usd_min: parseFloat(document.getElementById('custom-price').value)    || 0,
+    price_usd_max: parseFloat(document.getElementById('custom-price').value)    || 0,
+    duration:      parseFloat(document.getElementById('custom-duration').value) || 2,
     description: document.getElementById('custom-notes').value.trim(),
-    custom: true,
-    multi_day: false,
+    custom:      true,
+    multi_day:   false,
   };
   addToPool(item);
   closeCustomModal();
-  ['custom-name','custom-location','custom-price','custom-duration','custom-notes'].forEach(id => {
+  ['custom-name', 'custom-location', 'custom-price', 'custom-duration', 'custom-notes'].forEach(id => {
     document.getElementById(id).value = '';
   });
 }
@@ -766,10 +869,10 @@ function saveCustomEvent() {
 // TOAST
 // ═══════════════════════════════════════════════════════
 let toastTimer;
-function toast(msg, type='') {
+function toast(msg, type = '') {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.className = 'show' + (type ? ' '+type : '');
+  el.className = 'show' + (type ? ' ' + type : '');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
 }
@@ -779,9 +882,9 @@ function toast(msg, type='') {
 // ═══════════════════════════════════════════════════════
 function updateLayoutHeight() {
   const header = document.getElementById('app-header');
-  const nav = document.getElementById('nav-bar');
+  const nav    = document.getElementById('nav-bar');
   const layout = document.getElementById('main-layout');
-  const used = header.offsetHeight + nav.offsetHeight;
+  const used   = header.offsetHeight + nav.offsetHeight;
   layout.style.height = `calc(100vh - ${used}px)`;
 }
 
@@ -789,24 +892,25 @@ function updateLayoutHeight() {
 // EVENTS
 // ═══════════════════════════════════════════════════════
 function bindEvents() {
-  // Theme toggle
+  // Theme
   (function initTheme() {
     const saved = localStorage.getItem('bp_theme') || 'dark';
     if (saved === 'light') {
-      document.documentElement.setAttribute('data-theme','light');
+      document.documentElement.setAttribute('data-theme', 'light');
       document.getElementById('btn-theme').textContent = '☀️';
     }
   })();
+
   document.getElementById('btn-theme').addEventListener('click', () => {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     if (isLight) {
       document.documentElement.removeAttribute('data-theme');
       document.getElementById('btn-theme').textContent = '🌙';
-      localStorage.setItem('bp_theme','dark');
+      localStorage.setItem('bp_theme', 'dark');
     } else {
-      document.documentElement.setAttribute('data-theme','light');
+      document.documentElement.setAttribute('data-theme', 'light');
       document.getElementById('btn-theme').textContent = '☀️';
-      localStorage.setItem('bp_theme','light');
+      localStorage.setItem('bp_theme', 'light');
     }
   });
 
@@ -837,7 +941,6 @@ function bindEvents() {
     document.getElementById('pool-reopen-tab').classList.toggle('visible', STATE.poolCollapsed);
   });
 
-  // Pool reopen tab
   document.getElementById('pool-reopen-tab').addEventListener('click', () => {
     STATE.poolCollapsed = false;
     document.getElementById('trip-pool').classList.remove('collapsed');
@@ -877,16 +980,16 @@ function bindEvents() {
     renderItinerary();
   });
   document.getElementById('day-count').addEventListener('change', e => {
-    const v = Math.min(14, Math.max(1, parseInt(e.target.value)||1));
+    const v = Math.min(14, Math.max(1, parseInt(e.target.value) || 1));
     STATE.dayCount = v;
     for (let i = 1; i <= v; i++) { if (!STATE.itinerary[i]) STATE.itinerary[i] = []; }
     renderItinerary();
   });
 
-  // Hour mode
+  // Hour mode toggle — recalculate layout height after re-render
   document.getElementById('hour-mode-toggle').addEventListener('change', e => {
     STATE.hourMode = e.target.checked;
-    renderItinerary();
+    renderItinerary(); // already calls updateLayoutHeight via requestAnimationFrame
   });
 
   // Clear itinerary
@@ -931,21 +1034,21 @@ function bindEvents() {
     });
   }
 
-  // Modal close on overlay click
+  // Modal overlay click-to-close
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
       if (e.target === overlay) overlay.classList.remove('open');
     });
   });
 
-  // Keyboard
+  // Keyboard: Escape closes modals
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
     }
   });
 
-  // Mobile: show pool toggle on small screens
+  // Mobile responsiveness
   function checkMobile() {
     const isMobile = window.innerWidth <= 900;
     if (mobileToggle) mobileToggle.style.display = isMobile ? 'flex' : 'none';
@@ -953,7 +1056,6 @@ function bindEvents() {
   window.addEventListener('resize', checkMobile);
   checkMobile();
 
-  // Layout height
   window.addEventListener('resize', updateLayoutHeight);
 }
 
