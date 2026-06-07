@@ -229,8 +229,7 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .activity-card{
   background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;transition:all var(--transition);display:flex;flex-direction:column;
-  min-height:200px;
+  overflow:visible;transition:all var(--transition);display:flex;flex-direction:column;
 }
 .activity-card:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:var(--shadow)}
 .activity-card.added{border-color:var(--gold-dim);opacity:.7}
@@ -251,10 +250,10 @@ select option{background:var(--surface2);color:var(--text)}
  
 .card-name{font-size:1rem;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:6px}
 .card-location{font-size:.8rem;color:var(--text-dim);margin-bottom:10px;display:flex;align-items:center;gap:4px}
-.card-desc{padding:0 16px;font-size:.8rem;color:var(--text-dim);line-height:1.6}
+.card-desc{padding:0 16px;font-size:.8rem;color:var(--text-dim);line-height:1.6;flex:1}
 .card-footer{
   padding:12px 16px;margin-top:auto;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0;
 }
 .card-meta{display:flex;gap:10px;flex-wrap:wrap}
 .card-meta span{font-size:.8rem;color:var(--text-dim);display:flex;align-items:center;gap:3px}
