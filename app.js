@@ -341,6 +341,14 @@ function buildRegionPills(data) {
   } else {
     subBar.style.display = 'none';
   }
+
+  // Scroll the active pill into view on mobile
+  requestAnimationFrame(() => {
+    const activeRegion = bar.querySelector('.region-pill.active');
+    if (activeRegion) activeRegion.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const activeSub = subBar.querySelector('.region-pill.active');
+    if (activeSub) activeSub.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  });
 }
 
 function renderCards(data) {

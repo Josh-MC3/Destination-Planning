@@ -472,6 +472,26 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .region-pill.active{background:rgba(201,168,76,.12);border-color:var(--gold-dim);color:var(--gold-light)}
 .region-pill:hover{border-color:var(--border-light);color:var(--text)}
+
+@media(max-width:900px){
+  .region-filter-bar{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:8px 12px;
+    gap:6px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
+    mask-image:linear-gradient(to right,black 85%,transparent 100%);
+  }
+  .region-filter-bar::-webkit-scrollbar{display:none}
+  .region-pill{
+    flex-shrink:0;
+    scroll-snap-align:start;
+  }
+}
  
 /* ── MOBILE ── */
 #pool-toggle-mobile{display:none}
