@@ -699,6 +699,11 @@ function buildPoolCard(item) {
 // ═══════════════════════════════════════════════════════
 // ITINERARY
 // ═══════════════════════════════════════════════════════
+
+const SLOT_H      = 60;   // px per hour
+const DAY_START   = 6;    // 6 AM
+const DAY_HOURS   = 24;   // render 24 hours (6 AM → 6 AM next day)
+
 function renderItinerary() {
   const canvas = document.getElementById('itinerary-canvas');
   canvas.innerHTML = '';
@@ -711,7 +716,6 @@ function renderItinerary() {
     canvas.appendChild(buildDayColumn(day));
   }
 
-  // Recalculate heights after DOM is fully populated — fixes clipping in hour mode
   requestAnimationFrame(updateLayoutHeight);
 }
 
@@ -731,6 +735,20 @@ function buildDayColumn(day) {
 
   const body = col.querySelector('.day-body');
 
+  if (STATE.hourMode) {
+    renderTimeline(body, day);
+  } else {
+    renderDayItems(body, day);
+  }
+
+  return col;
+}
+
+// ── LIST MODE (hour mode OFF) ────────────────────────────
+function renderDayItems(body, day) {
+  body.style.padding = '8px';
+  const items = STATE.itinerary[day] || [];
+
   body.addEventListener('dragover', e => { e.preventDefault(); body.classList.add('drag-over'); });
   body.addEventListener('dragleave', () => body.classList.remove('drag-over'));
   body.addEventListener('drop', e => {
@@ -739,17 +757,6 @@ function buildDayColumn(day) {
     handleDrop(e, day, null);
   });
 
-  if (STATE.hourMode) {
-    renderHourSlots(body, day);
-  } else {
-    renderDayItems(body, day);
-  }
-
-  return col;
-}
-
-function renderDayItems(body, day) {
-  const items = STATE.itinerary[day] || [];
   if (!items.length) {
     const zone = document.createElement('div');
     zone.className = 'day-drop-zone';
@@ -761,58 +768,218 @@ function renderDayItems(body, day) {
   }
 }
 
-function renderHourSlots(body, day) {
+// ── TIMELINE MODE (hour mode ON) ─────────────────────────
+function renderTimeline(body, day) {
+  body.style.padding = '0';
   const items = STATE.itinerary[day] || [];
 
-  // Unscheduled items (no hour assigned) — render at the top
-  const unscheduled = items.filter(i => i.hour === undefined || i.hour === null);
+  // ── Unscheduled bin ───────────────────────────────────
+  const unscheduled = items.filter(i => i.hour == null);
   if (unscheduled.length) {
-    const unscheduledBlock = document.createElement('div');
-    unscheduledBlock.className = 'unscheduled-block';
-    unscheduledBlock.innerHTML = '<div class="unscheduled-label">Unscheduled</div>';
-    unscheduled.forEach(item => unscheduledBlock.appendChild(buildItineraryItem(item, day)));
-    body.appendChild(unscheduledBlock);
-  }
+    const bin = document.createElement('div');
+    bin.className = 'unscheduled-block';
 
-  // Hour grid: 6 AM → 5 AM (full 24-hour cycle)
-  const slotDiv = document.createElement('div');
-  slotDiv.className = 'hour-slots';
-
-  const hours = Array.from({ length: 24 }, (_, i) => (i + 6) % 24);
-  for (const h of hours) {
-    const slot = document.createElement('div');
-    slot.className = 'hour-slot';
-
-    const label = document.createElement('div');
-    label.className = 'hour-label';
-    label.textContent = h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
-
-    const slotBody = document.createElement('div');
-    slotBody.className = 'hour-slot-body';
-    slotBody.dataset.day = day;
-    slotBody.dataset.hour = h;
-
-    slotBody.addEventListener('dragover', e => { e.preventDefault(); slotBody.classList.add('drag-over'); });
-    slotBody.addEventListener('dragleave', () => slotBody.classList.remove('drag-over'));
-    slotBody.addEventListener('drop', e => {
+    // Allow drops from pool/itinerary into the unscheduled bin
+    bin.addEventListener('dragover', e => { e.preventDefault(); bin.style.background = 'rgba(201,168,76,.06)'; });
+    bin.addEventListener('dragleave', () => bin.style.background = '');
+    bin.addEventListener('drop', e => {
       e.preventDefault();
-      slotBody.classList.remove('drag-over');
-      handleDrop(e, day, h);
+      bin.style.background = '';
+      handleDrop(e, day, null);
     });
 
-    // Render items assigned to this specific hour
-    items
-      .filter(i => i.hour === h)
-      .forEach(item => slotBody.appendChild(buildItineraryItem(item, day)));
-
-    slot.appendChild(label);
-    slot.appendChild(slotBody);
-    slotDiv.appendChild(slot);
+    bin.innerHTML = '<div class="unscheduled-label">Unscheduled — drag to timeline to schedule</div>';
+    unscheduled.forEach(item => bin.appendChild(buildItineraryItem(item, day)));
+    body.appendChild(bin);
   }
 
-  body.appendChild(slotDiv);
+  // ── Timeline wrapper (scrollable) ────────────────────
+  const wrapper = document.createElement('div');
+  wrapper.className = 'timeline-wrapper';
+  body.appendChild(wrapper);
+
+  const grid = document.createElement('div');
+  grid.className = 'timeline-grid';
+  grid.style.height = (DAY_HOURS * SLOT_H) + 'px';
+  wrapper.appendChild(grid);
+
+  // ── Hour rows (visual guides, not interactive) ────────
+  for (let i = 0; i < DAY_HOURS; i++) {
+    const h = (DAY_START + i) % 24;
+    const row = document.createElement('div');
+    row.className = 'timeline-row';
+    row.style.top = (i * SLOT_H) + 'px';
+
+    const label = document.createElement('div');
+    label.className = 'timeline-hour-label';
+    label.textContent = h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
+
+    const half = document.createElement('div');
+    half.className = 'timeline-half';
+
+    row.appendChild(label);
+    row.appendChild(half);
+    grid.appendChild(row);
+  }
+
+  // ── Drag-capture surface ──────────────────────────────
+  const surface = document.createElement('div');
+  surface.className = 'timeline-drop-surface';
+  grid.appendChild(surface);
+
+  // Ghost line that follows the cursor while dragging
+  const ghostLine = document.createElement('div');
+  ghostLine.className = 'timeline-ghost-line';
+  ghostLine.style.display = 'none';
+  grid.appendChild(ghostLine);
+
+  surface.addEventListener('dragenter', e => {
+    e.preventDefault();
+    surface.classList.add('drag-active');
+    ghostLine.style.display = 'block';
+  });
+  surface.addEventListener('dragleave', e => {
+    // Only fire if truly leaving the surface (not entering a child)
+    if (!surface.contains(e.relatedTarget)) {
+      surface.classList.remove('drag-active');
+      ghostLine.style.display = 'none';
+    }
+  });
+  surface.addEventListener('dragover', e => {
+    e.preventDefault();
+    const { hour, snapY } = hourFromY(e.offsetY);
+    ghostLine.style.top  = snapY + 'px';
+    ghostLine.style.display = 'block';
+    e.dataTransfer.dropEffect = 'move';
+  });
+  surface.addEventListener('drop', e => {
+    e.preventDefault();
+    surface.classList.remove('drag-active');
+    ghostLine.style.display = 'none';
+    const { hour } = hourFromY(e.offsetY);
+    handleDrop(e, day, hour);
+  });
+
+  // ── Scheduled activity blocks ─────────────────────────
+  const scheduled = items.filter(i => i.hour != null);
+  const columns   = resolveColumns(scheduled);   // handle overlaps
+
+  for (const { item, col, totalCols } of columns) {
+    grid.appendChild(buildTimelineBlock(item, day, col, totalCols));
+  }
+
+  // ── Current-time line (today only, day 1) ─────────────
+  if (day === 1) {
+    const now  = new Date();
+    const mins = now.getHours() * 60 + now.getMinutes();
+    const startMins = DAY_START * 60;
+    const offsetMins = (mins - startMins + 24 * 60) % (24 * 60);
+    const topPx = (offsetMins / 60) * SLOT_H;
+    const nowLine = document.createElement('div');
+    nowLine.className = 'timeline-now-line';
+    nowLine.style.top = topPx + 'px';
+    grid.appendChild(nowLine);
+  }
 }
 
+// Convert a Y pixel offset inside the grid to a snapped hour (integer)
+function hourFromY(offsetY) {
+  const rawHour  = offsetY / SLOT_H;                              // fractional
+  const hour     = (Math.floor(rawHour) + DAY_START) % 24;       // integer, wrapped
+  const snapY    = Math.floor(rawHour) * SLOT_H;
+  return { hour, snapY };
+}
+
+// Detect overlapping blocks and assign column slots so they render side-by-side
+function resolveColumns(items) {
+  // Sort by start hour
+  const sorted = [...items].sort((a, b) => a.hour - b.hour);
+  const result = [];
+
+  for (const item of sorted) {
+    const startH = item.hour;
+    const endH   = startH + (item.duration || 1);
+
+    // Find the first column that doesn't overlap
+    let col = 0;
+    const usedCols = result
+      .filter(r => r.item.hour < endH && (r.item.hour + (r.item.duration || 1)) > startH)
+      .map(r => r.col);
+
+    while (usedCols.includes(col)) col++;
+    result.push({ item, col, totalCols: 1 }); // totalCols patched below
+  }
+
+  // Now set totalCols: for each item find the max simultaneous column count
+  for (const entry of result) {
+    const startH = entry.item.hour;
+    const endH   = startH + (entry.item.duration || 1);
+    const concurrent = result.filter(r =>
+      r.item.hour < endH && (r.item.hour + (r.item.duration || 1)) > startH
+    );
+    const maxCol = Math.max(...concurrent.map(r => r.col)) + 1;
+    entry.totalCols = maxCol;
+  }
+
+  return result;
+}
+
+function buildTimelineBlock(item, day, col, totalCols) {
+  const startH = item.hour;
+  const dur    = Math.max(item.duration || 1, 0.25); // minimum visible height
+  const topPx  = ((startH - DAY_START + 24) % 24) * SLOT_H;
+  const hPx    = dur * SLOT_H;
+  const isShort = hPx < 46;
+
+  // Column width math: leave 2px gutters
+  const colW    = (100 / totalCols);
+  const leftPct = col * colW;
+
+  const el = document.createElement('div');
+  el.className = 'timeline-block' + (item.custom ? ' custom-item' : '');
+  el.draggable  = true;
+  el.dataset.id  = item.id;
+  el.dataset.day = day;
+  if (isShort) el.dataset.short = 'true';
+
+  el.style.top    = topPx + 'px';
+  el.style.height = hPx   + 'px';
+  el.style.left   = `calc(${leftPct}% + 2px)`;
+  el.style.right  = 'auto';
+  el.style.width  = `calc(${colW}% - 4px)`;
+
+  const endH   = startH + dur;
+  const endDisp = endH >= 24 ? endH - 24 : endH;
+  const timeStr = `${formatHour(startH)} – ${formatHour(endDisp)}`;
+
+  el.innerHTML = `
+    <div class="timeline-block-name">${item.name}</div>
+    <div class="timeline-block-time">${timeStr} · $${item.price_usd || 0}</div>
+    <button class="timeline-block-remove" title="Remove">✕</button>
+  `;
+
+  el.querySelector('.timeline-block-remove').addEventListener('click', e => {
+    e.stopPropagation();
+    removeFromItinerary(item.id, day);
+  });
+
+  // Store drag offset so drop snaps to where user grabbed, not block top
+  el.addEventListener('dragstart', e => {
+    const rect = el.getBoundingClientRect();
+    const offsetY = e.clientY - rect.top;                     // px from block top
+    const hourOffset = offsetY / SLOT_H;                      // fractional hours
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      source: 'itinerary', id: item.id, fromDay: day,
+      hourOffset                                               // carried through to drop
+    }));
+    setTimeout(() => el.classList.add('dragging'), 0);
+  });
+  el.addEventListener('dragend', () => el.classList.remove('dragging'));
+
+  return el;
+}
+
+// ── SHARED ITEM (used in list mode + unscheduled bin) ────
 function buildItineraryItem(item, day) {
   const el = document.createElement('div');
   el.className = 'itinerary-item' + (item.custom ? ' custom-item' : '');
@@ -827,7 +994,7 @@ function buildItineraryItem(item, day) {
       <span>$${item.price_usd || 0}</span>
       <span>•</span>
       <span>${dur}</span>
-      ${item.hour !== undefined && item.hour !== null ? `<span>• ${formatHour(item.hour)}</span>` : ''}
+      ${item.hour != null ? `<span>• ${formatHour(item.hour)}</span>` : ''}
     </div>
     <button class="itinerary-item-remove" data-id="${item.id}" data-day="${day}">✕</button>
   `;
@@ -838,7 +1005,9 @@ function buildItineraryItem(item, day) {
   });
 
   el.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'itinerary', id: item.id, fromDay: day }));
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      source: 'itinerary', id: item.id, fromDay: day, hourOffset: 0
+    }));
     el.classList.add('dragging');
   });
   el.addEventListener('dragend', () => el.classList.remove('dragging'));
@@ -847,10 +1016,11 @@ function buildItineraryItem(item, day) {
 }
 
 function formatHour(h) {
-  if (h === 0)  return '12:00 AM';
-  if (h < 12)   return `${h}:00 AM`;
-  if (h === 12) return '12:00 PM';
-  return `${h - 12}:00 PM`;
+  const norm = ((h % 24) + 24) % 24;
+  if (norm === 0)  return '12:00 AM';
+  if (norm < 12)   return `${norm}:00 AM`;
+  if (norm === 12) return '12:00 PM';
+  return `${norm - 12}:00 PM`;
 }
 
 function handleDrop(e, toDay, hour) {
@@ -861,27 +1031,36 @@ function handleDrop(e, toDay, hour) {
     const item = STATE.pool.find(p => p.id === data.id);
     if (!item) return;
     const already = (STATE.itinerary[toDay] || []).find(i => i.id === data.id);
-    if (already) { toast('Already on this day'); return; }
+    if (already) {
+      // If already scheduled and we're dropping on timeline, just update hour
+      if (hour != null) { already.hour = hour; renderItinerary(); }
+      else { toast('Already on this day'); }
+      return;
+    }
     if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
-    STATE.itinerary[toDay].push({ ...item, hour: hour ?? undefined });
+    // Apply hourOffset for pool drops — drag started from the block top so offset=0
+    const finalHour = hour != null ? Math.round((hour - (data.hourOffset || 0)) * 2) / 2 : null;
+    STATE.itinerary[toDay].push({ ...item, hour: finalHour });
     toast(`${item.name} → Day ${toDay}`, 'success');
+
   } else if (data.source === 'itinerary') {
-    const fromDay = data.fromDay;
+    const fromDay = parseInt(data.fromDay);
     const idx = (STATE.itinerary[fromDay] || []).findIndex(i => i.id === data.id);
     if (idx === -1) return;
     const [item] = STATE.itinerary[fromDay].splice(idx, 1);
-    if (toDay === fromDay && hour !== undefined && hour !== null) {
-      item.hour = hour;
-      STATE.itinerary[toDay].push(item);
-    } else if (toDay !== fromDay) {
-      item.hour = hour ?? undefined;
-      if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
-      STATE.itinerary[toDay].push(item);
+
+    if (hour != null) {
+      // Snap to half-hour increments; subtract grab offset so the block doesn't jump
+      item.hour = Math.round((hour - (data.hourOffset || 0)) * 2) / 2;
+      item.hour = ((item.hour % 24) + 24) % 24; // keep in 0-23 range
     } else {
-      // Same day, no hour target — put it back
-      STATE.itinerary[fromDay].push(item);
+      item.hour = null; // dropped onto unscheduled bin
     }
+
+    if (!STATE.itinerary[toDay]) STATE.itinerary[toDay] = [];
+    STATE.itinerary[toDay].push(item);
   }
+
   renderItinerary();
 }
 
@@ -926,10 +1105,15 @@ function renderExport() {
     const items = STATE.itinerary[d] || [];
     if (!items.length) continue;
     hasItinerary = true;
+    const sorted = [...items].sort((a, b) => (a.hour ?? 99) - (b.hour ?? 99));
     itinHtml += `<div class="export-day"><h4>Day ${d}</h4>`;
-    for (const item of items) {
+    for (const item of sorted) {
       const dur = item.duration >= 24 ? `${Math.round(item.duration / 24)} days` : `${item.duration} hrs`;
-      const timeStr = item.hour !== undefined ? ` — ${formatHour(item.hour)}` : '';
+      let timeStr = '';
+      if (item.hour != null) {
+        const endH = item.hour + (item.duration || 0);
+        timeStr = ` — ${formatHour(item.hour)} – ${formatHour(endH)}`;
+      }
       itinHtml += `<div class="export-item"><span>${item.name}${timeStr}</span><span style="color:var(--text-dim)">$${item.price_usd || 0} · ${dur}</span></div>`;
     }
     itinHtml += '</div>';
