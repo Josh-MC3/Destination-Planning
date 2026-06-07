@@ -168,7 +168,7 @@ select option{background:var(--surface2);color:var(--text)}
   color:var(--gold-light);
 }
 
-/* Continent pills */
+/* Continent pills — updated with count badge and caret */
 .nav-continent-pill{
   padding:5px 14px;
   border-radius:16px;
@@ -179,36 +179,87 @@ select option{background:var(--surface2);color:var(--text)}
   white-space:nowrap;
   transition:all var(--transition);
   text-transform:none;
+  display:inline-flex;align-items:center;gap:5px;
 }
 .nav-continent-pill:hover{border-color:var(--border-light);color:var(--text)}
-.nav-continent-pill.active{
+.nav-continent-pill.active,
+.nav-continent-pill.panel-open{
   background:rgba(201,168,76,.15);
   border-color:var(--gold-dim);
   color:var(--gold-light);
 }
+.pill-count{
+  font-size:.65rem;background:var(--surface);color:var(--text-muted);
+  padding:1px 5px;border-radius:8px;
+}
+.nav-continent-pill.active .pill-count,
+.nav-continent-pill.panel-open .pill-count{background:var(--gold-dim);color:var(--gold-light)}
+.pill-caret{font-size:.6rem;transition:transform .2s ease;opacity:.6}
+.nav-continent-pill.panel-open .pill-caret{transform:rotate(180deg)}
 
-/* Row 2: country tabs */
-.nav-row-countries{
-  padding:0 24px;
-  min-height:44px;
+/* Active country label — right side of row 1 */
+.nav-active-label-wrap{margin-left:auto;display:flex;align-items:center}
+.nav-active-label{
+  font-size:.78rem;color:var(--gold);font-weight:500;
+  padding:4px 12px;border-radius:12px;
+  background:rgba(201,168,76,.1);border:1px solid var(--gold-dim);
+  white-space:nowrap;
 }
 
-/* Standard country nav tab (unchanged style) */
-.nav-tab{
-  padding:14px 20px;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--text-muted);border:none;background:none;white-space:nowrap;
-  border-bottom:2px solid transparent;transition:all var(--transition);position:relative;
+/* Country grid panel (desktop) */
+.country-grid-panel{
+  display:none;
+  background:var(--surface2);
+  border-bottom:2px solid var(--gold-dim);
+  padding:16px 24px 20px;
+  animation:cgp-slide-in .18s ease;
 }
-.nav-tab:hover{color:var(--text-dim)}
-.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-.nav-tab .tab-count{
-  display:inline-flex;align-items:center;justify-content:center;
-  background:var(--surface3);color:var(--text-dim);
-  width:18px;height:18px;border-radius:9px;font-size:.65rem;margin-left:6px;
+.country-grid-panel.open{display:block}
+@keyframes cgp-slide-in{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:translateY(0)}
 }
-.nav-tab.active .tab-count{background:var(--gold-dim);color:var(--gold-light)}
 
-/* ── MOBILE NAV — continent dropdown groups ── */
+.cgp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.cgp-title{font-family:var(--font-display);font-size:1rem;color:var(--gold);letter-spacing:.04em}
+.cgp-count{font-size:.72rem;color:var(--text-muted)}
+
+.cgp-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:8px;
+}
+
+.cgp-card{
+  display:flex;flex-direction:column;align-items:flex-start;
+  padding:10px 14px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface3);
+  text-align:left;gap:2px;transition:all var(--transition);
+}
+.cgp-card:hover{border-color:var(--gold-dim);background:var(--surface2);transform:translateY(-1px);box-shadow:var(--shadow-gold)}
+.cgp-card.active{
+  border-color:var(--gold);background:rgba(201,168,76,.12);
+  box-shadow:var(--shadow-gold);
+}
+.cgp-flag{font-size:1.4rem;line-height:1;margin-bottom:2px}
+.cgp-name{font-size:.82rem;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+.cgp-acts{font-size:.68rem;color:var(--text-muted)}
+.cgp-card.active .cgp-name{color:var(--gold)}
+.cgp-card.active .cgp-acts{color:var(--gold-dim)}
+
+/* Row 2 no longer needed — remove its min-height reservation */
+.nav-row-countries{display:none!important}
+
+/* Light mode overrides for grid panel */
+html[data-theme="light"] .country-grid-panel{background:var(--surface2);border-bottom-color:var(--gold-dim)}
+html[data-theme="light"] .cgp-card{background:var(--surface3);border-color:var(--border-light)}
+html[data-theme="light"] .cgp-card:hover{background:var(--surface2)}
+html[data-theme="light"] .cgp-card.active{background:rgba(201,168,76,.15)}
+
+/* ── MOBILE NAV — continent pills + slide-down grid panel ── */
 #mobile-nav{display:none}
 
 @media(max-width:900px){
@@ -244,8 +295,7 @@ select option{background:var(--surface2);color:var(--text)}
     color:var(--gold-light);
   }
 
-  .continent-group{position:relative}
-
+  /* Mobile continent triggers */
   .continent-trigger{
     display:flex;align-items:center;gap:5px;
     padding:7px 12px;
@@ -262,6 +312,11 @@ select option{background:var(--surface2);color:var(--text)}
     border-color:var(--gold-dim);
     color:var(--gold-light);
   }
+  .continent-trigger.open{
+    background:rgba(201,168,76,.15);
+    border-color:var(--gold-dim);
+    color:var(--gold-light);
+  }
   .continent-trigger .caret{
     font-size:.6rem;
     transition:transform .2s ease;
@@ -269,40 +324,20 @@ select option{background:var(--surface2);color:var(--text)}
   }
   .continent-trigger.open .caret{transform:rotate(180deg)}
 
-  .continent-dropdown{
+  /* Mobile country grid panel */
+  .mobile-country-panel{
     display:none;
-    position:absolute;top:calc(100% + 6px);left:0;
-    min-width:200px;
     background:var(--surface2);
-    border:1px solid var(--border-light);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    overflow:hidden;
-    z-index:200;
+    border-bottom:2px solid var(--gold-dim);
+    padding:14px 12px 16px;
+    animation:cgp-slide-in .18s ease;
+    z-index:49;
   }
-  .continent-dropdown.open{display:block}
+  .mobile-country-panel.open{display:block}
 
-  .continent-dropdown-item{
-    display:flex;align-items:center;justify-content:space-between;
-    width:100%;padding:10px 14px;
-    border:none;background:none;
-    color:var(--text-dim);font-size:.8rem;font-family:var(--font-body);
-    text-align:left;transition:background var(--transition);
-    gap:8px;
-  }
-  .continent-dropdown-item:hover{background:var(--surface3);color:var(--text)}
-  .continent-dropdown-item.active{
-    background:rgba(201,168,76,.1);
-    color:var(--gold-light);
-  }
-  .continent-dropdown-item .item-count{
-    font-size:.68rem;color:var(--text-muted);
-    background:var(--surface3);
-    padding:2px 6px;border-radius:8px;
-    flex-shrink:0;
-  }
-  .continent-dropdown-item.active .item-count{
-    background:var(--gold-dim);color:var(--gold-light);
+  .cgp-grid-mobile{
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:6px;
   }
 }
 
