@@ -132,50 +132,107 @@ select option{background:var(--surface2);color:var(--text)}
 }
 .nav-tab.active .tab-count{background:var(--gold-dim);color:var(--gold-light)}
 
-/* ── MOBILE NAV — horizontal scrolling pill strip ── */
-@media(max-width:900px){
-  #nav-bar{
-    padding:8px 12px;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    overflow-y:hidden;
-    gap:6px;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    /* Fade-out right edge to hint scrollability */
-    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
-    mask-image:linear-gradient(to right,black 85%,transparent 100%);
-  }
-  #nav-bar::-webkit-scrollbar{display:none}
+/* ── MOBILE NAV — continent dropdown groups ── */
+#mobile-nav{display:none}
 
-  .nav-tab{
-    /* Switch from underline tabs to rounded pills */
-    padding:7px 12px;
+@media(max-width:900px){
+  /* Hide desktop tab bar entirely */
+  #nav-bar{display:none}
+
+  /* Show mobile nav */
+  #mobile-nav{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    padding:8px 12px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    position:relative;
+    z-index:50;
+  }
+
+  /* Planner button sits inline with the continent dropdowns */
+  #mobile-nav .mobile-planner-btn{
+    padding:7px 14px;
     border-radius:20px;
     border:1px solid var(--border);
-    border-bottom:1px solid var(--border);
-    font-size:.72rem;
-    letter-spacing:.03em;
     background:var(--surface2);
     color:var(--text-dim);
-    flex-shrink:0;
-    scroll-snap-align:start;
-    /* Hide activity count on mobile to keep pills compact */
+    font-size:.75rem;
+    font-weight:500;
+    letter-spacing:.04em;
+    transition:all var(--transition);
+    white-space:nowrap;
   }
-  .nav-tab:hover{
-    border-color:var(--border-light);
-    color:var(--text);
-    background:var(--surface3);
-  }
-  .nav-tab.active{
+  #mobile-nav .mobile-planner-btn.active{
     background:rgba(201,168,76,.15);
     border-color:var(--gold-dim);
     color:var(--gold-light);
-    border-bottom-color:var(--gold-dim);
   }
-  /* Hide count badges on mobile — keep pills tight */
-  .nav-tab .tab-count{display:none}
+
+  /* Each continent is a wrapper holding the trigger + dropdown */
+  .continent-group{position:relative}
+
+  .continent-trigger{
+    display:flex;align-items:center;gap:5px;
+    padding:7px 12px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:var(--surface2);
+    color:var(--text-dim);
+    font-size:.75rem;font-weight:500;letter-spacing:.04em;
+    transition:all var(--transition);
+    white-space:nowrap;
+  }
+  .continent-trigger.has-active{
+    background:rgba(201,168,76,.15);
+    border-color:var(--gold-dim);
+    color:var(--gold-light);
+  }
+  .continent-trigger .caret{
+    font-size:.6rem;
+    transition:transform .2s ease;
+    display:inline-block;
+  }
+  .continent-trigger.open .caret{transform:rotate(180deg)}
+
+  /* Dropdown panel */
+  .continent-dropdown{
+    display:none;
+    position:absolute;top:calc(100% + 6px);left:0;
+    min-width:200px;
+    background:var(--surface2);
+    border:1px solid var(--border-light);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    z-index:200;
+  }
+  .continent-dropdown.open{display:block}
+
+  .continent-dropdown-item{
+    display:flex;align-items:center;justify-content:space-between;
+    width:100%;padding:10px 14px;
+    border:none;background:none;
+    color:var(--text-dim);font-size:.8rem;font-family:var(--font-body);
+    text-align:left;transition:background var(--transition);
+    gap:8px;
+  }
+  .continent-dropdown-item:hover{background:var(--surface3);color:var(--text)}
+  .continent-dropdown-item.active{
+    background:rgba(201,168,76,.1);
+    color:var(--gold-light);
+  }
+  .continent-dropdown-item .item-count{
+    font-size:.68rem;color:var(--text-muted);
+    background:var(--surface3);
+    padding:2px 6px;border-radius:8px;
+    flex-shrink:0;
+  }
+  .continent-dropdown-item.active .item-count{
+    background:var(--gold-dim);color:var(--gold-light);
+  }
 }
  
 /* ── MAIN LAYOUT ── */
@@ -473,24 +530,34 @@ select option{background:var(--surface2);color:var(--text)}
 .region-pill.active{background:rgba(201,168,76,.12);border-color:var(--gold-dim);color:var(--gold-light)}
 .region-pill:hover{border-color:var(--border-light);color:var(--text)}
 
+/* ── MOBILE REGION FILTER — native select dropdowns ── */
+#mobile-region-selects{display:none}
+
 @media(max-width:900px){
-  .region-filter-bar{
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:8px 12px;
+  /* Hide pill bars on mobile */
+  #region-pills{display:none !important}
+  #subregion-pills{display:none !important}
+
+  /* Show the select wrapper */
+  #mobile-region-selects{
+    display:flex;
+    flex-direction:column;
     gap:6px;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
-    mask-image:linear-gradient(to right,black 85%,transparent 100%);
-  }
-  .region-filter-bar::-webkit-scrollbar{display:none}
-  .region-pill{
+    padding:8px 12px;
+    background:var(--surface2);
+    border-bottom:1px solid var(--border);
     flex-shrink:0;
-    scroll-snap-align:start;
   }
+  #mobile-region-selects select{
+    width:100%;
+    font-size:.8rem;
+    padding:8px 10px;
+    background:var(--surface3);
+    color:var(--text);
+    border:1px solid var(--border-light);
+    border-radius:var(--radius-sm);
+  }
+  #mobile-region-selects select:focus{border-color:var(--gold)}
 }
  
 /* ── MOBILE ── */

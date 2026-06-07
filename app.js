@@ -156,6 +156,11 @@ function initApp() {
 // NAV
 // ═══════════════════════════════════════════════════════
 function buildNav() {
+  buildDesktopNav();
+  buildMobileNav();
+}
+
+function buildDesktopNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = '';
 
@@ -181,12 +186,89 @@ function buildNav() {
     btn.addEventListener('click', () => switchTab(entry.slug));
     nav.appendChild(btn);
   }
+}
 
-  // Scroll the active pill into view on mobile
-  requestAnimationFrame(() => {
-    const active = nav.querySelector('.nav-tab.active');
-    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+function buildMobileNav() {
+  const nav = document.getElementById('mobile-nav');
+  nav.innerHTML = '';
+
+  if (!STATE.countryIndex || !STATE.countryIndex.length) return;
+
+  // Planner button
+  const plannerBtn = document.createElement('button');
+  plannerBtn.className = 'mobile-planner-btn' + (STATE.currentCountry === '__planner' ? ' active' : '');
+  plannerBtn.textContent = '📋 Planner';
+  plannerBtn.addEventListener('click', () => {
+    closeAllDropdowns();
+    switchTab('__planner');
   });
+  nav.appendChild(plannerBtn);
+
+  // Group countries by continent from index.json
+  const continentMap = {};
+  for (const entry of STATE.countryIndex) {
+    const c = entry.continent || 'Other';
+    if (!continentMap[c]) continentMap[c] = [];
+    continentMap[c].push(entry);
+  }
+
+  // Continent emoji map
+  const continentEmoji = {
+    'Asia': '🌏',
+    'Americas': '🌎',
+    'Europe': '🌍',
+    'Africa': '🌍',
+    'Oceania': '🌏',
+    'Other': '🌐',
+  };
+
+  for (const [continent, entries] of Object.entries(continentMap)) {
+    const hasActive = entries.some(e => e.slug === STATE.currentCountry);
+
+    const group = document.createElement('div');
+    group.className = 'continent-group';
+
+    const trigger = document.createElement('button');
+    trigger.className = 'continent-trigger' + (hasActive ? ' has-active' : '');
+    trigger.innerHTML = `${continentEmoji[continent] || '🌐'} ${continent} <span class="caret">▼</span>`;
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'continent-dropdown';
+
+    for (const entry of entries) {
+      const d = STATE.countries[entry.slug];
+      const item = document.createElement('button');
+      item.className = 'continent-dropdown-item' + (STATE.currentCountry === entry.slug ? ' active' : '');
+      item.innerHTML = `
+        <span>${entry.flag} ${entry.name}</span>
+        <span class="item-count">${d ? d.activities.length : 0}</span>
+      `;
+      item.addEventListener('click', () => {
+        closeAllDropdowns();
+        switchTab(entry.slug);
+      });
+      dropdown.appendChild(item);
+    }
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        trigger.classList.add('open');
+      }
+    });
+
+    group.appendChild(trigger);
+    group.appendChild(dropdown);
+    nav.appendChild(group);
+  }
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll('.continent-dropdown.open').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.continent-trigger.open').forEach(t => t.classList.remove('open'));
 }
 
 function switchTab(key) {
@@ -270,6 +352,7 @@ function buildRegionPills(data) {
   if (!regions.length) {
     bar.style.display = 'none';
     subBar.style.display = 'none';
+    buildMobileRegionSelects(data, regions, regionKey);
     return;
   }
   bar.style.display = 'flex';
@@ -327,7 +410,7 @@ function buildRegionPills(data) {
       for (const city of cities) {
         const cityBtn = document.createElement('button');
         cityBtn.className = 'region-pill' + (STATE.filterSubRegion === city ? ' active' : '');
-        cityBtn.textContent = STATE.filterRegion + ' \u2014 ' + city;
+        cityBtn.textContent = STATE.filterRegion + ' — ' + city;
         cityBtn.addEventListener('click', () => {
           STATE.filterSubRegion = city;
           buildRegionPills(data);
@@ -342,13 +425,82 @@ function buildRegionPills(data) {
     subBar.style.display = 'none';
   }
 
-  // Scroll the active pill into view on mobile
-  requestAnimationFrame(() => {
-    const activeRegion = bar.querySelector('.region-pill.active');
-    if (activeRegion) activeRegion.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    const activeSub = subBar.querySelector('.region-pill.active');
-    if (activeSub) activeSub.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  // Build the mobile select dropdowns in sync
+  buildMobileRegionSelects(data, regions, regionKey);
+}
+
+function buildMobileRegionSelects(data, regions, regionKey) {
+  const wrapper = document.getElementById('mobile-region-selects');
+  if (!wrapper) return;
+  wrapper.innerHTML = '';
+
+  if (!regions.length) {
+    wrapper.style.display = 'none';
+    return;
+  }
+
+  // Region select
+  const allLabel = regionKey === 'destination' ? 'All Cities' : 'All Regions';
+  const regionSel = document.createElement('select');
+  regionSel.id = 'mobile-region-select';
+
+  const allOpt = document.createElement('option');
+  allOpt.value = '';
+  allOpt.textContent = allLabel;
+  regionSel.appendChild(allOpt);
+
+  for (const r of regions) {
+    const opt = document.createElement('option');
+    opt.value = r;
+    opt.textContent = r;
+    if (STATE.filterRegion === r) opt.selected = true;
+    regionSel.appendChild(opt);
+  }
+
+  regionSel.addEventListener('change', () => {
+    STATE.filterRegion = regionSel.value;
+    STATE.filterSubRegion = '';
+    buildRegionPills(data);
+    renderCards(data);
   });
+
+  wrapper.appendChild(regionSel);
+
+  // Sub-region select — only show if a region is selected and has multiple cities
+  if (STATE.filterRegion && regionKey === 'region') {
+    const inRegion = data.activities.filter(a => a.region === STATE.filterRegion);
+    const cities = [
+      ...new Set(
+        inRegion.map(a => a.destination).filter(v => v != null && v !== '')
+      )
+    ].sort();
+
+    if (cities.length > 1) {
+      const citySel = document.createElement('select');
+      citySel.id = 'mobile-subregion-select';
+
+      const allCityOpt = document.createElement('option');
+      allCityOpt.value = '';
+      allCityOpt.textContent = 'All ' + STATE.filterRegion + ' Cities';
+      citySel.appendChild(allCityOpt);
+
+      for (const city of cities) {
+        const opt = document.createElement('option');
+        opt.value = city;
+        opt.textContent = city;
+        if (STATE.filterSubRegion === city) opt.selected = true;
+        citySel.appendChild(opt);
+      }
+
+      citySel.addEventListener('change', () => {
+        STATE.filterSubRegion = citySel.value;
+        buildRegionPills(data);
+        renderCards(data);
+      });
+
+      wrapper.appendChild(citySel);
+    }
+  }
 }
 
 function renderCards(data) {
@@ -1055,11 +1207,17 @@ function bindEvents() {
     });
   });
 
-  // Keyboard: Escape closes modals
+  // Keyboard: Escape closes modals and dropdowns
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+      closeAllDropdowns();
     }
+  });
+
+  // Tap outside closes continent dropdowns
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.continent-group')) closeAllDropdowns();
   });
 
   // Mobile responsiveness
