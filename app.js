@@ -650,6 +650,7 @@ function renderPool() {
   if (!STATE.pool.length) {
     empty.style.display = 'block';
     body.querySelectorAll('.pool-card').forEach(c => c.remove());
+    updateMobilePoolToggleLabel();
     return;
   }
   empty.style.display = 'none';
@@ -658,6 +659,7 @@ function renderPool() {
   for (const item of STATE.pool) {
     body.appendChild(buildPoolCard(item));
   }
+  updateMobilePoolToggleLabel();
 }
 
 function buildPoolCard(item) {
@@ -673,10 +675,17 @@ function buildPoolCard(item) {
       <span class="pool-card-badge price">$${item.price_usd || 0}</span>
       <span class="pool-card-badge">${dur}</span>
     </div>
+    <div class="pool-card-actions" style="display:flex;gap:6px;margin-top:8px">
+      <button class="btn btn-outline btn-sm pool-card-assign" data-id="${item.id}" style="flex:1;font-size:.7rem">📅 Assign to Day</button>
+    </div>
     <button class="pool-card-remove" data-id="${item.id}">✕</button>
   `;
 
   card.querySelector('.pool-card-remove').addEventListener('click', () => removeFromPool(item.id));
+  card.querySelector('.pool-card-assign').addEventListener('click', e => {
+    e.stopPropagation();
+    showTapAssign(item);
+  });
 
   card.addEventListener('dragstart', e => {
     e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'pool', id: item.id }));
@@ -1055,6 +1064,75 @@ function updateLayoutHeight() {
 }
 
 // ═══════════════════════════════════════════════════════
+// MOBILE POOL TOGGLE
+// ═══════════════════════════════════════════════════════
+function toggleMobilePool() {
+  STATE.poolCollapsed = !STATE.poolCollapsed;
+  document.getElementById('trip-pool').classList.toggle('collapsed', STATE.poolCollapsed);
+  updateMobilePoolToggleLabel();
+}
+
+function updateMobilePoolToggleLabel() {
+  const bar = document.getElementById('pool-toggle-bar');
+  if (!bar) return;
+  const countEl = document.getElementById('pool-toggle-count');
+  const count = STATE.pool.length;
+  const countBadge = count > 0 ? `· ${count} item${count === 1 ? '' : 's'}` : '';
+  if (STATE.poolCollapsed) {
+    bar.innerHTML = `▼ Show Trip Pool <span id="pool-toggle-count" style="color:var(--text-dim);margin-left:4px">${countBadge}</span>`;
+  } else {
+    bar.innerHTML = `▲ Hide Trip Pool <span id="pool-toggle-count" style="color:var(--text-dim);margin-left:4px">${countBadge}</span>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// TAP-TO-ASSIGN (mobile: assign pool item to a day via bottom sheet)
+// ═══════════════════════════════════════════════════════
+function showTapAssign(item) {
+  // Remove any existing overlay
+  const existing = document.getElementById('tap-assign-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'tap-assign-overlay';
+  overlay.id = 'tap-assign-overlay';
+
+  const sheet = document.createElement('div');
+  sheet.className = 'tap-assign-sheet';
+
+  sheet.innerHTML = `
+    <div class="tap-assign-title">${item.name}</div>
+    <div class="tap-assign-sub">Assign to which day?</div>
+    <div class="tap-assign-days" id="tap-assign-days"></div>
+    <button class="tap-assign-cancel">Cancel</button>
+  `;
+
+  const daysEl = sheet.querySelector('#tap-assign-days');
+  for (let d = 1; d <= STATE.dayCount; d++) {
+    const alreadyOnDay = (STATE.itinerary[d] || []).find(i => i.id === item.id);
+    const btn = document.createElement('button');
+    btn.className = 'tap-assign-day-btn';
+    btn.textContent = alreadyOnDay ? `Day ${d} ✓` : `Day ${d}`;
+    btn.disabled = !!alreadyOnDay;
+    if (alreadyOnDay) btn.style.opacity = '0.45';
+    btn.addEventListener('click', () => {
+      if (!STATE.itinerary[d]) STATE.itinerary[d] = [];
+      STATE.itinerary[d].push({ ...item });
+      overlay.remove();
+      toast(`${item.name} → Day ${d}`, 'success');
+      if (STATE.currentView === 'itinerary') renderItinerary();
+    });
+    daysEl.appendChild(btn);
+  }
+
+  sheet.querySelector('.tap-assign-cancel').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+  overlay.appendChild(sheet);
+  document.body.appendChild(overlay);
+}
+
+// ═══════════════════════════════════════════════════════
 // EVENTS
 // ═══════════════════════════════════════════════════════
 function bindEvents() {
@@ -1191,13 +1269,16 @@ function bindEvents() {
   document.getElementById('custom-cancel').addEventListener('click', closeCustomModal);
   document.getElementById('custom-save').addEventListener('click', saveCustomEvent);
 
-  // Mobile pool toggle
+  // Mobile pool toggle (header button)
   const mobileToggle = document.getElementById('pool-toggle-mobile');
   if (mobileToggle) {
-    mobileToggle.addEventListener('click', () => {
-      STATE.poolCollapsed = !STATE.poolCollapsed;
-      document.getElementById('trip-pool').classList.toggle('collapsed', STATE.poolCollapsed);
-    });
+    mobileToggle.addEventListener('click', () => toggleMobilePool());
+  }
+
+  // Mobile pool toggle bar (always-visible bar between pool and content)
+  const toggleBar = document.getElementById('pool-toggle-bar');
+  if (toggleBar) {
+    toggleBar.addEventListener('click', () => toggleMobilePool());
   }
 
   // Modal overlay click-to-close
@@ -1224,6 +1305,9 @@ function bindEvents() {
   function checkMobile() {
     const isMobile = window.innerWidth <= 900;
     if (mobileToggle) mobileToggle.style.display = isMobile ? 'flex' : 'none';
+    const bar = document.getElementById('pool-toggle-bar');
+    if (bar) bar.style.display = isMobile ? 'flex' : 'none';
+    updateMobilePoolToggleLabel();
   }
   window.addEventListener('resize', checkMobile);
   checkMobile();

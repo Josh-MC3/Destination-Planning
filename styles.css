@@ -575,7 +575,7 @@ select option{background:var(--surface2);color:var(--text)}
   #trip-pool{
     width:100%;
     min-width:0;
-    max-height:280px;
+    max-height:420px;
     border-right:none;
     border-bottom:1px solid var(--border);
     transition:max-height .3s ease;
@@ -587,9 +587,32 @@ select option{background:var(--surface2);color:var(--text)}
     max-height:0;
     overflow:hidden;
   }
- 
+
   /* Pool reopen tab is irrelevant on mobile — keep it hidden */
   #pool-reopen-tab{display:none !important}
+
+  /* Mobile pool toggle bar — always visible between pool and content */
+  #pool-toggle-bar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:100%;
+    padding:7px 12px;
+    background:var(--surface2);
+    border-bottom:2px solid var(--border-light);
+    font-size:.75rem;
+    font-weight:500;
+    letter-spacing:.04em;
+    color:var(--gold);
+    cursor:pointer;
+    border:none;
+    border-bottom:1px solid var(--border-light);
+    border-top:1px solid var(--border);
+    flex-shrink:0;
+    transition:background var(--transition);
+  }
+  #pool-toggle-bar:hover{background:var(--surface3)}
  
   #center-panel{min-height:60vh}
  
@@ -625,13 +648,49 @@ select option{background:var(--surface2);color:var(--text)}
  
   .form-row{grid-template-columns:1fr}
  
-  #trip-pool{max-height:220px}
+  #trip-pool{max-height:340px}
   #trip-pool.collapsed{max-height:0}
  
   .filter-bar select{min-width:90px;font-size:.72rem}
   .filter-bar input[type=text]{min-width:120px}
 }
  
+/* ── POOL TOGGLE BAR — mobile only ── */
+#pool-toggle-bar{display:none}
+
+/* ── TAP-TO-ASSIGN POPOVER (mobile) ── */
+.tap-assign-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:250;
+  display:flex;align-items:flex-end;justify-content:center;
+  animation:fadeIn .15s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.tap-assign-sheet{
+  background:var(--surface);border-top:1px solid var(--border-light);
+  border-radius:var(--radius) var(--radius) 0 0;
+  width:100%;max-width:480px;padding:20px 16px 32px;
+  animation:slideUp .2s ease;
+}
+@keyframes slideUp{from{transform:translateY(40px)}to{transform:translateY(0)}}
+.tap-assign-title{font-family:var(--font-display);font-size:1.1rem;color:var(--gold);margin-bottom:4px}
+.tap-assign-sub{font-size:.75rem;color:var(--text-dim);margin-bottom:16px}
+.tap-assign-days{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tap-assign-day-btn{
+  padding:8px 16px;border-radius:var(--radius-sm);
+  background:var(--surface3);border:1px solid var(--border-light);
+  color:var(--text);font-size:.82rem;font-weight:500;
+  transition:all var(--transition);
+}
+.tap-assign-day-btn:hover,.tap-assign-day-btn:active{
+  background:var(--gold);border-color:var(--gold);color:var(--black);
+}
+.tap-assign-cancel{
+  width:100%;padding:10px;border-radius:var(--radius-sm);
+  background:none;border:1px solid var(--border-light);color:var(--text-muted);
+  font-size:.8rem;transition:all var(--transition);
+}
+.tap-assign-cancel:hover{border-color:var(--text-muted);color:var(--text)}
+
 /* ── PRINT ── */
 @media print{
   #app-header,#nav-bar,#view-tabs,#trip-pool,#loading,#toast,#modal-custom,#modal-save{display:none !important}
